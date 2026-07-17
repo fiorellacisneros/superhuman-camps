@@ -1,0 +1,114 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e7]: SuperHuman
+        - generic [ref=e8]: Archivo
+        - generic [ref=e9]: Edición
+        - generic [ref=e10]: Ver
+        - generic [ref=e11]: Ventana
+        - generic [ref=e12]: Ayuda
+      - generic [ref=e13]: Jue 16 Jul 01:11 a.m.
+    - generic [ref=e25]:
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - generic [ref=e28]: "16"
+          - generic [ref=e29]:
+            - generic [ref=e30]: Jul
+            - generic [ref=e31]: "2026"
+        - generic [ref=e32]:
+          - generic [ref=e33]: Lanzamiento Webflow Camp
+          - generic [ref=e34]: 25 Feb · Early Bird
+        - generic [ref=e35]:
+          - generic [ref=e36]: Lanzamiento Figma Camp
+          - generic [ref=e37]: 10 Mar · Early Bird
+        - generic [ref=e38]:
+          - generic [ref=e39]: Cierra Early Bird
+          - generic [ref=e40]: Hoy · 23:59
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - generic [ref=e43]: Próximos lanzamientos
+          - generic [ref=e44]: "4"
+        - generic [ref=e45]: Webflow Camp — 25 Feb
+        - generic [ref=e48]: Figma Camp — 10 Mar
+        - generic [ref=e51]: Cupos Early Bird limitados
+        - generic [ref=e54]: Certificado al completar
+    - generic [ref=e57] [cursor=pointer]: forHuman
+    - generic [ref=e60]: W
+  - button "Open Next.js Dev Tools" [ref=e85] [cursor=pointer]
+  - alert [ref=e89]
+  - button [ref=e91] [cursor=pointer]:
+    - generic:
+      - generic:
+        - button
+      - generic:
+        - button
+      - generic:
+        - button [disabled]
+      - generic:
+        - button [disabled]
+      - generic:
+        - button [disabled]
+      - generic:
+        - button [disabled]
+      - generic:
+        - button
+      - generic:
+        - button
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - link:
+              - /url: https://agentation.com
+            - paragraph: v3.0.1
+            - button "Switch to light mode"
+          - generic:
+            - generic:
+              - generic: Output Detail
+              - button "Standard"
+            - generic:
+              - generic: React Components
+              - generic:
+                - checkbox [checked]
+            - generic:
+              - generic: Hide Until Restart
+              - generic:
+                - checkbox
+          - generic:
+            - generic: Marker Color
+            - generic:
+              - button "Indigo"
+              - button "Blue"
+              - button "Cyan"
+              - button "Green"
+              - button "Yellow"
+              - button "Orange"
+              - button "Red"
+          - generic:
+            - generic:
+              - generic:
+                - checkbox "Clear on copy/send"
+              - generic: Clear on copy/send
+            - generic:
+              - generic:
+                - checkbox "Block page interactions" [checked]
+              - generic: Block page interactions
+          - button "Manage MCP & Webhooks"
+        - generic:
+          - button "Manage MCP & Webhooks"
+          - generic:
+            - generic: MCP Connection
+            - paragraph:
+              - text: MCP connection allows agents to receive and act on annotations.
+              - link "Learn more":
+                - /url: https://agentation.dev/mcp
+          - generic:
+            - generic:
+              - generic: Webhooks
+              - generic:
+                - generic: Auto-Send
+                - generic:
+                  - checkbox "Auto-Send" [checked] [disabled]
+            - paragraph: The webhook URL will receive live annotation changes and annotation data.
+            - textbox "Webhook URL"

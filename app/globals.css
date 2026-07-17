@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+:root {
+  /* SuperHuman School brand palette */
+  --black: #0d0d0d;
+  --white: #f7f7f7;
+  --yellow: #ffbe00;
+  --blue: #012edc;
+  --blue-light: #dee3fb;
+  --blue-hover: #5b69d1;
+  --gray-800: #262626;
+  --gray-500: #919191;
+  --gray-300: #cccccc;
+  --gray-100: #f4f4f4;
+  --pure-white: #ffffff;
+  --pure-black: #000000;
+  --border-subtle: rgba(13, 13, 13, 0.12);
+  --border-dark: rgba(255, 255, 255, 0.2);
+
+  --radius-sm: 4px;
+  --radius-md: 16px;
+  --radius-full: 999px;
+
+  --background: var(--white);
+  --foreground: var(--black);
+  --muted: var(--gray-500);
+  --accent: var(--blue);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@keyframes shs-materialize {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+.shs-app-window {
+  animation: shs-materialize 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes shs-dematerialize {
+  from {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+    filter: blur(6px);
+  }
+}
+
+.shs-app-window-closing {
+  animation: shs-dematerialize 0.22s cubic-bezier(0.4, 0, 1, 1) forwards;
+  pointer-events: none;
+}
+
+.shs-dock-icon {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: bottom center;
+  will-change: transform;
+}
+.shs-dock-icon:hover {
+  transform: scale(1.15);
+}
+.shs-dock-icon:active {
+  transform: scale(0.94);
+}
+
+.shs-scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.shs-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.shs-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.25);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  border-radius: 8px;
+}
+.shs-scroll-dark::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.55);
+}
+
+@keyframes shs-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shs-shimmer {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shs-app-window {
+    animation: none;
+  }
+  .shs-app-window,
+  .shs-dock-icon {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
