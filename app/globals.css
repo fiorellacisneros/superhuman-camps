@@ -123,6 +123,64 @@ body {
   }
 }
 
+.shs-ios-select {
+  color: inherit;
+  isolation: isolate;
+  background: rgba(255, 190, 0, 0.18);
+  margin: 0 0.06em;
+  padding: 0.04em 0.18em;
+  display: inline-block;
+  position: relative;
+  box-shadow: inset 2px 0 var(--yellow), inset -2px 0 var(--yellow);
+}
+.shs-ios-select::before,
+.shs-ios-select::after {
+  content: "";
+  z-index: 1;
+  background: var(--yellow);
+  border-radius: 9999px;
+  width: 0.42em;
+  height: 0.42em;
+  position: absolute;
+}
+.shs-ios-select::before {
+  top: -0.32em;
+  left: -0.21em;
+}
+.shs-ios-select::after {
+  bottom: -0.32em;
+  right: -0.21em;
+}
+
+.shs-scroll {
+  overflow-x: hidden;
+}
+
+@media (max-width: 859px) {
+  .shs-scroll > section {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .shs-scroll h1 {
+    font-size: 32px !important;
+    line-height: 1.15 !important;
+    max-width: 100% !important;
+  }
+  .shs-scroll p {
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+    max-width: 100% !important;
+  }
+  .shs-scroll h1,
+  .shs-scroll p,
+  .shs-scroll span {
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .shs-app-window {
     animation: none;

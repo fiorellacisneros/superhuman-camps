@@ -8,17 +8,15 @@ import { Header, DataStat } from "@/components/design-system/Header";
 import { CardAprendizaje } from "@/components/design-system/CardAprendizaje";
 import { CardPricing } from "@/components/design-system/CardPricing";
 import { PromoCard } from "@/components/design-system/PromoCard";
-import { IOSDevice } from "@/components/design-system/IOSDevice";
 import { Loader } from "@/components/design-system/Loader";
-import { Skeleton } from "@/components/design-system/Skeleton";
 
-type AppId = "figma" | "webflow" | "finder" | "photos" | "notas" | null;
+type AppId = "figma" | "webflow" | "finder" | "photos" | "notas" | "spotify" | null;
 type HoverId = "figma" | "webflow" | "photos" | "finder" | "notas" | "spotify" | null;
 
 type WhatsAppContact = { name: string; firstName: string; phone: string; photo: string };
 
 const WHATSAPP_CONTACTS: WhatsAppContact[] = [
-  { name: "Fio Cisneros", firstName: "Fio", phone: "51936098806", photo: "/superhuman/mentor-2.jpg" },
+  { name: "Fio Cisneros", firstName: "Fio", phone: "51936098806", photo: "/superhuman/fio-cisneros.jpg" },
   { name: "Dani Rosas", firstName: "Dani", phone: "51937845233", photo: "/superhuman/mentor-1.jpg" },
 ];
 
@@ -67,20 +65,18 @@ const WEBFLOW_BENEFITS_RECORDED = [
   "Certificado al completar el programa",
 ];
 
-const FOTOS_CAPTIONS = [
-  "Foto alumno 1",
-  "Foto alumno 2",
-  "Foto alumno 3",
-  "Foto clase en vivo",
-  "Foto graduación",
-  "Foto proyecto alumno",
-  "Foto mentoría",
-  "Foto equipo forHuman",
-  "Foto certificación",
-];
+const REAL_PHOTOS = ["/superhuman/mentor-1.jpg", "/superhuman/mentor-2.jpg", "/superhuman/fio-cisneros.jpg"];
 
-function PhotoSlot({ height }: { height: number }) {
-  return <Skeleton height={height} />;
+function PhotoSlot({ index }: { index: number }) {
+  const src = REAL_PHOTOS[index % REAL_PHOTOS.length];
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={src}
+      alt="Foto"
+      style={{ width: "100%", aspectRatio: "1 / 1", borderRadius: 10, objectFit: "cover", display: "block" }}
+    />
+  );
 }
 
 function TrafficLights({ onClose, hovered, onHoverChange }: { onClose: () => void; hovered: boolean; onHoverChange: (v: boolean) => void }) {
@@ -128,42 +124,33 @@ function WindowChrome({
   closing?: boolean;
   sidebar?: ReactNode;
   onToggleSidebar?: () => void;
-  inset?: { top: string; left: string; right: string; bottom: string };
+  inset?: { top?: string; left: string; right: string; bottom?: string };
   titleBarVariant?: "dark" | "light";
   children: ReactNode;
 }) {
   const titleColor = titleBarVariant === "light" ? "#0D0D0D" : "#F7F7F7";
+  const fitHeight = !inset.bottom;
   const [trafficHover, setTrafficHover] = useState(false);
-  return (
+  const appWindow = (
     <div
+      className={`shs-app-window${closing ? " shs-app-window-closing" : ""}`}
       style={{
-        position: "absolute",
-        inset: 0,
-        zIndex: 100,
-        background: "rgba(0,0,0,0.3)",
-        opacity: closing ? 0 : 1,
-        transition: closing ? "opacity 0.22s ease" : undefined,
-        pointerEvents: closing ? "none" : undefined,
+        position: fitHeight ? "relative" : "absolute",
+        top: fitHeight ? undefined : inset.top,
+        left: fitHeight ? undefined : inset.left,
+        right: fitHeight ? undefined : inset.right,
+        bottom: fitHeight ? undefined : inset.bottom,
+        width: fitHeight ? "100%" : undefined,
+        maxHeight: fitHeight ? "100%" : undefined,
+        background: bg,
+        borderRadius: 14,
+        overflow: "hidden",
+        boxShadow: "0 30px 80px rgba(0,0,0,0.55)",
+        display: "flex",
+        flexDirection: "column",
       }}
-      onClick={onClose}
+      onClick={(e) => e.stopPropagation()}
     >
-      <div
-        className={`shs-app-window${closing ? " shs-app-window-closing" : ""}`}
-        style={{
-          position: "absolute",
-          top: inset.top,
-          left: inset.left,
-          right: inset.right,
-          bottom: inset.bottom,
-          background: bg,
-          borderRadius: 14,
-          overflow: "hidden",
-          boxShadow: "0 30px 80px rgba(0,0,0,0.55)",
-          display: "flex",
-          flexDirection: "column",
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
         <div
           style={{
             height: 32,
@@ -231,6 +218,38 @@ function WindowChrome({
           </div>
         </div>
       </div>
+  );
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        inset: 0,
+        zIndex: 100,
+        background: "rgba(0,0,0,0.3)",
+        opacity: closing ? 0 : 1,
+        transition: closing ? "opacity 0.22s ease" : undefined,
+        pointerEvents: closing ? "none" : undefined,
+      }}
+      onClick={onClose}
+    >
+      {fitHeight ? (
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: inset.left,
+            right: inset.right,
+            transform: "translateY(-50%)",
+            maxHeight: "80%",
+            display: "flex",
+          }}
+        >
+          {appWindow}
+        </div>
+      ) : (
+        appWindow
+      )}
     </div>
   );
 }
@@ -255,13 +274,21 @@ const WEBFLOW_SECTIONS = [
   { id: "webflow-precios", label: "Precios" },
 ];
 
+const FOTOS_SECTIONS = [
+  { id: "favoritos", label: "Favoritos", icon: "/superhuman/icon-favoritos.svg" },
+  { id: "mascotas", label: "Mascotas", icon: "/superhuman/icon-mascotas.svg" },
+  { id: "recientes", label: "Reciente", icon: "/superhuman/icon-reciente.svg" },
+];
+
 function AppSidebar({
+  label = "Secciones",
   sections,
   active,
   onSelect,
   open,
 }: {
-  sections: { id: string; label: string }[];
+  label?: string;
+  sections: { id: string; label: string; icon?: string }[];
   active: string;
   onSelect: (id: string) => void;
   open: boolean;
@@ -280,46 +307,106 @@ function AppSidebar({
     >
       <div style={{ width: 190, padding: "20px 10px", boxSizing: "border-box" }}>
         <div style={{ font: "600 11px/1 'Inconsolata',monospace", letterSpacing: "0.12em", color: "#6B6B6B", textTransform: "uppercase", padding: "0 10px", marginBottom: 10 }}>
-          Secciones
+          {label}
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {sections.map((s) => {
-          const isActive = active === s.id;
-          return (
-            <div
-              key={s.id}
-              onClick={() => onSelect(s.id)}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 9,
-                padding: "8px 10px",
-                borderRadius: 7,
-                background: isActive ? "var(--blue)" : "transparent",
-                cursor: "pointer",
-              }}
-            >
+            const isActive = active === s.id;
+            return (
               <div
+                key={s.id}
+                onClick={() => onSelect(s.id)}
                 style={{
-                  width: 13,
-                  height: 16,
-                  flexShrink: 0,
-                  backgroundColor: isActive ? "#F7F7F7" : "#0D0D0D",
-                  WebkitMaskImage: "url(/superhuman/icon-doc.svg)",
-                  maskImage: "url(/superhuman/icon-doc.svg)",
-                  WebkitMaskSize: "contain",
-                  maskSize: "contain",
-                  WebkitMaskRepeat: "no-repeat",
-                  maskRepeat: "no-repeat",
-                  WebkitMaskPosition: "center",
-                  maskPosition: "center",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 9,
+                  padding: "8px 10px",
+                  borderRadius: 7,
+                  background: isActive ? "#F2F2F2" : "transparent",
+                  boxShadow: isActive ? "0 0 0 1px rgba(13,13,13,0.06)" : "none",
+                  cursor: "pointer",
                 }}
-              />
-              <span style={{ font: "400 13px/1.2 'Work Sans',sans-serif", color: isActive ? "#F7F7F7" : "#0D0D0D" }}>{s.label}</span>
-            </div>
+              >
+                <div
+                  style={{
+                    width: 14,
+                    height: 14,
+                    flexShrink: 0,
+                    backgroundColor: "#0078F0",
+                    WebkitMaskImage: `url(${s.icon ?? "/superhuman/icon-doc.svg"})`,
+                    maskImage: `url(${s.icon ?? "/superhuman/icon-doc.svg"})`,
+                    WebkitMaskSize: "contain",
+                    maskSize: "contain",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskRepeat: "no-repeat",
+                    WebkitMaskPosition: "center",
+                    maskPosition: "center",
+                  }}
+                />
+                <span style={{ font: "400 13px/1.2 'Work Sans',sans-serif", color: "#0D0D0D" }}>{s.label}</span>
+              </div>
             );
           })}
         </div>
+      </div>
+    </div>
+  );
+}
+
+function MobileScreen({
+  title,
+  bg,
+  onClose,
+  closing = false,
+  children,
+}: {
+  title: string;
+  bg: string;
+  onClose: () => void;
+  closing?: boolean;
+  children: ReactNode;
+}) {
+  const [trafficHover, setTrafficHover] = useState(false);
+  return (
+    <div
+      className={`shs-app-window${closing ? " shs-app-window-closing" : ""}`}
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 60,
+        background: bg,
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <div
+        style={{
+          height: "calc(env(safe-area-inset-top, 0px) + 32px)",
+          background: "linear-gradient(rgba(30,30,30,0.55),rgba(30,30,30,0.55)),#1E1E1E",
+          display: "flex",
+          alignItems: "flex-end",
+          padding: "0 14px 8px",
+          position: "relative",
+          flexShrink: 0,
+          boxShadow: "inset 0 0 0 0.67px rgba(255,255,255,0.1)",
+        }}
+      >
+        <TrafficLights onClose={onClose} hovered={trafficHover} onHoverChange={setTrafficHover} />
+        <span
+          style={{
+            position: "absolute",
+            left: "50%",
+            bottom: 8,
+            transform: "translateX(-50%)",
+            font: "500 13px/1 'Work Sans',sans-serif",
+            color: "#F7F7F7",
+          }}
+        >
+          {title}
+        </span>
+      </div>
+      <div className="shs-scroll" style={{ flex: 1, overflowY: "auto", background: bg, WebkitOverflowScrolling: "touch" }}>
+        {children}
       </div>
     </div>
   );
@@ -468,23 +555,52 @@ function FinderBody() {
   );
 }
 
+function FotosSection({ id, title, count }: { id: string; title: string; count: number }) {
+  return (
+    <div id={id} style={{ padding: "16px 20px 28px" }}>
+      <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", marginBottom: 14, aspectRatio: "16 / 8" }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={REAL_PHOTOS[0]} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.6), transparent 60%)" }} />
+        <div style={{ position: "absolute", left: 16, bottom: 12, color: "#F7F7F7" }}>
+          <div style={{ font: "700 22px/1 'Manrope',sans-serif" }}>{title}</div>
+          <div style={{ font: "400 12px/1 'Work Sans',sans-serif", opacity: 0.85 }}>{count} fotos</div>
+        </div>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 8 }}>
+        {Array.from({ length: count }).map((_, i) => (
+          <PhotoSlot key={i} index={i} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function FotosBody() {
   return (
-    <div
-      className="shs-scroll shs-scroll-dark"
-      style={{
-        overflowY: "auto",
-        flex: 1,
-        background: "#000",
-        padding: 24,
-        display: "grid",
-        gridTemplateColumns: "repeat(3,1fr)",
-        gap: 16,
-      }}
-    >
-      {FOTOS_CAPTIONS.map((c) => (
-        <PhotoSlot key={c} height={220} />
-      ))}
+    <div className="shs-scroll" style={{ overflowY: "auto", flex: 1, background: "var(--white)", paddingBottom: 24 }}>
+      <FotosSection id="favoritos" title="Favoritos" count={6} />
+      <FotosSection id="mascotas" title="Mascotas" count={6} />
+      <FotosSection id="recientes" title="Reciente" count={6} />
+    </div>
+  );
+}
+
+const SPOTIFY_PLAYLIST_URL = "https://open.spotify.com/embed/playlist/1B4v3p7vMeE1GVJBMjd1Ft?utm_source=generator&theme=0";
+
+function SpotifyBody() {
+  return (
+    <div style={{ flex: 1, background: "#0D0D0D", padding: 24, boxSizing: "border-box", overflowY: "auto" }}>
+      <iframe
+        title="Playlist de Spotify"
+        style={{ borderRadius: 12, border: 0 }}
+        src={SPOTIFY_PLAYLIST_URL}
+        width="100%"
+        height="352"
+        allowFullScreen
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"
+      />
     </div>
   );
 }
@@ -501,27 +617,7 @@ function formatNotesDateTime(date: Date) {
 }
 
 function ManifiestoHighlight({ children }: { children: ReactNode }) {
-  const dot = (
-    <span
-      style={{
-        display: "inline-block",
-        width: 6,
-        height: 6,
-        borderRadius: "50%",
-        background: "var(--yellow)",
-        verticalAlign: "middle",
-      }}
-    />
-  );
-  return (
-    <>
-      {dot}
-      <span style={{ background: "rgba(255,190,0,0.16)", color: "var(--yellow)", borderRadius: 3, padding: "0 2px", margin: "0 3px" }}>
-        {children}
-      </span>
-      {dot}
-    </>
-  );
+  return <span className="shs-ios-select">{children}</span>;
 }
 
 function ManifiestoBody({ now, compact = false }: { now: Date | null; compact?: boolean }) {
@@ -534,7 +630,6 @@ function ManifiestoBody({ now, compact = false }: { now: Date | null; compact?: 
       <h1
         style={{
           fontFamily: "'Manrope', sans-serif",
-          fontStyle: "italic",
           fontWeight: 700,
           fontSize: compact ? 26 : 38,
           lineHeight: 1.15,
@@ -556,36 +651,45 @@ function ManifiestoBody({ now, compact = false }: { now: Date | null; compact?: 
         En un mercado saturado de cursos grabados y certificados de fin de semana, el diferencial va a seguir siendo el mismo:
         <ManifiestoHighlight>oficio, criterio y comunidad</ManifiestoHighlight>.
       </p>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4, marginTop: compact ? 8 : 24 }}>
-        <span style={{ font: "600 11px/1 'Inconsolata',monospace", letterSpacing: "0.12em", color: "rgba(247,247,247,0.4)", textTransform: "uppercase" }}>
-          Firmado
-        </span>
-        <span style={{ font: `400 ${compact ? 30 : 38}px/1 'Reenie Beanie',cursive`, color: "#F7F7F7" }}>forHuman Studio</span>
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", marginTop: compact ? 8 : 24 }}>
+        <span style={{ font: `400 ${compact ? 30 : 38}px/1 'Reenie Beanie',cursive`, color: "#F7F7F7" }}>Dani y Fio</span>
       </div>
     </div>
   );
 }
 
-function ContactIcon({ contact }: { contact: WhatsAppContact }) {
+function ContactIcon({ contact, size = 64 }: { contact: WhatsAppContact; size?: number }) {
+  const badge = Math.round(size * 0.37);
   return (
     <>
-      <div style={{ position: "relative", width: 64, height: 64 }}>
+      <div style={{ position: "relative", width: size, height: size }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={contact.photo} style={{ width: 64, height: 64, borderRadius: "50%", objectFit: "cover" }} alt={contact.name} />
+        <img src={contact.photo} style={{ width: size, height: size, borderRadius: "50%", objectFit: "cover" }} alt={contact.name} />
         <div
           style={{
             position: "absolute",
-            bottom: -4,
-            right: -4,
-            width: 24,
-            height: 24,
-            borderRadius: 7,
+            bottom: -3,
+            right: -3,
+            width: badge,
+            height: badge,
+            borderRadius: Math.round(badge * 0.3),
             background: "url(/superhuman/icon-whatsapp.svg) center / cover no-repeat",
             boxShadow: "0 2px 6px rgba(0,0,0,0.4)",
           }}
         />
       </div>
-      <span style={{ font: "400 12px/1.2 'Work Sans',sans-serif", color: "#F7F7F7", textShadow: "0 1px 3px rgba(0,0,0,0.6)", textAlign: "center" }}>
+      <span
+        style={{
+          font: "400 11px/1.2 'Work Sans',sans-serif",
+          color: "#F7F7F7",
+          textShadow: "0 1px 3px rgba(0,0,0,0.6)",
+          textAlign: "center",
+          maxWidth: "100%",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+      >
         {contact.name}
       </span>
     </>
@@ -697,12 +801,14 @@ export function MacDesktopExperience() {
   const [contactPositions, setContactPositions] = useState(
     WHATSAPP_CONTACTS.map((_, i) => ({ x: 0, y: 168 + i * 116 }))
   );
-  const [finderSidebarOpen, setFinderSidebarOpen] = useState(true);
+  const [finderSidebarOpen, setFinderSidebarOpen] = useState(false);
   const [finderSection, setFinderSection] = useState("nosotras");
-  const [figmaSidebarOpen, setFigmaSidebarOpen] = useState(true);
+  const [figmaSidebarOpen, setFigmaSidebarOpen] = useState(false);
   const [figmaSection, setFigmaSection] = useState("figma-inicio");
-  const [webflowSidebarOpen, setWebflowSidebarOpen] = useState(true);
+  const [webflowSidebarOpen, setWebflowSidebarOpen] = useState(false);
   const [webflowSection, setWebflowSection] = useState("webflow-inicio");
+  const [fotosSidebarOpen, setFotosSidebarOpen] = useState(false);
+  const [fotosSection, setFotosSection] = useState("favoritos");
 
   const goToSection = (setActive: (id: string) => void, id: string) => {
     setActive(id);
@@ -710,15 +816,16 @@ export function MacDesktopExperience() {
   };
 
   useEffect(() => {
-    const check = () => {
-      setIsMobile(window.innerWidth < 860);
-      const scale = Math.min(
-        (window.innerWidth * 0.92) / 402,
-        (window.innerHeight * 0.92) / 874,
-        1
-      );
-      setDeviceScale(scale);
-    };
+    if (window.innerWidth >= 860) {
+      setFinderSidebarOpen(true);
+      setFigmaSidebarOpen(true);
+      setWebflowSidebarOpen(true);
+      setFotosSidebarOpen(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 860);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
@@ -771,6 +878,7 @@ export function MacDesktopExperience() {
     finder: "Finder — forHuman",
     photos: "Fotos",
     notas: "Manifiesto.txt",
+    spotify: "Spotify — Playlist",
   };
 
   return (
@@ -846,20 +954,22 @@ export function MacDesktopExperience() {
               }}
             >
               <div style={{ display: "flex", flexDirection: "column", gap: 2, flexShrink: 0 }}>
-                <span style={{ font: "600 11px/1 'Inconsolata',monospace", letterSpacing: "0.08em", color: "rgba(247,247,247,0.6)", textTransform: "uppercase" }}>Jue</span>
-                <span style={{ font: "400 40px/1 'Manrope',sans-serif", color: "#F7F7F7", letterSpacing: "-0.03em" }}>16</span>
+                <span style={{ font: "600 11px/1 'Inconsolata',monospace", letterSpacing: "0.08em", color: "rgba(247,247,247,0.6)", textTransform: "uppercase" }}>
+                  {now ? MENU_BAR_DAYS[now.getDay()] : ""}
+                </span>
+                <span style={{ font: "400 40px/1 'Manrope',sans-serif", color: "#F7F7F7", letterSpacing: "-0.03em" }}>{now ? now.getDate() : ""}</span>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8, flex: 1, minWidth: 0 }}>
-                <span style={{ font: "600 11px/1 'Inconsolata',monospace", letterSpacing: "0.08em", color: "rgba(247,247,247,0.5)", textTransform: "uppercase" }}>Mañana</span>
+                <span style={{ font: "600 11px/1 'Inconsolata',monospace", letterSpacing: "0.08em", color: "rgba(247,247,247,0.5)", textTransform: "uppercase" }}>Agosto</span>
                 <div style={{ background: "rgba(255,255,255,0.1)", borderRadius: 12, padding: "8px 11px" }}>
                   <div style={{ font: "600 13px/1.3 'Work Sans',sans-serif", color: "#F7F7F7" }}>Webflow Camp</div>
-                  <div style={{ font: "400 12px/1.3 'Inconsolata',monospace", color: "rgba(247,247,247,0.6)" }}>25 Feb · Early Bird</div>
+                  <div style={{ font: "400 12px/1.3 'Inconsolata',monospace", color: "rgba(247,247,247,0.6)" }}>Mar y Jue · 7–9pm Perú</div>
                 </div>
                 <div style={{ background: "rgba(255,255,255,0.1)", borderRadius: 12, padding: "8px 11px", display: "flex", alignItems: "center", gap: 8 }}>
                   <div style={{ width: 20, height: 20, borderRadius: 6, background: "var(--blue)", flexShrink: 0 }} />
                   <div>
                     <div style={{ font: "600 13px/1.3 'Work Sans',sans-serif", color: "#F7F7F7" }}>Figma Camp</div>
-                    <div style={{ font: "400 12px/1.3 'Inconsolata',monospace", color: "rgba(247,247,247,0.6)" }}>10 Mar · Early Bird</div>
+                    <div style={{ font: "400 12px/1.3 'Inconsolata',monospace", color: "rgba(247,247,247,0.6)" }}>Mar y Jue · 7–9pm Perú</div>
                   </div>
                 </div>
               </div>
@@ -885,7 +995,7 @@ export function MacDesktopExperience() {
                   <span style={{ font: "700 15px/1 'Work Sans',sans-serif", color: "#F7F7F7" }}>Hoy</span>
                   <span style={{ font: "500 12px/1 'Work Sans',sans-serif", color: "rgba(247,247,247,0.5)" }}>4</span>
                 </div>
-                {["Webflow Camp — 25 Feb", "Figma Camp — 10 Mar", "Cupos Early Bird", "Certificado final"].map((item) => (
+                {["Webflow Camp — Mar y Jue", "Figma Camp — Mar y Jue", "Cupos Early Bird", "Certificado final"].map((item) => (
                   <div key={item} style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
                     <div style={{ width: 14, height: 14, borderRadius: "50%", boxShadow: "inset 0 0 0 1.5px rgba(247,247,247,0.5)", flexShrink: 0 }} />
                     <span
@@ -990,7 +1100,7 @@ export function MacDesktopExperience() {
             <DockIcon label="Notas" hoverId="notas" hovered={hoveredApp} onHover={setHoveredApp} onClick={() => openWindow("notas")} open={openApp === "notas"}>
               <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-notas.svg) center / cover no-repeat" }} />
             </DockIcon>
-            <DockIcon label="Spotify" hoverId="spotify" hovered={hoveredApp} onHover={setHoveredApp}>
+            <DockIcon label="Spotify" hoverId="spotify" hovered={hoveredApp} onHover={setHoveredApp} onClick={() => openWindow("spotify")} open={openApp === "spotify"}>
               <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-spotify.svg) center / cover no-repeat" }} />
             </DockIcon>
           </div>
@@ -1035,7 +1145,15 @@ export function MacDesktopExperience() {
             </WindowChrome>
           )}
           {(openApp === "photos" || closingApp === "photos") && (
-            <WindowChrome title={windowTitles.photos} bg="#1c1c1e" onClose={closeApp} closing={closingApp === "photos"}>
+            <WindowChrome
+              title={windowTitles.photos}
+              bg="var(--white)"
+              onClose={closeApp}
+              closing={closingApp === "photos"}
+              onToggleSidebar={() => setFotosSidebarOpen((v) => !v)}
+              sidebar={<AppSidebar label="Destacadas" sections={FOTOS_SECTIONS} active={fotosSection} onSelect={(id) => goToSection(setFotosSection, id)} open={fotosSidebarOpen} />}
+              inset={{ left: "16%", right: "16%" }}
+            >
               <FotosBody />
             </WindowChrome>
           )}
@@ -1045,209 +1163,206 @@ export function MacDesktopExperience() {
               bg="#0D0D0D"
               onClose={closeApp}
               closing={closingApp === "notas"}
-              inset={{ top: "8%", left: "24%", right: "24%", bottom: "8%" }}
+              inset={{ left: "24%", right: "24%" }}
             >
               <ManifiestoBody now={now} />
+            </WindowChrome>
+          )}
+          {(openApp === "spotify" || closingApp === "spotify") && (
+            <WindowChrome
+              title={windowTitles.spotify}
+              bg="#0D0D0D"
+              onClose={closeApp}
+              closing={closingApp === "spotify"}
+              inset={{ left: "30%", right: "30%" }}
+            >
+              <SpotifyBody />
             </WindowChrome>
           )}
         </div>
       )}
 
       {isMobile && (
-        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", background: "#000" }}>
-          <div style={{ transform: `scale(${deviceScale})`, transformOrigin: "center center" }}>
-          <IOSDevice width={402} height={874} dark={openApp === null || openApp === "photos"}>
-            <div style={{ position: "relative", minHeight: 874, background: "linear-gradient(160deg,#1c2c8f 0%,#012EDC 30%,#0D0D0D 75%)", boxSizing: "border-box" }}>
-              {loadingApp === "photos" && (
-                <div
-                  className="shs-app-window"
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    background: "#000",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Loader size={30} />
-                </div>
-              )}
-              {!openApp && !loadingApp && (
-                <>
-                  <div style={{ padding: "58px 16px 24px 16px", display: "flex", flexDirection: "column", gap: 14 }}>
-                    <div style={{ borderRadius: 22, background: "rgba(13,13,13,0.4)", backdropFilter: "blur(24px)", padding: 16, display: "flex", flexDirection: "column", gap: 9, boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
-                      <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 2 }}>
-                        <span style={{ font: "400 34px/1 'Manrope',sans-serif", color: "#F7F7F7", letterSpacing: "-0.03em" }}>16</span>
-                        <div style={{ display: "flex", flexDirection: "column" }}>
-                          <span style={{ font: "600 10px/1 'Inconsolata',monospace", letterSpacing: "0.08em", color: "rgba(247,247,247,0.75)", textTransform: "uppercase" }}>Jul</span>
-                          <span style={{ font: "400 10px/1.2 'Inconsolata',monospace", color: "rgba(247,247,247,0.5)" }}>2026</span>
-                        </div>
-                      </div>
-                      {[
-                        ["Lanzamiento Webflow Camp", "25 Feb · Early Bird"],
-                        ["Lanzamiento Figma Camp", "10 Mar · Early Bird"],
-                      ].map(([title, detail]) => (
-                        <div key={title} style={{ background: "rgba(255,255,255,0.09)", borderRadius: 10, padding: "8px 10px" }}>
-                          <div style={{ font: "500 13px/1.3 'Work Sans',sans-serif", color: "#F7F7F7" }}>{title}</div>
-                          <div style={{ font: "400 11px/1.3 'Inconsolata',monospace", color: "rgba(247,247,247,0.6)" }}>{detail}</div>
-                        </div>
-                      ))}
-                    </div>
-                    <div style={{ borderRadius: 22, background: "rgba(13,13,13,0.4)", backdropFilter: "blur(24px)", padding: 16, display: "flex", flexDirection: "column", gap: 10, boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                        <span style={{ font: "500 13px/1 'Work Sans',sans-serif", color: "#F7F7F7" }}>Próximos lanzamientos</span>
-                        <span style={{ font: "600 11px/1 'Work Sans',sans-serif", color: "#F7F7F7", background: "rgba(255,255,255,0.15)", borderRadius: 999, padding: "3px 8px" }}>4</span>
-                      </div>
-                      {["Webflow Camp — 25 Feb", "Figma Camp — 10 Mar", "Cupos Early Bird limitados", "Certificado al completar"].map((item) => (
-                        <div key={item} style={{ display: "flex", alignItems: "center", gap: 9 }}>
-                          <div style={{ width: 15, height: 15, borderRadius: "50%", boxShadow: "inset 0 0 0 1.5px rgba(247,247,247,0.55)", flexShrink: 0 }} />
-                          <span style={{ font: "300 12px/1.3 'Work Sans',sans-serif", color: "rgba(247,247,247,0.92)" }}>{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16, marginTop: 8 }}>
-                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }} onClick={() => openWindow("photos")}>
-                        <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-fotos.svg) center / cover no-repeat", cursor: "pointer" }} />
-                        <span style={{ font: "400 11px/1 'Work Sans',sans-serif", color: "#F7F7F7", textShadow: "0 1px 3px rgba(0,0,0,0.6)" }}>Fotos</span>
-                      </div>
-                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-                        <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-spotify.svg) center / cover no-repeat" }} />
-                        <span style={{ font: "400 11px/1 'Work Sans',sans-serif", color: "#F7F7F7", textShadow: "0 1px 3px rgba(0,0,0,0.6)" }}>Spotify</span>
-                      </div>
-                      {WHATSAPP_CONTACTS.map((contact) => (
-                        <div
-                          key={contact.name}
-                          style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, cursor: "pointer" }}
-                          onClick={() => openWhatsApp(contact)}
-                        >
-                          <ContactIcon contact={contact} />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div style={{ position: "absolute", left: 14, right: 14, bottom: 26, display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
-                    <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", width: "100%", background: "rgba(247,247,247,0.22)", backdropFilter: "blur(24px)", borderRadius: 26, padding: "12px 14px", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.3)" }}>
-                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }} onClick={() => openWindow("finder")}>
-                        <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-finder-app.svg) center / cover no-repeat", cursor: "pointer" }} />
-                      </div>
-                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }} onClick={() => openWindow("figma")}>
-                        <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-figma.svg) center / cover no-repeat", cursor: "pointer" }} />
-                      </div>
-                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }} onClick={() => openWindow("webflow")}>
-                        <div style={{ width: 56, height: 56, borderRadius: 14, background: "var(--blue)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-                          <span style={{ font: "700 22px/1 'Manrope',sans-serif", color: "#F7F7F7" }}>W</span>
-                        </div>
-                      </div>
-                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }} onClick={() => openWindow("notas")}>
-                        <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-notas.svg) center / cover no-repeat", cursor: "pointer" }} />
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
-
-              {(openApp === "figma" || closingApp === "figma") && (
-                <div className={`shs-app-window${closingApp === "figma" ? " shs-app-window-closing" : ""}`} style={{ position: "absolute", inset: 0, background: "#F4F4F4", padding: "56px 20px 20px 20px", overflowY: "auto", boxSizing: "border-box", display: "flex", flexDirection: "column", gap: 18 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer" }} onClick={closeApp}>
-                    <span style={{ font: "600 20px/1 'Work Sans',sans-serif", color: "var(--blue)" }}>‹</span>
-                    <span style={{ font: "500 15px/1 'Work Sans',sans-serif", color: "var(--blue)" }}>Inicio</span>
-                  </div>
-                  <Tag>Nuevo · Inicia 10 Marzo</Tag>
-                  <h1 style={{ font: "400 38px/1.05 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "#0D0D0D", margin: 0 }}>Figma Camp</h1>
-                  <p style={{ font: "300 17px/1.4 'Work Sans',sans-serif", color: "#0D0D0D", margin: 0 }}>Domina Figma: sistemas de diseño, prototipado y handoff con desarrollo. De cero a listo para producción.</p>
-                  <PrincipalButton variant="primary" style={{ width: "100%" }}>Quiero inscribirme</PrincipalButton>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 4 }}>
-                    <div style={{ font: "600 13px/1 'Inconsolata',monospace", letterSpacing: "0.08em", color: "var(--gray-500)", textTransform: "uppercase" }}>El programa</div>
-                    <div style={{ font: "400 16px/1.3 'Work Sans',sans-serif", color: "#0D0D0D" }}>01 · Fundamentos de Figma</div>
-                    <div style={{ font: "400 16px/1.3 'Work Sans',sans-serif", color: "#0D0D0D" }}>02 · Sistemas de diseño</div>
-                    <div style={{ font: "400 16px/1.3 'Work Sans',sans-serif", color: "#0D0D0D" }}>03 · Prototipado y handoff</div>
-                  </div>
-                  <div style={{ background: "var(--black)", borderRadius: 16, padding: 20, display: "flex", flexDirection: "column", gap: 6 }}>
-                    <span style={{ font: "500 14px/1 'Work Sans',sans-serif", color: "var(--yellow)" }}>Desde $100 · Cupos limitados</span>
-                    <span style={{ font: "300 13px/1.3 'Work Sans',sans-serif", color: "#F7F7F7" }}>Certificado al completar el programa.</span>
-                  </div>
-                </div>
-              )}
-
-              {(openApp === "webflow" || closingApp === "webflow") && (
-                <div className={`shs-app-window${closingApp === "webflow" ? " shs-app-window-closing" : ""}`} style={{ position: "absolute", inset: 0, background: "#F4F4F4", padding: "56px 20px 20px 20px", overflowY: "auto", boxSizing: "border-box", display: "flex", flexDirection: "column", gap: 18 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer" }} onClick={closeApp}>
-                    <span style={{ font: "600 20px/1 'Work Sans',sans-serif", color: "var(--blue)" }}>‹</span>
-                    <span style={{ font: "500 15px/1 'Work Sans',sans-serif", color: "var(--blue)" }}>Inicio</span>
-                  </div>
-                  <Tag>Early Bird · Inicia 25 Feb</Tag>
-                  <h1 style={{ font: "400 38px/1.05 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "#0D0D0D", margin: 0 }}>Webflow Camp</h1>
-                  <p style={{ font: "300 17px/1.4 'Work Sans',sans-serif", color: "#0D0D0D", margin: 0 }}>Construye sitios web profesionales desde la maquetación hasta la publicación. Sin código. Sin excusas.</p>
-                  <PrincipalButton variant="primary" style={{ width: "100%" }}>Quiero inscribirme</PrincipalButton>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 4 }}>
-                    <div style={{ font: "600 13px/1 'Inconsolata',monospace", letterSpacing: "0.08em", color: "var(--gray-500)", textTransform: "uppercase" }}>El programa</div>
-                    <div style={{ font: "400 16px/1.3 'Work Sans',sans-serif", color: "#0D0D0D" }}>01 · Comprender el valor de Webflow</div>
-                    <div style={{ font: "400 16px/1.3 'Work Sans',sans-serif", color: "#0D0D0D" }}>02 · Maquetación profesional</div>
-                    <div style={{ font: "400 16px/1.3 'Work Sans',sans-serif", color: "#0D0D0D" }}>03 · Publicación y lanzamiento</div>
-                  </div>
-                  <div style={{ background: "var(--blue)", borderRadius: 16, padding: 20, display: "flex", flexDirection: "column", gap: 6 }}>
-                    <span style={{ font: "500 14px/1 'Work Sans',sans-serif", color: "var(--yellow)" }}>Desde $120 · Early Bird $180</span>
-                    <span style={{ font: "300 13px/1.3 'Work Sans',sans-serif", color: "#F7F7F7" }}>Webflow CMS 1 año gratis incluido.</span>
-                  </div>
-                </div>
-              )}
-
-              {(openApp === "finder" || closingApp === "finder") && (
-                <div className={`shs-app-window${closingApp === "finder" ? " shs-app-window-closing" : ""}`} style={{ position: "absolute", inset: 0, background: "#F4F4F4", padding: "56px 20px 20px 20px", overflowY: "auto", boxSizing: "border-box", display: "flex", flexDirection: "column", gap: 18 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer" }} onClick={closeApp}>
-                    <span style={{ font: "600 20px/1 'Work Sans',sans-serif", color: "var(--blue)" }}>‹</span>
-                    <span style={{ font: "500 15px/1 'Work Sans',sans-serif", color: "var(--blue)" }}>Inicio</span>
-                  </div>
-                  <span style={{ font: "600 12px/1 'Inconsolata',monospace", letterSpacing: "0.08em", color: "var(--gray-500)", textTransform: "uppercase" }}>00 — Nosotras</span>
-                  <h1 style={{ font: "400 32px/1.1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "#0D0D0D", margin: 0 }}>Así nació superHuman.</h1>
-                  <p style={{ font: "300 16px/1.4 'Work Sans',sans-serif", color: "#0D0D0D", margin: 0 }}>forHuman Studio, primera agencia en Perú certificada Webflow Expert y Educator, enseña hoy lo que aplica todos los días.</p>
-                  <div style={{ display: "flex", gap: 20, marginTop: 4 }}>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                      <span style={{ font: "400 30px/1 'Manrope',sans-serif", color: "#0D0D0D" }}>+200</span>
-                      <span style={{ font: "300 13px/1.2 'Work Sans',sans-serif", color: "#0D0D0D" }}>Builders graduados</span>
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                      <span style={{ font: "400 30px/1 'Manrope',sans-serif", color: "#0D0D0D" }}>2</span>
-                      <span style={{ font: "300 13px/1.2 'Work Sans',sans-serif", color: "#0D0D0D" }}>Programas activos</span>
-                    </div>
-                  </div>
-                  <div style={{ display: "flex", gap: 16, marginTop: 4 }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/superhuman/mentor-1.jpg" style={{ width: 64, height: 64, borderRadius: "50%", objectFit: "cover" }} alt="Mentor forHuman" />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/superhuman/mentor-2.jpg" style={{ width: 64, height: 64, borderRadius: "50%", objectFit: "cover" }} alt="Mentora forHuman" />
-                  </div>
-                </div>
-              )}
-
-              {(openApp === "photos" || closingApp === "photos") && (
-                <div className={`shs-app-window${closingApp === "photos" ? " shs-app-window-closing" : ""}`} style={{ position: "absolute", inset: 0, background: "#000", padding: "56px 16px 20px 16px", overflowY: "auto", boxSizing: "border-box" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", marginBottom: 14 }} onClick={closeApp}>
-                    <span style={{ font: "600 20px/1 'Work Sans',sans-serif", color: "var(--blue)" }}>‹</span>
-                    <span style={{ font: "500 15px/1 'Work Sans',sans-serif", color: "var(--blue)" }}>Inicio</span>
-                  </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                    {FOTOS_CAPTIONS.slice(0, 6).map((_, i) => (
-                      <PhotoSlot key={i} height={150} />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {(openApp === "notas" || closingApp === "notas") && (
-                <div className={`shs-app-window${closingApp === "notas" ? " shs-app-window-closing" : ""}`} style={{ position: "absolute", inset: 0, background: "#0D0D0D", overflowY: "auto", boxSizing: "border-box" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer", padding: "56px 20px 0" }} onClick={closeApp}>
-                    <span style={{ font: "600 20px/1 'Work Sans',sans-serif", color: "var(--yellow)" }}>‹</span>
-                    <span style={{ font: "500 15px/1 'Work Sans',sans-serif", color: "var(--yellow)" }}>Inicio</span>
-                  </div>
-                  <ManifiestoBody now={now} compact />
-                </div>
-              )}
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            overflowY: "auto",
+            overflowX: "hidden",
+            WebkitOverflowScrolling: "touch",
+            background: "linear-gradient(160deg,#1c2c8f 0%,#012EDC 30%,#0D0D0D 75%)",
+          }}
+        >
+          <div
+            style={{
+              position: "fixed",
+              left: "50%",
+              bottom: "calc(env(safe-area-inset-bottom, 0px) + 8px)",
+              transform: "translateX(-50%)",
+              width: 134,
+              height: 5,
+              borderRadius: 100,
+              background: "rgba(247,247,247,0.7)",
+              zIndex: 90,
+              pointerEvents: "none",
+            }}
+          />
+          {loadingApp === "photos" && (
+            <div
+              className="shs-app-window"
+              style={{
+                position: "fixed",
+                inset: 0,
+                zIndex: 70,
+                background: "#000",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Loader size={30} />
             </div>
-          </IOSDevice>
-          </div>
+          )}
+
+          {!openApp && !loadingApp && (
+            <div style={{ display: "flex", flexDirection: "column", minHeight: "100dvh" }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "calc(env(safe-area-inset-top,0px) + 14px) 16px 0",
+                  color: "#F7F7F7",
+                  textShadow: "0 1px 3px rgba(0,0,0,0.35)",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <div style={{ width: 13, height: 13, background: "url(/superhuman/logo-superhuman.svg) center / contain no-repeat" }} />
+                  <span style={{ font: "700 12px/1 'Work Sans',sans-serif" }}>superHuman</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <svg width="14" height="10.5" viewBox="0 0 19 12">
+                    <path d="M9.5 3.2C11.8 3.2 13.9 4.1 15.4 5.6L16.5 4.5C14.7 2.7 12.2 1.5 9.5 1.5C6.8 1.5 4.3 2.7 2.5 4.5L3.6 5.6C5.1 4.1 7.2 3.2 9.5 3.2Z" fill="#F7F7F7" />
+                    <path d="M9.5 6.8C10.9 6.8 12.1 7.3 13 8.2L14.1 7.1C12.8 5.9 11.2 5.1 9.5 5.1C7.8 5.1 6.2 5.9 4.9 7.1L6 8.2C6.9 7.3 8.1 6.8 9.5 6.8Z" fill="#F7F7F7" />
+                    <circle cx="9.5" cy="10.5" r="1.5" fill="#F7F7F7" />
+                  </svg>
+                  <div style={{ width: 19, height: 9.5, border: "1.2px solid rgba(247,247,247,0.7)", borderRadius: 3, padding: 1.5, display: "flex", position: "relative" }}>
+                    <div style={{ width: "75%", height: "100%", background: "#F7F7F7", borderRadius: 1 }} />
+                    <div style={{ position: "absolute", right: -2.5, top: 2.5, width: 1.5, height: 4, background: "rgba(247,247,247,0.7)", borderRadius: "0 1px 1px 0" }} />
+                  </div>
+                  <span style={{ font: "400 12px/1 'Work Sans',sans-serif" }}>{now ? formatMenuBarDateTime(now) : ""}</span>
+                </div>
+              </div>
+              <div style={{ padding: "14px 16px 16px", display: "flex", flexDirection: "column", gap: 14 }}>
+                <div style={{ borderRadius: 22, background: "rgba(13,13,13,0.4)", backdropFilter: "blur(24px)", padding: 16, display: "flex", flexDirection: "column", gap: 9, boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 2 }}>
+                    <span style={{ font: "400 34px/1 'Manrope',sans-serif", color: "#F7F7F7", letterSpacing: "-0.03em" }}>{now ? now.getDate() : ""}</span>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <span style={{ font: "600 10px/1 'Inconsolata',monospace", letterSpacing: "0.08em", color: "rgba(247,247,247,0.75)", textTransform: "uppercase" }}>
+                        {now ? MENU_BAR_MONTHS[now.getMonth()] : ""}
+                      </span>
+                      <span style={{ font: "400 10px/1.2 'Inconsolata',monospace", color: "rgba(247,247,247,0.5)" }}>{now ? now.getFullYear() : ""}</span>
+                    </div>
+                  </div>
+                  {[
+                    ["Webflow Camp", "Mar y Jue · 7–9pm Perú"],
+                    ["Figma Camp", "Mar y Jue · 7–9pm Perú"],
+                  ].map(([title, detail]) => (
+                    <div key={title} style={{ background: "rgba(255,255,255,0.09)", borderRadius: 10, padding: "8px 10px" }}>
+                      <div style={{ font: "500 13px/1.3 'Work Sans',sans-serif", color: "#F7F7F7" }}>{title}</div>
+                      <div style={{ font: "400 11px/1.3 'Inconsolata',monospace", color: "rgba(247,247,247,0.6)" }}>{detail}</div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ borderRadius: 22, background: "rgba(13,13,13,0.4)", backdropFilter: "blur(24px)", padding: 16, display: "flex", flexDirection: "column", gap: 10, boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)" }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <span style={{ font: "500 13px/1 'Work Sans',sans-serif", color: "#F7F7F7" }}>Próximos lanzamientos</span>
+                    <span style={{ font: "600 11px/1 'Work Sans',sans-serif", color: "#F7F7F7", background: "rgba(255,255,255,0.15)", borderRadius: 999, padding: "3px 8px" }}>4</span>
+                  </div>
+                  {["Webflow Camp — Mar y Jue", "Figma Camp — Mar y Jue", "Cupos Early Bird limitados", "Certificado al completar"].map((item) => (
+                    <div key={item} style={{ display: "flex", alignItems: "center", gap: 9 }}>
+                      <div style={{ width: 15, height: 15, borderRadius: "50%", boxShadow: "inset 0 0 0 1.5px rgba(247,247,247,0.55)", flexShrink: 0 }} />
+                      <span style={{ font: "300 12px/1.3 'Work Sans',sans-serif", color: "rgba(247,247,247,0.92)" }}>{item}</span>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16, marginTop: 8 }}>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }} onClick={() => openWindow("photos")}>
+                    <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-fotos.svg) center / cover no-repeat", cursor: "pointer" }} />
+                    <span style={{ font: "400 11px/1 'Work Sans',sans-serif", color: "#F7F7F7", textShadow: "0 1px 3px rgba(0,0,0,0.6)" }}>Fotos</span>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }} onClick={() => openWindow("spotify")}>
+                    <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-spotify.svg) center / cover no-repeat", cursor: "pointer" }} />
+                    <span style={{ font: "400 11px/1 'Work Sans',sans-serif", color: "#F7F7F7", textShadow: "0 1px 3px rgba(0,0,0,0.6)" }}>Spotify</span>
+                  </div>
+                  {WHATSAPP_CONTACTS.map((contact) => (
+                    <div
+                      key={contact.name}
+                      style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, cursor: "pointer", width: "100%", minWidth: 0 }}
+                      onClick={() => openWhatsApp(contact)}
+                    >
+                      <ContactIcon contact={contact} size={56} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ marginTop: "auto", padding: "10px 14px calc(env(safe-area-inset-bottom,0px) + 16px)", display: "flex", justifyContent: "center" }}>
+                <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", width: "100%", background: "rgba(247,247,247,0.22)", backdropFilter: "blur(24px)", borderRadius: 26, padding: "12px 14px", boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.3)" }}>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }} onClick={() => openWindow("finder")}>
+                    <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-finder-app.svg) center / cover no-repeat", cursor: "pointer" }} />
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }} onClick={() => openWindow("figma")}>
+                    <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-figma.svg) center / cover no-repeat", cursor: "pointer" }} />
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }} onClick={() => openWindow("webflow")}>
+                    <div style={{ width: 56, height: 56, borderRadius: 14, background: "var(--blue)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                      <span style={{ font: "700 22px/1 'Manrope',sans-serif", color: "#F7F7F7" }}>W</span>
+                    </div>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }} onClick={() => openWindow("notas")}>
+                    <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-notas.svg) center / cover no-repeat", cursor: "pointer" }} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {(openApp === "figma" || closingApp === "figma") && (
+            <MobileScreen title={windowTitles.figma} bg="var(--white)" onClose={closeApp} closing={closingApp === "figma"}>
+              <FigmaBody />
+            </MobileScreen>
+          )}
+
+          {(openApp === "webflow" || closingApp === "webflow") && (
+            <MobileScreen title={windowTitles.webflow} bg="var(--white)" onClose={closeApp} closing={closingApp === "webflow"}>
+              <WebflowBody />
+            </MobileScreen>
+          )}
+
+          {(openApp === "finder" || closingApp === "finder") && (
+            <MobileScreen title={windowTitles.finder} bg="var(--white)" onClose={closeApp} closing={closingApp === "finder"}>
+              <FinderBody />
+            </MobileScreen>
+          )}
+
+          {(openApp === "photos" || closingApp === "photos") && (
+            <MobileScreen title={windowTitles.photos} bg="var(--white)" onClose={closeApp} closing={closingApp === "photos"}>
+              <FotosBody />
+            </MobileScreen>
+          )}
+
+          {(openApp === "notas" || closingApp === "notas") && (
+            <MobileScreen title={windowTitles.notas} bg="#0D0D0D" onClose={closeApp} closing={closingApp === "notas"}>
+              <ManifiestoBody now={now} compact />
+            </MobileScreen>
+          )}
+
+          {(openApp === "spotify" || closingApp === "spotify") && (
+            <MobileScreen title={windowTitles.spotify} bg="#0D0D0D" onClose={closeApp} closing={closingApp === "spotify"}>
+              <SpotifyBody />
+            </MobileScreen>
+          )}
         </div>
       )}
     </div>
