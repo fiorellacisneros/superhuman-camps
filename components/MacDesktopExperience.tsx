@@ -1090,9 +1090,7 @@ export function MacDesktopExperience() {
               <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-figma.svg) center / cover no-repeat" }} />
             </DockIcon>
             <DockIcon label="Webflow Camp" hoverId="webflow" hovered={hoveredApp} onHover={setHoveredApp} onClick={() => openWindow("webflow")} open={openApp === "webflow"}>
-              <div style={{ width: 56, height: 56, borderRadius: 14, background: "var(--blue)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <span style={{ font: "700 22px/1 'Manrope',sans-serif", color: "#F7F7F7" }}>W</span>
-              </div>
+              <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-webflow.svg) center / cover no-repeat" }} />
             </DockIcon>
             <DockIcon label="Fotos" hoverId="photos" hovered={hoveredApp} onHover={setHoveredApp} onClick={() => openWindow("photos")} open={openApp === "photos" || loadingApp === "photos"}>
               <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-fotos.svg) center / cover no-repeat" }} />
@@ -1316,9 +1314,7 @@ export function MacDesktopExperience() {
                     <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-figma.svg) center / cover no-repeat", cursor: "pointer" }} />
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }} onClick={() => openWindow("webflow")}>
-                    <div style={{ width: 56, height: 56, borderRadius: 14, background: "var(--blue)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-                      <span style={{ font: "700 22px/1 'Manrope',sans-serif", color: "#F7F7F7" }}>W</span>
-                    </div>
+                    <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-webflow.svg) center / cover no-repeat", cursor: "pointer" }} />
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }} onClick={() => openWindow("notas")}>
                     <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-notas.svg) center / cover no-repeat", cursor: "pointer" }} />
