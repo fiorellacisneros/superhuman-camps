@@ -873,8 +873,8 @@ export function MacDesktopExperience() {
   };
 
   const windowTitles: Record<Exclude<AppId, null>, string> = {
-    figma: "Figma — Figma Camp",
-    webflow: "Webflow — Webflow Camp",
+    figma: "superHuman — Figma Camp",
+    webflow: "superHuman — Webflow Camp",
     finder: "Finder — forHuman",
     photos: "Fotos",
     notas: "Manifiesto.txt",
