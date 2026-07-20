@@ -5,7 +5,7 @@ export function CardPricing({
   variant = "blue",
   title = "En vivo",
   subtitle = "Conecta y aprende",
-  eyebrow = "PRECIO EARLY BIRD",
+  eyebrow = "Precio Early Bird",
   price = "$180",
   oldPrice = "$250",
   ctaLabel = "Quiero inscribirme",
@@ -51,14 +51,14 @@ export function CardPricing({
       }}
     >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <span style={{ font: "400 48px/1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)" }}>
             {title}
           </span>
-          <span style={{ font: "300 24px/1 'Work Sans',sans-serif", color: "var(--white)" }}>{subtitle}</span>
+          <span style={{ font: "300 16px/1 'Work Sans',sans-serif", color: "var(--white)" }}>{subtitle}</span>
         </div>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 16 }}>
-          <span style={{ font: "500 20px/1 'Work Sans',sans-serif", color: "var(--yellow)" }}>{eyebrow}</span>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
+          <span style={{ font: "400 14px/1 'Work Sans',sans-serif", color: "var(--yellow)", whiteSpace: "nowrap" }}>{eyebrow}</span>
           <span style={{ font: "600 48px/1 'Work Sans',sans-serif", color: "var(--yellow)" }}>{price}</span>
           <span
             style={{
@@ -72,7 +72,7 @@ export function CardPricing({
         </div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        <PrincipalButton variant="light" style={{ width: "100%" }} onClick={onCtaClick}>
+        <PrincipalButton variant={dark ? "primary" : "dark"} style={{ width: "100%" }} onClick={onCtaClick}>
           {ctaLabel}
         </PrincipalButton>
         <span style={{ font: "300 14px/1 'Work Sans',sans-serif", color: "var(--white)", textAlign: "center" }}>
@@ -88,14 +88,12 @@ export function CardPricing({
             key={i}
             style={{
               padding: "16px 0",
-              borderTop: "1px solid rgba(255,255,255,0.2)",
-              borderBottom: i === benefits.length - 1 ? "1px solid rgba(255,255,255,0.2)" : "none",
+              borderBottom: "1px solid rgba(255,255,255,0.2)",
               display: "flex",
               alignItems: "center",
               gap: 8,
             }}
           >
-            <span style={{ color: "var(--yellow)" }}>✓</span>
             <span style={{ font: "300 16px/1.3 'Work Sans',sans-serif", color: "var(--white)" }}>{b}</span>
           </div>
         ))}

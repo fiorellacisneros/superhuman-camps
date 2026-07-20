@@ -71,6 +71,46 @@ En pantallas de celular, todo el mismo contenido se muestra dentro de un marco d
 
 - 2026-07-20: Se agregaron los 3 logos reales a las tarjetas de "Regalos" (antes no tenían ícono): Figma Educator usa el logo real de Figma, Relume Pro usa el logo real de Relume (extraído de tu archivo de Webflow), y Merch oficial usa el logo de Webflow. Los archivos nuevos quedaron en `public/superhuman/`: `icon-relume.png` y `icon-webflow-mark.svg`.
 
+- 2026-07-20: Se corrigió que las tarjetas de precio de Webflow Camp se veían apiladas una debajo de otra en vez de en dos columnas — las tarjetas tenían un ancho fijo que no se ajustaba al espacio disponible cuando el sidebar estaba abierto. Ahora se achican de forma flexible antes de pasar a una sola columna.
+
+- 2026-07-20: Al abrir o cerrar el sidebar (en Figma Camp, Webflow Camp, Finder y Fotos), el contenido de la ventana ahora hace un pequeño fundido (se atenúa un instante y vuelve a aparecer) en vez de reacomodarse de golpe — se siente más suave.
+
+- 2026-07-20: Se actualizó el **Manifiesto** con un párrafo nuevo sobre IA: dice que la IA no reemplaza el oficio, lo acelera — y que lo difícil sigue siendo el criterio (entender al cliente, defender una decisión de diseño), no generar una web rápido. Se agregó también la sección "Motivos para llevar el curso" a **Figma Camp** (antes solo existía en Webflow Camp), y se reescribieron los motivos de ambos cursos para reforzar el mensaje de "ser alguien menos reemplazable" frente a la IA, en vez de competir por precio.
+
+- 2026-07-20: En el Manifiesto, los 3 párrafos que terminaban seguidos con una frase resaltada en amarillo se sentían muy amontonados — se combinaron en menos frases (ahora solo 2 resaltados en todo el texto) y se le dio más espacio entre párrafos.
+
+- 2026-07-20: Se agregó una **frase de impacto** arriba del todo en el hero de Webflow Camp y Figma Camp (lo primero que se lee al abrir el curso, para quienes no leen toda la página), siguiendo una referencia visual que compartiste: letra pequeña primero ("La IA ya sabe apretar botones."), luego la imagen ocupando el 100% del ancho, y después el texto grande, en MAYÚSCULAS y en negrita ("APRENDE A SER **MENOS REEMPLAZABLE**"), con la frase clave resaltada en azul con el mismo estilo de "selección de texto" que ya usábamos en el Manifiesto (ahí es amarillo porque el fondo es negro; acá es azul porque el fondo es blanco). La imagen ahora es la real que enviaste: una foto de un cruce peatonal con recuadros amarillos de detección de personas por IA (estilo "Person 91%"), guardada en `public/superhuman/hero-ai-detection.png`. También se corrigió que la imagen no llegaba al 100% del ancho (el bloque tenía un límite de tamaño que se lo impedía).
+
+- 2026-07-20: Se agrandó la imagen del hero (de 340px a 480px de alto) y se escribió más texto en la frase pequeña de arriba, para que la persona se sienta identificada antes de llegar al "Aprende a ser menos reemplazable": ahora nombra específicamente lo que la IA ya sabe hacer (en Figma: armar un mockup, acomodar cajas, sugerir colores; en Webflow: crear secciones, aplicar estilos, escribir el copy) y valida la preocupación de sentirse prescindible, antes de aterrizar en que lo que no se automatiza es el criterio.
+
+- 2026-07-20: Se corrigió que el tag "Nuevo · Inicia 10 Marzo..." de Figma Camp se veía estirado a todo el ancho de la pantalla (en vez de ajustado a su texto, como en Webflow Camp) — era un problema de layout donde le faltaba estar dentro del mismo tipo de envoltura que ya tenía el de Webflow.
+
+- 2026-07-20: Se corrigió la sección de precios de **Webflow Camp** para que coincida exactamente con tu sitio real en Webflow: el título ahora dice "Inscríbete y potencia tus habilidades" (antes decía "Tarjetas de precio", un texto genérico), se agregó el tag "Pago seguro vía Stripe (Tarjetas de crédito o débito)" que faltaba, el precio "Early Bird" ya no se ve gigante (la etiqueta "Precio Early Bird" estaba en 20px cuando debía ser 14px), la lista de beneficios ahora tiene una línea debajo de cada ítem (antes tenía línea arriba y abajo, se veía distinto a tu sitio), y los 8 beneficios reales del plan "En vivo" (antes mostraba una lista genérica de 4 beneficios de relleno).
+
+- 2026-07-20: Se corrigió que la etiqueta "Precio Early Bird" aparecía en MAYÚSCULAS fijas en el código (aunque ya estaba en el tamaño correcto de 14px) — ahora usa el formato normal "Precio Early Bird", igual que tu sitio real.
+
+- 2026-07-20: Se redujo el espacio suelto en las tarjetas de precio: entre el título y la bajada (ej. "En vivo" / "Conecta y aprende") y entre "Precio Early Bird" y los montos — ahora están más juntos, como en tu sitio real. También se evitó que "Precio Early Bird" se corte en dos líneas en la tarjeta oscura.
+
+- 2026-07-20: En Figma Camp, el plan "Grabado" ahora se llama **"On-Demand"** (igual nombre que en Webflow Camp). En las tarjetas de precio de ambos cursos: la bajada ("Conecta y aprende", "Aprende a tu ritmo") ahora es más pequeña, y se quitó el check ✓ que aparecía al lado de cada beneficio.
+
+- 2026-07-20: El copy de la sección de precios que se corrigió antes solo en Webflow Camp ahora también está en **Figma Camp**: mismo título ("Inscríbete y potencia tus habilidades"), mismo subtítulo, y el mismo tag de "Pago seguro vía Stripe" — para que ambos cursos se vean consistentes.
+
+- 2026-07-20: Se llevó el estilo de "selección de texto" (el resaltado que usamos en el Manifiesto) a las **Preguntas frecuentes de Webflow Camp**, resaltando la parte de la respuesta que más aclara la duda: en "¿Necesito saber código?" se resalta "No necesitas conocimientos previos de programación"; en "¿Necesito saber diseño?" se resalta "una herramienta con IA que te ayudará a generar un diseño base"; en "¿Cómo funciona la modalidad On-Demand?" se resalta "recibirás las grabaciones al día siguiente"; y en "¿Se puede pagar en 2 cuotas?" se resalta el detalle del 50%/50%.
+
+- 2026-07-20: Se recuperó la animación del botón "Quiero inscribirme" que tenía tu sitio original (se había perdido al pasar de Webflow a código): en reposo se ve una flecha "→" a la derecha del texto; al pasar el mouse por encima, la flecha desaparece y aparece un puntito amarillo a la izquierda del texto, empujándolo — igual que en tu sitio real. Aplica a todos los botones "Quiero inscribirme" del sitio (hero de Figma/Webflow Camp y las tarjetas de precio).
+
+- 2026-07-20: Se corrigió que el resaltado de texto (estilo "selección"), cuando la frase resaltada ocupaba 2 líneas, se estiraba de más y tapaba todo el ancho del párrafo en vez de terminar justo al lado de la última palabra resaltada. Ahora el recuadro se ajusta línea por línea, como en la referencia que enviaste.
+
+- 2026-07-20: En las tarjetas de precio, el color del botón "Quiero inscribirme" ahora es inverso al de la tarjeta (tarjeta azul → botón negro; tarjeta negra → botón azul), igual que tu sitio real. También se reemplazó la flecha de texto "→" por el ícono real (el SVG de Font Awesome que enviaste), y la animación de hover (flecha que desaparece / puntito que aparece) ahora es más lenta y suave, menos brusca.
+
+- 2026-07-20: Las tarjetas del mazo apilado de "Regalos" (Webflow Camp) ahora miden ~500px de alto (antes 260px, se veían muy achatadas). El botón "Descubre" ahora es amarillo con texto e ícono en negro (antes era blanco), con un ícono real de flechas circulares (refresh) en vez del símbolo de texto "↻".
+
+- 2026-07-20: Se quitó el atenuado gris que aparecía al pasar el mouse sobre los botones "Quiero inscribirme" — ya no hacía falta porque ahora la animación de la flecha/puntito amarillo es el efecto de hover.
+
+- 2026-07-20: **Figma Camp** ahora tiene la misma estructura de secciones que Webflow Camp (mismo contenido, distinto texto adaptado a Figma): se agregó la sección de "Regalos" con el mismo mazo de tarjetas apiladas real (Comunidad forHuman, Relume Pro, Merch oficial), una sección de "Mentoras" (Fiorella Cisneros como Figma Educator, Danitza Rosas como Product Designer) y una sección de "Preguntas frecuentes" con 7 preguntas (antes Figma Camp no tenía ninguna de estas 3 secciones). El sidebar de Figma Camp también se actualizó con los accesos a "Regalos", "Mentoras" y "Preguntas".
+
+- 2026-07-20: Se ajustó el mazo de tarjetas de "Regalos" (Webflow Camp y Figma Camp) para que se parezca a la referencia real: el botón "Descubre" ahora flota superpuesto en el borde inferior de la tarjeta (antes estaba separado, debajo). El logo de cada tarjeta pasó de un ícono pequeño en la esquina a uno grande centrado (llenando el espacio vacío del medio), y siempre se muestra en blanco (antes a veces se ponía en negro, invisible sobre fondos oscuros).
+
 ## How to Customize
 
 - **Cambiar precios o beneficios de los cursos:** en `components/MacDesktopExperience.tsx`, busca `FigmaBody` o `WebflowBody` y edita los valores de `price`, `oldPrice` o las listas de beneficios.

@@ -59,6 +59,16 @@ const FIGMA_BENEFITS_RECORDED = [
   "Librería de componentes Figma incluida",
   "Certificado al completar el programa",
 ];
+const WEBFLOW_BENEFITS_LIVE = [
+  "12 clases en vivo (30 horas)",
+  "Acceso al material y las clases",
+  "Relume Pro 2 meses gratis",
+  "Interacción en vivo con instructores y alumnos",
+  "2 sesiones 1:1 para feedback y dudas (45min c/u)",
+  "Retos semanales prácticos con feedback",
+  "Ejercicios para practicar lo aprendido",
+  "Certificado al completar el programa",
+];
 const WEBFLOW_BENEFITS_RECORDED = [
   "12 clases grabadas (30 horas)",
   "Acceso al material y las clases",
@@ -76,10 +86,45 @@ const WEBFLOW_MODULES = [
   { number: "06", title: "Publicar y optimizar para resultados", body: "Optimizar y publicar tu sitio web en Webflow, asegurando un rendimiento óptimo, mejor posicionamiento SEO y resultados medibles." },
 ];
 
+const FIGMA_MOTIVOS = [
+  { title: "Diseña sistemas, no solo pantallas", body: "Aprenderás a crear componentes y variables reutilizables: la base de cualquier proyecto real, no plantillas sueltas que se rompen al primer cambio." },
+  { title: "Sé alguien menos reemplazable", body: "La IA puede generar una pantalla bonita en segundos. Lo que distingue a quien diseña de verdad es saber estructurar un sistema, tomar decisiones de UX y defenderlas frente a un equipo. Eso es lo que te hace difícil de reemplazar." },
+  { title: "El puente entre diseño, código e IA", body: "Figma sigue siendo el lenguaje común entre diseño, desarrollo y las herramientas de IA. Aprende a entregar archivos listos para producción, sin ida y vuelta interminable." },
+];
+
 const WEBFLOW_MOTIVOS = [
   { title: "Construye proyectos reales", body: "Crearás sitios web profesionales desde cero. No solo teoría, construirás un proyecto completo que puedes usar en tu portfolio." },
-  { title: "Acelera tu carrera profesional", body: "Webflow es una de las herramientas más demandadas en el mercado. Aumenta tu valor como profesional y obtén nuevas oportunidades laborales." },
+  { title: "Sé alguien menos reemplazable", body: "Cualquiera puede generar una web con IA en un fin de semana. Lo que no se automatiza es el criterio: entender qué necesita un cliente, defender una decisión de diseño y resolver cuando algo no sale como el tutorial. Eso es lo que te hace difícil de reemplazar." },
+  { title: "Acelera con IA, sin depender de ella", body: "Aprenderás a usar Figma, Relume e IA para construir más rápido — el mismo flujo que usamos en forHuman Studio con clientes reales. La IA acelera el build; el criterio que aprendes acá es lo que no se puede promptear." },
   { title: "Aprende de expertos certificados", body: "Estudia con Webflow Educators certificados de forHuman, la primera agencia en Perú experta en Webflow." },
+];
+
+const FIGMA_PERKS = [
+  { variant: "blue" as const, heading: "Comunidad forHuman", note: "*Acceso de por vida", body: "Únete a la comunidad privada de estudiantes y egresados de forHuman Studio, para compartir proyectos y resolver dudas.", icon: "/superhuman/icon-figma.svg", iconKind: "color" as const },
+  { variant: "dark" as const, heading: "Relume Pro — 2 meses gratis", note: "*Durante el curso", body: "Acceso completo a la librería de componentes profesionales. Webflow + Figma integrados. Construye 10x más rápido con componentes pre-diseñados y workflows optimizados.", icon: "/superhuman/icon-relume.png", iconKind: "color" as const },
+  { variant: "yellow" as const, heading: "Merch oficial", note: "*Válido para Perú", body: "Participa de las actividades que tendremos presenciales y llévate merch oficial de superHuman School.", icon: "/superhuman/logo-superhuman.svg", iconKind: "mask" as const },
+];
+
+const FIGMA_FAQ = [
+  {
+    q: "¿Necesito saber diseño?",
+    a: <>No. Figma Camp es un curso de nivel básico, pensado para personas que están empezando. <ManifiestoHighlight>No necesitas experiencia previa en diseño</ManifiestoHighlight> para llevar el curso con éxito.</>,
+  },
+  {
+    q: "¿Necesito saber código?",
+    a: <>Tampoco. Figma es una herramienta 100% visual — <ManifiestoHighlight>no vas a escribir una sola línea de código</ManifiestoHighlight>. Trabajarás con auto layout, componentes y variables para armar interfaces reales.</>,
+  },
+  { q: "¿Las clases quedan grabadas?", a: "Sí. Todas las clases se graban y se suben al día siguiente para que puedas verlas con calma o ponerte al día si no pudiste asistir en vivo." },
+  {
+    q: "¿Cómo funciona la modalidad On-Demand?",
+    a: <>Las clases principales se dictan en vivo martes y jueves de 7 a 9pm Perú y se graban. Como estudiante On-Demand <ManifiestoHighlight>recibirás las grabaciones al día siguiente</ManifiestoHighlight>. Además tendrás acceso a 2 sesiones grupales en vivo al mes para resolver dudas junto a otros estudiantes On-Demand.</>,
+  },
+  { q: "¿Cómo funcionan los retos semanales?", a: "Cada semana tendrás un reto práctico donde aplicarás lo aprendido en clase. Estos retos te ayudan a consolidar el conocimiento y avanzar paso a paso en tu proyecto final." },
+  { q: "¿Qué necesito técnicamente?", a: "• Laptop\n• Conexión a internet estable\n• Ganas de construir 🚀" },
+  {
+    q: "¿Se puede pagar en 2 cuotas?",
+    a: <>Sí. Ofrecemos pago en 2 partes: <ManifiestoHighlight>50% al momento de inscribirte y 50% antes de que inicien las clases</ManifiestoHighlight>.</>,
+  },
 ];
 
 const WEBFLOW_PERKS = [
@@ -89,13 +134,25 @@ const WEBFLOW_PERKS = [
 ];
 
 const WEBFLOW_FAQ = [
-  { q: "¿Necesito saber código?", a: "No. Webflow Camp es un curso de nivel básico, pensado para personas que están empezando. No necesitas conocimientos previos de programación para llevar el curso con éxito." },
-  { q: "¿Necesito saber diseño?", a: "Tampoco. Durante el curso trabajaremos con un diseño en Figma que usaremos en clase para desarrollarlo paso a paso en Webflow. Además, para el proyecto final podrás usar una herramienta con IA que te ayudará a generar un diseño base, llevarlo a Figma y luego desarrollarlo en Webflow." },
+  {
+    q: "¿Necesito saber código?",
+    a: <>No. Webflow Camp es un curso de nivel básico, pensado para personas que están empezando. <ManifiestoHighlight>No necesitas conocimientos previos de programación</ManifiestoHighlight> para llevar el curso con éxito.</>,
+  },
+  {
+    q: "¿Necesito saber diseño?",
+    a: <>Tampoco. Durante el curso trabajaremos con un diseño en Figma que usaremos en clase para desarrollarlo paso a paso en Webflow. Además, para el proyecto final podrás usar <ManifiestoHighlight>una herramienta con IA que te ayudará a generar un diseño base</ManifiestoHighlight>, llevarlo a Figma y luego desarrollarlo en Webflow.</>,
+  },
   { q: "¿Las clases quedan grabadas?", a: "Sí. Todas las clases se graban y se suben al día siguiente para que puedas verlas con calma o ponerte al día si no pudiste asistir en vivo." },
-  { q: "¿Cómo funciona la modalidad On-Demand?", a: "Las clases principales se dictan en vivo martes y jueves de 7 a 9pm Perú y se graban. Como estudiante On-Demand recibirás las grabaciones al día siguiente. Además tendrás acceso a 2 sesiones grupales en vivo al mes para resolver dudas junto a otros estudiantes On-Demand." },
+  {
+    q: "¿Cómo funciona la modalidad On-Demand?",
+    a: <>Las clases principales se dictan en vivo martes y jueves de 7 a 9pm Perú y se graban. Como estudiante On-Demand <ManifiestoHighlight>recibirás las grabaciones al día siguiente</ManifiestoHighlight>. Además tendrás acceso a 2 sesiones grupales en vivo al mes para resolver dudas junto a otros estudiantes On-Demand.</>,
+  },
   { q: "¿Cómo funcionan los retos semanales?", a: "Cada semana tendrás un reto práctico donde aplicarás lo aprendido en clase. Estos retos te ayudan a consolidar el conocimiento y avanzar paso a paso en tu proyecto final." },
   { q: "¿Qué necesito técnicamente?", a: "• Laptop\n• Conexión a internet estable\n• Ganas de construir 🚀" },
-  { q: "¿Se puede pagar en 2 cuotas?", a: "Sí. Ofrecemos pago en 2 partes: 50% al momento de inscribirte y 50% antes de que inicien las clases." },
+  {
+    q: "¿Se puede pagar en 2 cuotas?",
+    a: <>Sí. Ofrecemos pago en 2 partes: <ManifiestoHighlight>50% al momento de inscribirte y 50% antes de que inicien las clases</ManifiestoHighlight>.</>,
+  },
 ];
 
 const REAL_PHOTOS = ["/superhuman/mentor-1.jpg", "/superhuman/mentor-2.jpg", "/superhuman/fio-cisneros.jpg"];
@@ -317,9 +374,12 @@ const FINDER_SECTIONS = [
 const FIGMA_SECTIONS = [
   { id: "figma-inicio", label: "Inicio" },
   { id: "figma-programa", label: "Programa" },
-  { id: "figma-bono", label: "Bono" },
+  { id: "figma-motivos", label: "Motivos" },
+  { id: "figma-bono", label: "Regalos" },
   { id: "figma-social", label: "Cupos" },
   { id: "figma-precios", label: "Precios" },
+  { id: "figma-mentores", label: "Mentoras" },
+  { id: "figma-faq", label: "Preguntas" },
 ];
 
 const WEBFLOW_SECTIONS = [
@@ -501,7 +561,7 @@ function LoadingScreen() {
   );
 }
 
-function FaqAccordion({ items }: { items: { q: string; a: string }[] }) {
+function FaqAccordion({ items }: { items: { q: string; a: ReactNode }[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12, flex: 1, minWidth: 320 }}>
@@ -509,7 +569,7 @@ function FaqAccordion({ items }: { items: { q: string; a: string }[] }) {
         const isOpen = openIndex === i;
         return (
           <div
-            key={item.q}
+            key={i}
             style={{
               borderRadius: 12,
               border: "1px solid rgba(255,255,255,0.16)",
@@ -627,65 +687,91 @@ function StackedPerks({ items }: { items: typeof WEBFLOW_PERKS }) {
   const [order, setOrder] = useState(items.map((_, i) => i));
   const next = () => setOrder((o) => [...o.slice(1), o[0]]);
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 32 }}>
-      <div style={{ position: "relative", width: 410, height: 300 }}>
-        {items.map((item, i) => {
-          const pos = order.indexOf(i);
-          const tilt = pos === 0 ? 0 : pos % 2 === 0 ? pos * 2 : pos * -2;
-          return (
-            <motion.div
-              key={item.heading}
-              animate={{ y: pos * 16, scale: 1 - pos * 0.05, rotate: tilt, zIndex: items.length - pos }}
-              transition={{ type: "spring", stiffness: 260, damping: 26 }}
-              style={{ position: "absolute", inset: 0, pointerEvents: pos === 0 ? "auto" : "none" }}
-            >
-              <div style={{ position: "relative" }}>
-                <PromoCard variant={item.variant} heading={item.heading} note={item.note} body={item.body} linkText="" style={{ width: 410, height: 260 }} />
-                {item.iconKind === "mask" ? (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 32,
-                      right: 32,
-                      width: 32,
-                      height: 32,
-                      backgroundColor: item.variant === "yellow" ? "var(--black)" : "var(--white)",
-                      WebkitMaskImage: `url(${item.icon})`,
-                      maskImage: `url(${item.icon})`,
-                      WebkitMaskSize: "contain",
-                      maskSize: "contain",
-                      WebkitMaskRepeat: "no-repeat",
-                      maskRepeat: "no-repeat",
-                      WebkitMaskPosition: "center",
-                      maskPosition: "center",
-                    }}
-                  />
-                ) : (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={item.icon} alt="" style={{ position: "absolute", top: 32, right: 32, width: 40, height: 40, borderRadius: 10, objectFit: "contain" }} />
-                )}
-              </div>
-            </motion.div>
-          );
-        })}
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <div style={{ position: "relative", width: 410 }}>
+        <div style={{ position: "relative", width: 410, height: 500 }}>
+          {items.map((item, i) => {
+            const pos = order.indexOf(i);
+            const tilt = pos === 0 ? 0 : pos % 2 === 0 ? pos * 2 : pos * -2;
+            return (
+              <motion.div
+                key={item.heading}
+                animate={{ y: pos * 16, scale: 1 - pos * 0.05, rotate: tilt, zIndex: items.length - pos }}
+                transition={{ type: "spring", stiffness: 260, damping: 26 }}
+                style={{ position: "absolute", inset: 0, pointerEvents: pos === 0 ? "auto" : "none" }}
+              >
+                <div style={{ position: "relative" }}>
+                  <PromoCard variant={item.variant} heading={item.heading} note={item.note} body={item.body} linkText="" style={{ width: 410, height: 500 }} />
+                  {item.iconKind === "mask" ? (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        width: 120,
+                        height: 120,
+                        backgroundColor: "var(--white)",
+                        WebkitMaskImage: `url(${item.icon})`,
+                        maskImage: `url(${item.icon})`,
+                        WebkitMaskSize: "contain",
+                        maskSize: "contain",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskRepeat: "no-repeat",
+                        WebkitMaskPosition: "center",
+                        maskPosition: "center",
+                      }}
+                    />
+                  ) : (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={item.icon}
+                      alt=""
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        width: 120,
+                        height: 120,
+                        objectFit: "contain",
+                      }}
+                    />
+                  )}
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+        <button
+          onClick={next}
+          style={{
+            position: "absolute",
+            left: "50%",
+            bottom: 0,
+            transform: "translate(-50%, 50%)",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 10,
+            padding: "14px 28px",
+            borderRadius: "var(--radius-full)",
+            border: "none",
+            background: "var(--yellow)",
+            color: "var(--black)",
+            font: "500 18px/1 'Work Sans',sans-serif",
+            cursor: "pointer",
+            whiteSpace: "nowrap",
+          }}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M3 12a9 9 0 0 1 15.3-6.4L21 8" />
+            <path d="M21 3v5h-5" />
+            <path d="M21 12a9 9 0 0 1-15.3 6.4L3 16" />
+            <path d="M3 21v-5h5" />
+          </svg>
+          Descubre
+        </button>
       </div>
-      <button
-        onClick={next}
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: 10,
-          padding: "12px 24px",
-          borderRadius: "var(--radius-full)",
-          border: "none",
-          background: "var(--white)",
-          color: "var(--black)",
-          font: "500 16px/1 'Work Sans',sans-serif",
-          cursor: "pointer",
-        }}
-      >
-        <span style={{ fontSize: 18 }}>↻</span> Descubre
-      </button>
     </div>
   );
 }
@@ -694,7 +780,15 @@ function FigmaBody() {
   return (
     <>
       <section id="figma-inicio" style={{ padding: "64px 64px 56px 64px", display: "flex", flexDirection: "column", gap: 24 }}>
-        <Tag>Nuevo · Inicia 10 Marzo · 15 plazas · 4 semanas</Tag>
+        <Reveal>
+          <HeroPunchBlock
+            kicker="La IA ya genera un mockup en Figma en segundos: acomoda cajas, alinea textos, hasta sugiere una paleta de colores. Si sientes que eso te vuelve prescindible, no es la herramienta lo que tienes que aprender — es el criterio que la IA todavía no tiene."
+            headline={<>Aprende a ser <HeroHighlight>menos reemplazable</HeroHighlight>.</>}
+          />
+        </Reveal>
+        <Reveal delay={0.04}>
+          <Tag>Nuevo · Inicia 10 Marzo · 15 plazas · 4 semanas</Tag>
+        </Reveal>
         <h1 style={{ font: "400 56px/1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)", margin: 0, maxWidth: 820 }}>
           Figma Camp
         </h1>
@@ -718,8 +812,37 @@ function FigmaBody() {
           <CardAprendizaje number="03" title="Prototipado y handoff" body="Interacciones realistas y especificaciones claras para developers." />
         </div>
       </section>
-      <section id="figma-bono" style={{ background: "var(--black)", padding: 64, display: "flex", justifyContent: "center" }}>
-        <PromoCard variant="yellow" />
+      <section id="figma-motivos" style={{ background: "var(--gray-100)", padding: "64px", display: "flex", flexDirection: "column", gap: 32 }}>
+        <Header title="De principiante a builder profesional" subtitle="Motivos para llevar el curso" align="left" />
+        <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+          {FIGMA_MOTIVOS.map((m) => (
+            <div
+              key={m.title}
+              style={{
+                width: 340,
+                background: "var(--pure-white)",
+                borderRadius: "var(--radius-md)",
+                padding: 28,
+                display: "flex",
+                flexDirection: "column",
+                gap: 16,
+                boxSizing: "border-box",
+              }}
+            >
+              <div style={{ width: 32, height: 4, borderRadius: 2, background: "var(--blue)" }} />
+              <div style={{ font: "400 24px/1.15 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)" }}>{m.title}</div>
+              <div style={{ font: "300 15px/1.4 'Work Sans',sans-serif", color: "var(--gray-500)" }}>{m.body}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section id="figma-bono" style={{ background: "var(--black)", padding: 64, display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
+        <Header
+          title="No solo aprendes. También tienes regalos."
+          subtitle="Cada estudiante recibe acceso a herramientas profesionales de la industria."
+          color="var(--white)"
+        />
+        <StackedPerks items={FIGMA_PERKS} />
       </section>
       <section id="figma-social" style={{ background: "var(--blue-light)", padding: "48px 64px", display: "flex", alignItems: "center", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
         <Tag style={{ background: "var(--pure-white)" }}>Primera edición · Grupo reducido</Tag>
@@ -728,11 +851,47 @@ function FigmaBody() {
         </span>
       </section>
       <section id="figma-precios" style={{ padding: "80px 64px", display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
-        <Header title="Tarjetas de precio" subtitle="Elige la modalidad que más te convenga." />
+        <Header title="Inscríbete y potencia tus habilidades" subtitle="Transforma tus habilidades en oportunidades internacionales, tu propia agencia o proyectos independientes." />
+        <StripeTag />
         <div style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
           <CardPricing variant="blue" title="En vivo" subtitle="Conecta y aprende" price="$150" oldPrice="$220" benefits={FIGMA_BENEFITS_LIVE} />
-          <CardPricing variant="dark" title="Grabado" subtitle="Aprende a tu ritmo" price="$100" oldPrice="$150" benefits={FIGMA_BENEFITS_RECORDED} />
+          <CardPricing variant="dark" title="On-Demand" subtitle="Aprende a tu ritmo" price="$100" oldPrice="$150" benefits={FIGMA_BENEFITS_RECORDED} />
         </div>
+      </section>
+      <section id="figma-mentores" style={{ padding: "80px 64px", display: "flex", flexDirection: "column", gap: 40 }}>
+        <Header title="Aprende de Figma Educators certificadas" subtitle="Al finalizar tendrás el conocimiento y las herramientas para diseñar, prototipar y entregar interfaces listas para producción." align="left" />
+        <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+          <MomentumCard style={{ width: 260, borderRadius: "var(--radius-md)", overflow: "hidden", position: "relative" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/superhuman/fio-cisneros.jpg" alt="Fiorella Cisneros" style={{ width: "100%", aspectRatio: "4 / 5", objectFit: "cover", display: "block" }} />
+            <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "24px 20px", background: "linear-gradient(0deg, rgba(0,0,0,0.75), transparent)" }}>
+              <div style={{ font: "500 20px/1 'Manrope',sans-serif", color: "var(--white)" }}>Fiorella Cisneros</div>
+              <div style={{ font: "300 13px/1 'Work Sans',sans-serif", color: "rgba(255,255,255,0.8)" }}>Figma Educator</div>
+            </div>
+          </MomentumCard>
+          <MomentumCard style={{ width: 260, borderRadius: "var(--radius-md)", overflow: "hidden", position: "relative" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/superhuman/mentor-1.jpg" alt="Danitza Rosas" style={{ width: "100%", aspectRatio: "4 / 5", objectFit: "cover", display: "block" }} />
+            <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "24px 20px", background: "linear-gradient(0deg, rgba(0,0,0,0.75), transparent)" }}>
+              <div style={{ font: "500 20px/1 'Manrope',sans-serif", color: "var(--white)" }}>Danitza Rosas</div>
+              <div style={{ font: "300 13px/1 'Work Sans',sans-serif", color: "rgba(255,255,255,0.8)" }}>Product Designer</div>
+            </div>
+          </MomentumCard>
+        </div>
+      </section>
+      <section id="figma-faq" style={{ background: "var(--black)", padding: "80px 64px", display: "flex", gap: 64, flexWrap: "wrap" }}>
+        <div style={{ maxWidth: 400, display: "flex", flexDirection: "column", gap: 16 }}>
+          <span style={{ font: "600 13px/1 'Inconsolata',monospace", letterSpacing: "0.1em", color: "var(--yellow)", textTransform: "uppercase" }}>
+            Antes de empezar
+          </span>
+          <h2 style={{ font: "400 40px/1.15 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)", margin: 0 }}>
+            ¿Tienes dudas? Aquí las resolvemos
+          </h2>
+          <p style={{ font: "300 16px/1.4 'Work Sans',sans-serif", color: "rgba(255,255,255,0.75)", margin: 0 }}>
+            Sabemos que siempre surgen preguntas. Aquí te dejamos las respuestas a las dudas más frecuentes sobre Figma Camp.
+          </p>
+        </div>
+        <FaqAccordion items={FIGMA_FAQ} />
       </section>
     </>
   );
@@ -743,6 +902,12 @@ function WebflowBody() {
     <>
       <section id="webflow-inicio" style={{ padding: "64px 64px 56px 64px", display: "flex", flexDirection: "column", gap: 24 }}>
         <Reveal>
+          <HeroPunchBlock
+            kicker="La IA ya arma una web básica en minutos: crea secciones, aplica estilos, hasta escribe el copy. Si te preocupa que eso te vuelva prescindible, no es Webflow lo que tienes que dominar — es el criterio que la IA todavía no tiene."
+            headline={<>Aprende a ser <HeroHighlight>menos reemplazable</HeroHighlight>.</>}
+          />
+        </Reveal>
+        <Reveal delay={0.04}>
           <Tag>Early Bird · Inicia 25 Febrero · 15 plazas · 5 semanas</Tag>
         </Reveal>
         <Reveal delay={0.08}>
@@ -838,7 +1003,8 @@ function WebflowBody() {
         </RevealGroup>
       </section>
       <section id="webflow-precios" style={{ padding: "80px 64px", display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
-        <Header title="Tarjetas de precio" subtitle="Elige la modalidad que más te convenga." />
+        <Header title="Inscríbete y potencia tus habilidades" subtitle="Transforma tus habilidades en oportunidades internacionales, tu propia agencia o proyectos independientes." />
+        <StripeTag />
         <RevealGroup style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
           <CardPricing
             variant="blue"
@@ -846,6 +1012,7 @@ function WebflowBody() {
             subtitle="Conecta y aprende"
             price="$180"
             oldPrice="$250"
+            benefits={WEBFLOW_BENEFITS_LIVE}
             onCtaClick={() =>
               window.open(
                 `https://api.whatsapp.com/send/?phone=%2B51936098806&text=${encodeURIComponent("Hola Fio, me interesa el curso en vivo")}&type=phone_number&app_absent=0`,
@@ -1027,10 +1194,84 @@ function ManifiestoHighlight({ children }: { children: ReactNode }) {
   return <span className="shs-ios-select">{children}</span>;
 }
 
+function HeroKicker({ children }: { children: ReactNode }) {
+  return (
+    <p
+      style={{
+        font: "500 17px/1.5 'Work Sans',sans-serif",
+        color: "var(--gray-500)",
+        margin: 0,
+        maxWidth: 640,
+      }}
+    >
+      {children}
+    </p>
+  );
+}
+
+function HeroBig({ children }: { children: ReactNode }) {
+  return (
+    <p
+      style={{
+        font: "700 60px/1.05 'Manrope',sans-serif",
+        letterSpacing: "-0.01em",
+        textTransform: "uppercase",
+        color: "var(--black)",
+        margin: 0,
+        maxWidth: 900,
+      }}
+    >
+      {children}
+    </p>
+  );
+}
+
+function HeroHighlight({ children }: { children: ReactNode }) {
+  return <span className="shs-ios-select-blue">{children}</span>;
+}
+
+function StripeTag() {
+  return (
+    <div
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 8,
+        padding: "6px 16px",
+        borderRadius: 4,
+        background: "var(--blue-light)",
+        color: "var(--blue)",
+      }}
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2m0 14H4v-6h16zm0-10H4V6h16z" />
+      </svg>
+      <span style={{ font: "400 14px/1 'Work Sans',sans-serif" }}>
+        Pago seguro vía Stripe (Tarjetas de crédito o débito)
+      </span>
+    </div>
+  );
+}
+
+function HeroPunchBlock({ kicker, headline }: { kicker: ReactNode; headline: ReactNode }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      <HeroKicker>{kicker}</HeroKicker>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/superhuman/hero-ai-detection.png"
+        alt="Detección de personas con IA, superpuesta sobre una foto de un cruce peatonal"
+        style={{ width: "100%", height: 480, objectFit: "cover", objectPosition: "top", borderRadius: "var(--radius-md)" }}
+      />
+      <HeroBig>{headline}</HeroBig>
+    </div>
+  );
+}
+
 function ManifiestoBody({ now, compact = false }: { now: Date | null; compact?: boolean }) {
   const pad = compact ? "16px 20px 40px" : "24px 56px 64px";
   return (
-    <div style={{ padding: pad, display: "flex", flexDirection: "column", gap: 20, maxWidth: 720 }}>
+    <div style={{ padding: pad, display: "flex", flexDirection: "column", gap: compact ? 24 : 30, maxWidth: 720 }}>
       <span style={{ font: "400 13px/1 'Work Sans',sans-serif", color: "rgba(247,247,247,0.5)", textAlign: "center" }}>
         {now ? formatNotesDateTime(now) : ""}
       </span>
@@ -1055,8 +1296,8 @@ function ManifiestoBody({ now, compact = false }: { now: Date | null; compact?: 
         <ManifiestoHighlight>trabajando con clientes reales, no solo enseñando teoría</ManifiestoHighlight>.
       </p>
       <p style={{ font: `300 ${compact ? 15 : 18}px/1.6 'Work Sans',sans-serif`, color: "rgba(247,247,247,0.9)", margin: 0 }}>
-        En un mercado saturado de cursos grabados y certificados de fin de semana, el diferencial va a seguir siendo el mismo:
-        <ManifiestoHighlight>oficio, criterio y comunidad</ManifiestoHighlight>.
+        En un mercado saturado de cursos grabados y certificados de fin de semana, el diferencial ya no es la herramienta, es el criterio. La IA acelera el build — la usamos todos los días en forHuman Studio — pero no reemplaza saber qué necesita un cliente, ni defender una decisión cuando algo no sale como el tutorial. Por eso no formamos gente que sepa apretar botones: formamos
+        <ManifiestoHighlight>gente menos reemplazable</ManifiestoHighlight>.
       </p>
       <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", marginTop: compact ? 8 : 24 }}>
         <span style={{ font: `400 ${compact ? 30 : 38}px/1 'Reenie Beanie',cursive`, color: "#F7F7F7" }}>Dani y Fio</span>
