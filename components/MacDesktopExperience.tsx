@@ -146,6 +146,7 @@ function WindowChrome({
   onClose,
   closing = false,
   sidebar,
+  sidebarOpen,
   onToggleSidebar,
   inset = { top: "5%", left: "7%", right: "7%", bottom: "5%" },
   titleBarVariant = "dark",
@@ -156,6 +157,7 @@ function WindowChrome({
   onClose: () => void;
   closing?: boolean;
   sidebar?: ReactNode;
+  sidebarOpen?: boolean;
   onToggleSidebar?: () => void;
   inset?: { top?: string; left: string; right: string; bottom?: string };
   titleBarVariant?: "dark" | "light";
@@ -164,6 +166,15 @@ function WindowChrome({
   const titleColor = titleBarVariant === "light" ? "#0D0D0D" : "#F7F7F7";
   const fitHeight = !inset.bottom;
   const [trafficHover, setTrafficHover] = useState(false);
+  const [contentFade, setContentFade] = useState(1);
+  const prevSidebarOpen = useRef(sidebarOpen);
+  useEffect(() => {
+    if (prevSidebarOpen.current === sidebarOpen) return;
+    prevSidebarOpen.current = sidebarOpen;
+    setContentFade(0.4);
+    const t = setTimeout(() => setContentFade(1), 20);
+    return () => clearTimeout(t);
+  }, [sidebarOpen]);
   const appWindow = (
     <div
       className={`shs-app-window${closing ? " shs-app-window-closing" : ""}`}
@@ -247,7 +258,16 @@ function WindowChrome({
         </div>
         <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
           {sidebar}
-          <div className="shs-scroll" style={{ overflowY: "auto", flex: 1, background: bg }}>
+          <div
+            className="shs-scroll"
+            style={{
+              overflowY: "auto",
+              flex: 1,
+              background: bg,
+              opacity: contentFade,
+              transition: "opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
+            }}
+          >
             {children}
           </div>
         </div>
@@ -1500,6 +1520,7 @@ export function MacDesktopExperience() {
               title={windowTitles.figma}
               onClose={closeApp}
               closing={closingApp === "figma"}
+              sidebarOpen={figmaSidebarOpen}
               onToggleSidebar={() => setFigmaSidebarOpen((v) => !v)}
               sidebar={<AppSidebar sections={FIGMA_SECTIONS} active={figmaSection} onSelect={(id) => goToSection(setFigmaSection, id)} open={figmaSidebarOpen} />}
             >
@@ -1511,6 +1532,7 @@ export function MacDesktopExperience() {
               title={windowTitles.webflow}
               onClose={closeApp}
               closing={closingApp === "webflow"}
+              sidebarOpen={webflowSidebarOpen}
               onToggleSidebar={() => setWebflowSidebarOpen((v) => !v)}
               sidebar={<AppSidebar sections={WEBFLOW_SECTIONS} active={webflowSection} onSelect={(id) => goToSection(setWebflowSection, id)} open={webflowSidebarOpen} />}
             >
@@ -1522,6 +1544,7 @@ export function MacDesktopExperience() {
               title={windowTitles.finder}
               onClose={closeApp}
               closing={closingApp === "finder"}
+              sidebarOpen={finderSidebarOpen}
               onToggleSidebar={() => setFinderSidebarOpen((v) => !v)}
               sidebar={<AppSidebar sections={FINDER_SECTIONS} active={finderSection} onSelect={(id) => goToSection(setFinderSection, id)} open={finderSidebarOpen} />}
               inset={{ top: "10%", left: "14%", right: "14%", bottom: "10%" }}
@@ -1535,6 +1558,7 @@ export function MacDesktopExperience() {
               bg="var(--white)"
               onClose={closeApp}
               closing={closingApp === "photos"}
+              sidebarOpen={fotosSidebarOpen}
               onToggleSidebar={() => setFotosSidebarOpen((v) => !v)}
               sidebar={<AppSidebar label="Destacadas" sections={FOTOS_SECTIONS} active={fotosSection} onSelect={(id) => goToSection(setFotosSection, id)} open={fotosSidebarOpen} />}
               inset={{ left: "16%", right: "16%" }}
