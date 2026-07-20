@@ -154,6 +154,7 @@ body {
 
 .shs-scroll {
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 @media (max-width: 859px) {

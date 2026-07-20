@@ -16,6 +16,7 @@ export function CardPricing({
     "Webflow CMS 1 año gratis",
     "Certificado al completar el programa",
   ],
+  onCtaClick,
   style,
 }: {
   variant?: "blue" | "dark";
@@ -27,6 +28,7 @@ export function CardPricing({
   ctaLabel?: string;
   footnote?: string;
   benefits?: string[];
+  onCtaClick?: () => void;
   style?: CSSProperties;
 }) {
   const dark = variant === "dark";
@@ -34,7 +36,10 @@ export function CardPricing({
   return (
     <div
       style={{
-        width: 460,
+        width: "100%",
+        maxWidth: 460,
+        flex: "1 1 380px",
+        minWidth: 0,
         borderRadius: 16,
         background: bg,
         padding: 48,
@@ -67,7 +72,7 @@ export function CardPricing({
         </div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        <PrincipalButton variant="light" style={{ width: "100%" }}>
+        <PrincipalButton variant="light" style={{ width: "100%" }} onClick={onCtaClick}>
           {ctaLabel}
         </PrincipalButton>
         <span style={{ font: "300 14px/1 'Work Sans',sans-serif", color: "var(--white)", textAlign: "center" }}>
