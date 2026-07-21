@@ -5,12 +5,16 @@ export function Header({
   subtitle = "Más cursos especializados en herramientas modernas.",
   align = "center",
   color = "var(--black)",
+  kicker,
+  kickerColor,
   style,
 }: {
   title?: string;
   subtitle?: string;
   align?: "center" | "left";
   color?: string;
+  kicker?: string;
+  kickerColor?: string;
   style?: CSSProperties;
 }) {
   return (
@@ -18,12 +22,24 @@ export function Header({
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: 32,
+        gap: kicker ? 16 : 32,
         alignItems: align === "center" ? "center" : "flex-start",
         textAlign: align,
         ...style,
       }}
     >
+      {kicker && (
+        <span
+          style={{
+            font: "600 13px/1 'Inconsolata',monospace",
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            color: kickerColor ?? color,
+          }}
+        >
+          {kicker}
+        </span>
+      )}
       <span style={{ font: "400 64px/1 'Manrope',sans-serif", letterSpacing: "-0.03em", color }}>
         {title}
       </span>
