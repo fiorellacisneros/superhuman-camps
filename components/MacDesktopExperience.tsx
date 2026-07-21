@@ -87,21 +87,20 @@ const WEBFLOW_MODULES = [
 ];
 
 const FIGMA_MOTIVOS = [
-  { title: "Diseña sistemas, no solo pantallas", body: "Aprenderás a crear componentes y variables reutilizables: la base de cualquier proyecto real, no plantillas sueltas que se rompen al primer cambio." },
-  { title: "Sé alguien menos reemplazable", body: "La IA puede generar una pantalla bonita en segundos. Lo que distingue a quien diseña de verdad es saber estructurar un sistema, tomar decisiones de UX y defenderlas frente a un equipo. Eso es lo que te hace difícil de reemplazar." },
-  { title: "El puente entre diseño, código e IA", body: "Figma sigue siendo el lenguaje común entre diseño, desarrollo y las herramientas de IA. Aprende a entregar archivos listos para producción, sin ida y vuelta interminable." },
+  { title: "Diseña sistemas, no solo pantallas", body: "Aprende a crear componentes y variables reutilizables: la base de cualquier proyecto real." },
+  { title: "Sé alguien menos reemplazable", body: "La IA genera una pantalla en segundos, pero no estructura un sistema ni defiende una decisión de UX." },
+  { title: "El puente entre diseño, código e IA", body: "Figma es el lenguaje común entre diseño, desarrollo e IA. Entrega archivos listos para producción." },
 ];
 
 const WEBFLOW_MOTIVOS = [
-  { title: "Construye proyectos reales", body: "Crearás sitios web profesionales desde cero. No solo teoría, construirás un proyecto completo que puedes usar en tu portfolio." },
-  { title: "Sé alguien menos reemplazable", body: "Cualquiera puede generar una web con IA en un fin de semana. Lo que no se automatiza es el criterio: entender qué necesita un cliente, defender una decisión de diseño y resolver cuando algo no sale como el tutorial. Eso es lo que te hace difícil de reemplazar." },
-  { title: "Acelera con IA, sin depender de ella", body: "Aprenderás a usar Figma, Relume e IA para construir más rápido — el mismo flujo que usamos en forHuman Studio con clientes reales. La IA acelera el build; el criterio que aprendes acá es lo que no se puede promptear." },
-  { title: "Aprende de expertos certificados", body: "Estudia con Webflow Educators certificados de forHuman, la primera agencia en Perú experta en Webflow." },
+  { title: "Construye proyectos reales", body: "Crearás un sitio web profesional completo, de cero a publicado, que puedes usar en tu portfolio." },
+  { title: "Sé alguien menos reemplazable", body: "La IA acelera el build, pero no reemplaza el criterio: entender al cliente y defender una decisión de diseño." },
+  { title: "Acelera con IA, sin depender de ella", body: "Aprende a usar Figma, Relume e IA para construir más rápido — el mismo flujo que usamos con clientes reales." },
 ];
 
 const FIGMA_PERKS = [
   { variant: "blue" as const, heading: "Comunidad forHuman", note: "*Acceso de por vida", body: "Únete a la comunidad privada de estudiantes y egresados de forHuman Studio, para compartir proyectos y resolver dudas.", icon: "/superhuman/icon-figma.svg", iconKind: "color" as const },
-  { variant: "dark" as const, heading: "Relume Pro — 2 meses gratis", note: "*Durante el curso", body: "Acceso completo a la librería de componentes profesionales. Webflow + Figma integrados. Construye 10x más rápido con componentes pre-diseñados y workflows optimizados.", icon: "/superhuman/icon-relume.png", iconKind: "color" as const },
+  { variant: "light" as const, heading: "Relume Pro — 2 meses gratis", note: "*Durante el curso", body: "Acceso completo a la librería de componentes profesionales. Webflow + Figma integrados. Construye 10x más rápido con componentes pre-diseñados y workflows optimizados.", icon: "/superhuman/icon-relume.png", iconKind: "color" as const },
   { variant: "yellow" as const, heading: "Merch oficial", note: "*Válido para Perú", body: "Participa de las actividades que tendremos presenciales y llévate merch oficial de superHuman School.", icon: "/superhuman/logo-superhuman.svg", iconKind: "mask" as const },
 ];
 
@@ -129,7 +128,7 @@ const FIGMA_FAQ = [
 
 const WEBFLOW_PERKS = [
   { variant: "blue" as const, heading: "Figma Educator", note: "*Solo proyectos personales", body: "Accede gratis al plan Professional de Figma como participante del camp.", icon: "/superhuman/icon-figma.svg", iconKind: "color" as const },
-  { variant: "dark" as const, heading: "Relume Pro — 2 meses gratis", note: "*Durante el curso", body: "Acceso completo a la librería de componentes profesionales. Webflow + Figma integrados. Construye 10x más rápido con componentes pre-diseñados y workflows optimizados.", icon: "/superhuman/icon-relume.png", iconKind: "color" as const },
+  { variant: "light" as const, heading: "Relume Pro — 2 meses gratis", note: "*Durante el curso", body: "Acceso completo a la librería de componentes profesionales. Webflow + Figma integrados. Construye 10x más rápido con componentes pre-diseñados y workflows optimizados.", icon: "/superhuman/icon-relume.png", iconKind: "color" as const },
   { variant: "yellow" as const, heading: "Merch oficial", note: "*Válido para Perú", body: "Participa de las actividades que tendremos presenciales y llévate merch oficial.", icon: "/superhuman/icon-webflow-mark.svg", iconKind: "mask" as const },
 ];
 
@@ -376,7 +375,6 @@ const FIGMA_SECTIONS = [
   { id: "figma-programa", label: "Programa" },
   { id: "figma-motivos", label: "Motivos" },
   { id: "figma-bono", label: "Regalos" },
-  { id: "figma-social", label: "Cupos" },
   { id: "figma-precios", label: "Precios" },
   { id: "figma-mentores", label: "Mentoras" },
   { id: "figma-faq", label: "Preguntas" },
@@ -387,7 +385,6 @@ const WEBFLOW_SECTIONS = [
   { id: "webflow-programa", label: "Programa" },
   { id: "webflow-motivos", label: "Motivos" },
   { id: "webflow-bono", label: "Regalos" },
-  { id: "webflow-social", label: "Testimonios" },
   { id: "webflow-precios", label: "Precios" },
   { id: "webflow-mentores", label: "Mentoras" },
   { id: "webflow-faq", label: "Preguntas" },
@@ -583,7 +580,7 @@ function FaqAccordion({ items }: { items: { q: string; a: ReactNode }[] }) {
               <span
                 style={{
                   font: "400 22px/1 'Work Sans',sans-serif",
-                  color: "var(--yellow)",
+                  color: "var(--white)",
                   transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
                   transition: "transform 0.2s ease",
                   flexShrink: 0,
@@ -641,16 +638,20 @@ function Reveal({
 function RevealGroup({
   children,
   style,
+  className,
+  itemStyle,
   staggerDelay = 0.08,
 }: {
   children: ReactNode[];
   style?: CSSProperties;
+  className?: string;
+  itemStyle?: CSSProperties;
   staggerDelay?: number;
 }) {
   return (
-    <div style={style}>
+    <div style={style} className={className}>
       {children.map((child, i) => (
-        <Reveal key={i} delay={i * staggerDelay}>
+        <Reveal key={i} delay={i * staggerDelay} style={itemStyle}>
           {child}
         </Reveal>
       ))}
@@ -683,7 +684,16 @@ function MomentumCard({ children, style }: { children: ReactNode; style?: CSSPro
   );
 }
 
-function StackedPerks({ items }: { items: typeof WEBFLOW_PERKS }) {
+type PerkItem = {
+  variant: "yellow" | "dark" | "blue" | "light";
+  heading: string;
+  note: string;
+  body: string;
+  icon: string;
+  iconKind: "color" | "mask";
+};
+
+function StackedPerks({ items }: { items: PerkItem[] }) {
   const [order, setOrder] = useState(items.map((_, i) => i));
   const next = () => setOrder((o) => [...o.slice(1), o[0]]);
   return (
@@ -711,7 +721,7 @@ function StackedPerks({ items }: { items: typeof WEBFLOW_PERKS }) {
                         transform: "translate(-50%, -50%)",
                         width: 120,
                         height: 120,
-                        backgroundColor: "var(--white)",
+                        backgroundColor: item.variant === "yellow" || item.variant === "light" ? "var(--black)" : "var(--white)",
                         WebkitMaskImage: `url(${item.icon})`,
                         maskImage: `url(${item.icon})`,
                         WebkitMaskSize: "contain",
@@ -749,6 +759,7 @@ function StackedPerks({ items }: { items: typeof WEBFLOW_PERKS }) {
             position: "absolute",
             left: "50%",
             bottom: 0,
+            zIndex: 999,
             transform: "translate(-50%, 50%)",
             display: "inline-flex",
             alignItems: "center",
@@ -776,6 +787,52 @@ function StackedPerks({ items }: { items: typeof WEBFLOW_PERKS }) {
   );
 }
 
+function SumateCTA({ courseName, weeks, targetId }: { courseName: string; weeks: string; targetId: string }) {
+  return (
+    <Reveal style={{ width: "100%", maxWidth: 900 }}>
+      <div
+        style={{
+          background: "var(--blue)",
+          borderRadius: "var(--radius-md)",
+          padding: "56px 48px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 24,
+          textAlign: "center",
+        }}
+      >
+        <h2 style={{ font: "400 48px/1.1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)", margin: 0, maxWidth: 640 }}>
+          Súmate al {courseName}
+        </h2>
+        <p style={{ font: "300 20px/1.4 'Work Sans',sans-serif", color: "rgba(255,255,255,0.9)", margin: 0, maxWidth: 640 }}>
+          <strong style={{ fontWeight: 600 }}>{weeks}</strong> intensivas donde construirás <strong style={{ fontWeight: 600 }}>2 proyectos publicados</strong>, obtén aprendizaje real y beneficios exclusivos de nuestro camp!
+        </p>
+        <button
+          onClick={() => document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" })}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 10,
+            padding: "12px 24px",
+            borderRadius: "var(--radius-full)",
+            border: "none",
+            background: "var(--blue-light)",
+            color: "var(--black)",
+            font: "500 16px/1 'Work Sans',sans-serif",
+            cursor: "pointer",
+          }}
+        >
+          Ver cronograma
+          <svg width="16" height="16" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true">
+            <path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z" />
+          </svg>
+        </button>
+      </div>
+    </Reveal>
+  );
+}
+
 function FigmaBody() {
   return (
     <>
@@ -789,37 +846,56 @@ function FigmaBody() {
         <Reveal delay={0.04}>
           <Tag>Nuevo · Inicia 10 Marzo · 15 plazas · 4 semanas</Tag>
         </Reveal>
-        <h1 style={{ font: "400 56px/1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)", margin: 0, maxWidth: 820 }}>
-          Figma Camp
-        </h1>
-        <p style={{ font: "300 22px/1.3 'Work Sans',sans-serif", color: "var(--black)", maxWidth: 680, margin: 0 }}>
-          Programa intensivo para dominar Figma: sistemas de diseño, prototipado y handoff con desarrollo. De cero a listo para producción.
-        </p>
-        <div style={{ display: "flex", gap: 24, marginTop: 8 }}>
-          <PrincipalButton variant="primary">Quiero inscribirme</PrincipalButton>
-          <TextButton href="#">Ver beneficios</TextButton>
-        </div>
+        <Reveal delay={0.08}>
+          <h1 style={{ font: "400 56px/1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)", margin: 0, maxWidth: 820 }}>
+            Figma Camp
+          </h1>
+        </Reveal>
+        <Reveal delay={0.16}>
+          <p style={{ font: "300 22px/1.3 'Work Sans',sans-serif", color: "var(--black)", maxWidth: 680, margin: 0 }}>
+            Programa intensivo para dominar Figma: sistemas de diseño, prototipado y handoff con desarrollo. De cero a listo para producción.
+          </p>
+        </Reveal>
+        <Reveal delay={0.24}>
+          <div style={{ display: "flex", gap: 24, marginTop: 8 }}>
+            <PrincipalButton variant="primary">Quiero inscribirme</PrincipalButton>
+            <TextButton href="#">Ver beneficios</TextButton>
+          </div>
+        </Reveal>
       </section>
       <section id="figma-programa" style={{ padding: "0 64px 80px 64px", display: "flex", flexDirection: "column", gap: 32 }}>
-        <Header
-          title="El programa"
-          subtitle="Al finalizar tendrás el conocimiento y las herramientas para diseñar, prototipar y entregar interfaces listas para producción."
-          align="left"
-        />
-        <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
-          <CardAprendizaje number="01" title="Fundamentos de Figma" body="Interfaz, componentes y auto layout para trabajar rápido y ordenado." />
-          <CardAprendizaje number="02" title="Sistemas de diseño" body="Variables, estilos y librerías compartidas para escalar cualquier proyecto." />
-          <CardAprendizaje number="03" title="Prototipado y handoff" body="Interacciones realistas y especificaciones claras para developers." />
-        </div>
+        <Reveal>
+          <Header
+            kicker="Currículum"
+            title="El programa"
+            subtitle="Al finalizar tendrás el conocimiento y las herramientas para diseñar, prototipar y entregar interfaces listas para producción."
+            align="left"
+          />
+        </Reveal>
+        <RevealGroup
+          className="shs-motivos-row"
+          style={{ display: "flex", gap: 20, alignItems: "stretch" }}
+          itemStyle={{ flex: "1 1 0", minWidth: 0 }}
+        >
+          <CardAprendizaje number="01" title="Fundamentos de Figma" body="Interfaz, componentes y auto layout para trabajar rápido y ordenado." style={{ width: "100%", height: "100%" }} />
+          <CardAprendizaje number="02" title="Sistemas de diseño" body="Variables, estilos y librerías compartidas para escalar cualquier proyecto." style={{ width: "100%", height: "100%" }} />
+          <CardAprendizaje number="03" title="Prototipado y handoff" body="Interacciones realistas y especificaciones claras para developers." style={{ width: "100%", height: "100%" }} />
+        </RevealGroup>
       </section>
       <section id="figma-motivos" style={{ background: "var(--gray-100)", padding: "64px", display: "flex", flexDirection: "column", gap: 32 }}>
-        <Header title="De principiante a builder profesional" subtitle="Motivos para llevar el curso" align="left" />
-        <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+        <Reveal>
+          <Header kicker="Por qué este camp" title="De principiante a builder profesional" subtitle="Motivos para llevar el curso" align="left" />
+        </Reveal>
+        <RevealGroup
+          className="shs-motivos-row"
+          style={{ display: "flex", gap: 20, alignItems: "stretch" }}
+          itemStyle={{ flex: "1 1 0", minWidth: 0 }}
+        >
           {FIGMA_MOTIVOS.map((m) => (
             <div
               key={m.title}
               style={{
-                width: 340,
+                height: "100%",
                 background: "var(--pure-white)",
                 borderRadius: "var(--radius-md)",
                 padding: 28,
@@ -834,33 +910,44 @@ function FigmaBody() {
               <div style={{ font: "300 15px/1.4 'Work Sans',sans-serif", color: "var(--gray-500)" }}>{m.body}</div>
             </div>
           ))}
-        </div>
+        </RevealGroup>
       </section>
       <section id="figma-bono" style={{ background: "var(--black)", padding: 64, display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
-        <Header
-          title="No solo aprendes. También tienes regalos."
-          subtitle="Cada estudiante recibe acceso a herramientas profesionales de la industria."
-          color="var(--white)"
-        />
-        <StackedPerks items={FIGMA_PERKS} />
-      </section>
-      <section id="figma-social" style={{ background: "var(--blue-light)", padding: "48px 64px", display: "flex", alignItems: "center", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
-        <Tag style={{ background: "var(--pure-white)" }}>Primera edición · Grupo reducido</Tag>
-        <span style={{ font: "400 22px/1.3 'Manrope',sans-serif", color: "var(--black)", textAlign: "center" }}>
-          Solo 15 cupos por cohorte, para que la mentoría sea realmente 1 a 1.
-        </span>
+        <Reveal>
+          <Header
+            kicker="Beneficios"
+            kickerColor="var(--yellow)"
+            title="No solo aprendes. También tienes regalos."
+            subtitle="Cada estudiante recibe acceso a herramientas profesionales de la industria."
+            color="var(--white)"
+          />
+        </Reveal>
+        <Reveal>
+          <StackedPerks items={FIGMA_PERKS} />
+        </Reveal>
       </section>
       <section id="figma-precios" style={{ padding: "80px 64px", display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
-        <Header title="Inscríbete y potencia tus habilidades" subtitle="Transforma tus habilidades en oportunidades internacionales, tu propia agencia o proyectos independientes." />
+        <Reveal>
+          <Header kicker="Precios" title="Inscríbete y potencia tus habilidades" subtitle="Transforma tus habilidades en oportunidades internacionales, tu propia agencia o proyectos independientes." />
+        </Reveal>
         <StripeTag />
-        <div style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
+        <RevealGroup style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
           <CardPricing variant="blue" title="En vivo" subtitle="Conecta y aprende" price="$150" oldPrice="$220" benefits={FIGMA_BENEFITS_LIVE} />
           <CardPricing variant="dark" title="On-Demand" subtitle="Aprende a tu ritmo" price="$100" oldPrice="$150" benefits={FIGMA_BENEFITS_RECORDED} />
-        </div>
+        </RevealGroup>
       </section>
-      <section id="figma-mentores" style={{ padding: "80px 64px", display: "flex", flexDirection: "column", gap: 40 }}>
-        <Header title="Aprende de Figma Educators certificadas" subtitle="Al finalizar tendrás el conocimiento y las herramientas para diseñar, prototipar y entregar interfaces listas para producción." align="left" />
-        <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+      <section id="figma-mentores" className="shs-mentores-row" style={{ background: "var(--black)", padding: "80px 64px", display: "flex", gap: 48, flexWrap: "nowrap", alignItems: "center" }}>
+        <Reveal style={{ flex: "1 1 320px", minWidth: 0 }}>
+          <Header
+            kicker="Quiénes te enseñan"
+            kickerColor="rgba(255,255,255,0.6)"
+            title="Aprende de Figma Educators certificadas"
+            subtitle="Al finalizar tendrás el conocimiento y las herramientas para diseñar, prototipar y entregar interfaces listas para producción."
+            align="left"
+            color="var(--white)"
+          />
+        </Reveal>
+        <RevealGroup style={{ display: "flex", gap: 24, flexWrap: "nowrap", flexShrink: 0, minWidth: 0 }}>
           <MomentumCard style={{ width: 260, borderRadius: "var(--radius-md)", overflow: "hidden", position: "relative" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/superhuman/fio-cisneros.jpg" alt="Fiorella Cisneros" style={{ width: "100%", aspectRatio: "4 / 5", objectFit: "cover", display: "block" }} />
@@ -877,10 +964,13 @@ function FigmaBody() {
               <div style={{ font: "300 13px/1 'Work Sans',sans-serif", color: "rgba(255,255,255,0.8)" }}>Product Designer</div>
             </div>
           </MomentumCard>
-        </div>
+        </RevealGroup>
+      </section>
+      <section id="figma-cta" style={{ background: "var(--black)", padding: 64, display: "flex", justifyContent: "center" }}>
+        <SumateCTA courseName="Figma Camp" weeks="4 semanas" targetId="figma-programa" />
       </section>
       <section id="figma-faq" style={{ background: "var(--black)", padding: "80px 64px", display: "flex", gap: 64, flexWrap: "wrap" }}>
-        <div style={{ maxWidth: 400, display: "flex", flexDirection: "column", gap: 16 }}>
+        <Reveal style={{ maxWidth: 400, display: "flex", flexDirection: "column", gap: 16 }}>
           <span style={{ font: "600 13px/1 'Inconsolata',monospace", letterSpacing: "0.1em", color: "var(--yellow)", textTransform: "uppercase" }}>
             Antes de empezar
           </span>
@@ -890,8 +980,10 @@ function FigmaBody() {
           <p style={{ font: "300 16px/1.4 'Work Sans',sans-serif", color: "rgba(255,255,255,0.75)", margin: 0 }}>
             Sabemos que siempre surgen preguntas. Aquí te dejamos las respuestas a las dudas más frecuentes sobre Figma Camp.
           </p>
-        </div>
-        <FaqAccordion items={FIGMA_FAQ} />
+        </Reveal>
+        <Reveal delay={0.1} style={{ flex: 1, minWidth: 320 }}>
+          <FaqAccordion items={FIGMA_FAQ} />
+        </Reveal>
       </section>
     </>
   );
@@ -928,11 +1020,14 @@ function WebflowBody() {
         </Reveal>
       </section>
       <section id="webflow-programa" style={{ padding: "0 64px 80px 64px", display: "flex", flexDirection: "column", gap: 32 }}>
-        <Header
-          title="El programa"
-          subtitle="Al finalizar tendrás el conocimiento y las herramientas para crear y lanzar sitios web sin depender de código."
-          align="left"
-        />
+        <Reveal>
+          <Header
+            kicker="Currículum"
+            title="El programa"
+            subtitle="Al finalizar tendrás el conocimiento y las herramientas para crear y lanzar sitios web sin depender de código."
+            align="left"
+          />
+        </Reveal>
         <RevealGroup style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
           {WEBFLOW_MODULES.map((m) => (
             <CardAprendizaje key={m.number} number={m.number} title={m.title} body={m.body} />
@@ -940,13 +1035,19 @@ function WebflowBody() {
         </RevealGroup>
       </section>
       <section id="webflow-motivos" style={{ background: "var(--gray-100)", padding: "64px", display: "flex", flexDirection: "column", gap: 32 }}>
-        <Header title="De principiante a builder profesional" subtitle="Motivos para llevar el curso" align="left" />
-        <RevealGroup style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+        <Reveal>
+          <Header kicker="Por qué este camp" title="De principiante a builder profesional" subtitle="Motivos para llevar el curso" align="left" />
+        </Reveal>
+        <RevealGroup
+          className="shs-motivos-row"
+          style={{ display: "flex", gap: 20, alignItems: "stretch" }}
+          itemStyle={{ flex: "1 1 0", minWidth: 0 }}
+        >
           {WEBFLOW_MOTIVOS.map((m) => (
             <div
               key={m.title}
               style={{
-                width: 340,
+                height: "100%",
                 background: "var(--pure-white)",
                 borderRadius: "var(--radius-md)",
                 padding: 28,
@@ -964,46 +1065,23 @@ function WebflowBody() {
         </RevealGroup>
       </section>
       <section id="webflow-bono" style={{ background: "var(--black)", padding: 64, display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
-        <Header
-          title="No solo aprendes. También tienes regalos."
-          subtitle="Cada estudiante recibe acceso a herramientas profesionales de la industria."
-          color="var(--white)"
-        />
+        <Reveal>
+          <Header
+            kicker="Beneficios"
+            kickerColor="var(--yellow)"
+            title="No solo aprendes. También tienes regalos."
+            subtitle="Cada estudiante recibe acceso a herramientas profesionales de la industria."
+            color="var(--white)"
+          />
+        </Reveal>
         <Reveal>
           <StackedPerks items={WEBFLOW_PERKS} />
         </Reveal>
       </section>
-      <section id="webflow-social" style={{ background: "var(--blue-light)", padding: "64px", display: "flex", flexDirection: "column", gap: 40, alignItems: "center" }}>
-        <RevealGroup style={{ display: "flex", gap: 64, flexWrap: "wrap", justifyContent: "center" }}>
-          <DataStat value="150+" label="Alumnos formados en Webflow Camp" />
-          <DataStat value="9.3/10" label="Recomendarían el curso a un amigo o colega" />
-          <DataStat value="15" label="Cupos por cohorte — grupo reducido" />
-        </RevealGroup>
-        <RevealGroup style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
-          {WEBFLOW_TESTIMONIALS.map((t) => (
-            <div
-              key={t.author}
-              style={{
-                width: 360,
-                background: "var(--pure-white)",
-                borderRadius: "var(--radius-md)",
-                padding: 28,
-                display: "flex",
-                flexDirection: "column",
-                gap: 16,
-                boxSizing: "border-box",
-              }}
-            >
-              <span style={{ font: "300 17px/1.5 'Work Sans',sans-serif", color: "var(--black)" }}>
-                &ldquo;{t.quote}&rdquo;
-              </span>
-              <span style={{ font: "500 13px/1 'Work Sans',sans-serif", color: "var(--blue)" }}>{t.author}</span>
-            </div>
-          ))}
-        </RevealGroup>
-      </section>
       <section id="webflow-precios" style={{ padding: "80px 64px", display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
-        <Header title="Inscríbete y potencia tus habilidades" subtitle="Transforma tus habilidades en oportunidades internacionales, tu propia agencia o proyectos independientes." />
+        <Reveal>
+          <Header kicker="Precios" title="Inscríbete y potencia tus habilidades" subtitle="Transforma tus habilidades en oportunidades internacionales, tu propia agencia o proyectos independientes." />
+        </Reveal>
         <StripeTag />
         <RevealGroup style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
           <CardPricing
@@ -1039,9 +1117,18 @@ function WebflowBody() {
           />
         </RevealGroup>
       </section>
-      <section id="webflow-mentores" style={{ padding: "80px 64px", display: "flex", flexDirection: "column", gap: 40 }}>
-        <Header title="Aprende de Webflow Educators certificadas" subtitle="Al finalizar tendrás el conocimiento y las herramientas para crear y lanzar sitios web sin depender de código." align="left" />
-        <RevealGroup style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+      <section id="webflow-mentores" className="shs-mentores-row" style={{ background: "var(--black)", padding: "80px 64px", display: "flex", gap: 48, flexWrap: "nowrap", alignItems: "center" }}>
+        <Reveal style={{ flex: "1 1 320px", minWidth: 0 }}>
+          <Header
+            kicker="Quiénes te enseñan"
+            kickerColor="rgba(255,255,255,0.6)"
+            title="Aprende de Webflow Educators certificadas"
+            subtitle="Al finalizar tendrás el conocimiento y las herramientas para crear y lanzar sitios web sin depender de código."
+            align="left"
+            color="var(--white)"
+          />
+        </Reveal>
+        <RevealGroup style={{ display: "flex", gap: 24, flexWrap: "nowrap", flexShrink: 0, minWidth: 0 }}>
           <MomentumCard style={{ width: 260, borderRadius: "var(--radius-md)", overflow: "hidden", position: "relative" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/superhuman/fio-cisneros.jpg" alt="Fiorella Cisneros" style={{ width: "100%", aspectRatio: "4 / 5", objectFit: "cover", display: "block" }} />
@@ -1060,6 +1147,9 @@ function WebflowBody() {
           </MomentumCard>
         </RevealGroup>
       </section>
+      <section id="webflow-cta" style={{ background: "var(--black)", padding: 64, display: "flex", justifyContent: "center" }}>
+        <SumateCTA courseName="Webflow Camp" weeks="6 semanas" targetId="webflow-programa" />
+      </section>
       <section id="webflow-faq" style={{ background: "var(--black)", padding: "80px 64px", display: "flex", gap: 64, flexWrap: "wrap" }}>
         <Reveal style={{ maxWidth: 400, display: "flex", flexDirection: "column", gap: 16 }}>
           <span style={{ font: "600 13px/1 'Inconsolata',monospace", letterSpacing: "0.1em", color: "var(--yellow)", textTransform: "uppercase" }}>
@@ -1072,7 +1162,9 @@ function WebflowBody() {
             Sabemos que siempre surgen preguntas. Aquí te dejamos las respuestas a las dudas más frecuentes sobre Webflow Camp.
           </p>
         </Reveal>
-        <FaqAccordion items={WEBFLOW_FAQ} />
+        <Reveal delay={0.1} style={{ flex: 1, minWidth: 320 }}>
+          <FaqAccordion items={WEBFLOW_FAQ} />
+        </Reveal>
       </section>
     </>
   );

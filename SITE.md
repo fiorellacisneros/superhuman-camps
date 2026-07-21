@@ -111,6 +111,35 @@ En pantallas de celular, todo el mismo contenido se muestra dentro de un marco d
 
 - 2026-07-20: Se ajustó el mazo de tarjetas de "Regalos" (Webflow Camp y Figma Camp) para que se parezca a la referencia real: el botón "Descubre" ahora flota superpuesto en el borde inferior de la tarjeta (antes estaba separado, debajo). El logo de cada tarjeta pasó de un ícono pequeño en la esquina a uno grande centrado (llenando el espacio vacío del medio), y siempre se muestra en blanco (antes a veces se ponía en negro, invisible sobre fondos oscuros).
 
+- 2026-07-20: Se corrigieron 3 problemas más en el mazo de "Regalos": el botón "Descubre" no se veía porque la tarjeta de encima lo tapaba (problema de superposición de capas) — ahora el botón siempre queda al frente. La tarjeta negra de "Relume Pro" se cambió a blanca, porque al estar sobre un fondo negro no se distinguía — ahora tiene buen contraste, y su logo se ajustó a negro para que se vea bien sobre el fondo blanco. También se le dio más espacio abajo al texto de cada tarjeta para que el botón flotante no lo tape.
+
+- 2026-07-20: Las notas manuscritas ("*Durante el curso", "*Válido para Perú", etc.) en las tarjetas de "Regalos" ahora van debajo del título en vez de al costado — antes, al estar al lado, apretaban el título y lo cortaban en dos líneas cuando no cabía.
+
+- 2026-07-20: Cambios grandes en la sección de "Mentoras" y lo que viene después, en ambos cursos, para que coincida con tu sitio real:
+  - La sección de "Mentoras" (Educators) ahora tiene fondo negro con texto blanco, igual que tu sitio (antes tenía fondo blanco).
+  - Se agregó el CTA real "Súmate al Webflow/Figma Camp" (con el copy exacto que enviaste: "X semanas intensivas donde construirás 2 proyectos publicados...") entre la sección de Mentoras y las Preguntas frecuentes — antes no existía.
+  - **Se quitó** la sección que estaba antes de precios: en Webflow Camp era el bloque de estadísticas y testimonios reales (150+ alumnos, 9.3/10, 2 testimonios); en Figma Camp era el aviso "Primera edición · Grupo reducido". Los datos de los testimonios siguen guardados en el código (`WEBFLOW_TESTIMONIALS`) por si quieres que los reubique en otra parte de la página — avísame si los quieres de vuelta y dónde.
+
+- 2026-07-20: Varios ajustes de pulido:
+  - El botón "Ver beneficios" del hero ahora tiene una animación al pasar el mouse: la flecha se desliza levemente a la derecha y se dibuja una línea azul debajo del texto (crece de 0% a 100% del ancho), sutil y no instantánea.
+  - La sección "De principiante a builder profesional" ahora muestra solo **3 tarjetas** (antes 4 en Webflow Camp) con menos texto cada una, y las 3 siempre tienen la misma altura (si una tiene más texto, las demás se estiran para igualarla) — aplica en Webflow Camp y Figma Camp.
+  - Se agregó la animación de aparición al hacer scroll (la misma que ya tenían las tarjetas) a **todas** las secciones de Webflow Camp y Figma Camp que todavía no la tenían: el resto del hero, el programa, los regalos, las tarjetas de precio, las mentoras y las preguntas frecuentes.
+
+- 2026-07-20: Tres ajustes más:
+  - El CTA "Súmate al Figma Camp" ahora tiene fondo negro con botón amarillo (antes era azul como el de Webflow Camp, que se mantiene azul con botón celeste claro).
+  - El ícono "+" de las Preguntas frecuentes ahora es blanco (antes era amarillo).
+  - Las 3 tarjetas de "De principiante a builder profesional" ahora se mantienen una al lado de la otra en pantallas grandes, sin importar el ancho disponible (antes podían saltar a una fila nueva); en mobile se apilan una debajo de otra, como el resto del sitio.
+
+- 2026-07-20: Corrección de rumbo sobre el CTA "Súmate al Camp": entendí mal el pedido anterior — la tarjeta en sí sigue siendo azul (como estaba, no negra), pero ahora es más ancha (hasta 900px). Lo que sí se puso negro fue el fondo de la sección que la rodea, porque quedaba como un espacio blanco entre las secciones de Mentoras y Preguntas frecuentes (ambas negras) — ahora todo ese tramo se ve continuo.
+
+- 2026-07-20: Se agregó una etiqueta pequeña (kicker) arriba del título en varias secciones de Webflow Camp y Figma Camp, con el mismo estilo que ya usaba "Antes de empezar" en Preguntas frecuentes — por ejemplo "Currículum" (Programa), "Por qué este camp" (Motivos), "Beneficios" (Regalos), "Precios", y "Quiénes te enseñan" (Mentoras, tomado de tu sitio real de Webflow). También se envolvieron **todos los títulos de sección** (que antes aparecían de golpe) en la misma animación de aparición al hacer scroll que ya tenían las tarjetas.
+
+- 2026-07-20: La sección de "Mentoras" (Educators) en Webflow Camp y Figma Camp cambió de diseño: el texto (título y bajada) y las fotos ahora van uno al costado del otro (texto a la izquierda, fotos a la derecha), igual que en tu sitio real — antes el texto estaba arriba y las fotos debajo, ocupando todo el ancho. En mobile se siguen acomodando uno debajo del otro.
+
+- 2026-07-20: Se corrigió que las fotos seguían apareciendo debajo del texto en vez de al costado cuando la ventana no era muy ancha (por ejemplo con el sidebar abierto) — el diseño se "rompía" a dos filas antes de tiempo. Ahora se fuerza a que texto y fotos siempre queden en la misma fila en desktop (se achican un poco si hace falta), y solo se apilan en pantallas de mobile de verdad.
+
+- 2026-07-20: Mismo tipo de arreglo en "El programa" de **Figma Camp**: las 3 tarjetas de módulos (Fundamentos, Sistemas de diseño, Prototipado) se veían con la tercera saltando a una fila aparte por su ancho fijo. Ahora las 3 se mantienen siempre en una sola fila en desktop, y solo se apilan en mobile.
+
 ## How to Customize
 
 - **Cambiar precios o beneficios de los cursos:** en `components/MacDesktopExperience.tsx`, busca `FigmaBody` o `WebflowBody` y edita los valores de `price`, `oldPrice` o las listas de beneficios.

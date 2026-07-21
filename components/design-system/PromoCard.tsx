@@ -4,18 +4,21 @@ const BG: Record<string, string> = {
   yellow: "var(--yellow)",
   dark: "var(--black)",
   blue: "var(--blue)",
+  light: "var(--white)",
   outline: "transparent",
 };
 const TEXT: Record<string, string> = {
   yellow: "var(--black)",
   dark: "var(--white)",
   blue: "var(--white)",
+  light: "var(--black)",
   outline: "var(--black)",
 };
 const LINK: Record<string, string> = {
   yellow: "var(--blue)",
   dark: "var(--yellow)",
   blue: "var(--yellow)",
+  light: "var(--blue)",
   outline: "var(--blue)",
 };
 
@@ -27,7 +30,7 @@ export function PromoCard({
   linkText = "Otra frasesita por aquí",
   style,
 }: {
-  variant?: "yellow" | "dark" | "blue" | "outline";
+  variant?: "yellow" | "dark" | "blue" | "light" | "outline";
   heading?: string;
   note?: string;
   body?: string;
@@ -42,7 +45,7 @@ export function PromoCard({
         borderRadius: "var(--radius-md)",
         background: BG[variant],
         boxShadow: outline ? "inset 0 0 0 1px var(--border-subtle)" : "none",
-        padding: 32,
+        padding: "32px 32px 56px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -52,7 +55,7 @@ export function PromoCard({
         ...style,
       }}
     >
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 16 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         <div style={{ font: "400 28px/1.05 'Manrope',sans-serif", letterSpacing: "-0.03em", color: TEXT[variant] }}>
           {heading}
         </div>
@@ -61,7 +64,7 @@ export function PromoCard({
             font: "400 22px 'Reenie Beanie',cursive",
             color: "var(--blue)",
             transform: "rotate(-3deg)",
-            whiteSpace: "nowrap",
+            transformOrigin: "left center",
           }}
         >
           {note}

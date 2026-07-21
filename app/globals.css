@@ -213,6 +213,15 @@ body {
     overflow-wrap: break-word !important;
     word-break: break-word !important;
   }
+  .shs-motivos-row {
+    flex-direction: column !important;
+  }
+  .shs-mentores-row {
+    flex-direction: column !important;
+  }
+  .shs-mentores-row > div {
+    width: 100% !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
