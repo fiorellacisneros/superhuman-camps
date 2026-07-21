@@ -1,6 +1,6 @@
 "use client";
 
-import { CSSProperties, ReactNode, useEffect, useRef, useState } from "react";
+import { CSSProperties, FormEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { Tag } from "@/components/design-system/Tag";
 import { PrincipalButton } from "@/components/design-system/PrincipalButton";
@@ -833,6 +833,108 @@ function SumateCTA({ courseName, weeks, targetId }: { courseName: string; weeks:
   );
 }
 
+function SiteFooter() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+  const footerRef = useRef<HTMLDivElement>(null);
+  const isFooterInView = useInView(footerRef, { once: true, margin: "-15% 0px" });
+
+  const submit = async (e: FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+    setErrorMsg("");
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Algo salió mal");
+      setStatus("done");
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg(err instanceof Error ? err.message : "Algo salió mal");
+    }
+  };
+
+  return (
+    <footer ref={footerRef} style={{ position: "relative", background: "var(--pure-white)", paddingTop: 64, overflow: "hidden" }}>
+      <motion.div
+        initial={{ opacity: 1 }}
+        animate={isFooterInView ? { opacity: 0 } : {}}
+        transition={{ duration: 1.1, ease: [0.65, 0, 0.35, 1] }}
+        style={{ position: "absolute", inset: 0, background: "var(--black)", zIndex: 2, pointerEvents: "none" }}
+      />
+      <Reveal>
+        <div style={{ padding: "0 64px", display: "flex", justifyContent: "flex-end" }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 12, maxWidth: 360, textAlign: "right" }}>
+            <span style={{ font: "400 13px/1.4 'Work Sans',sans-serif", color: "var(--gray-500)" }}>
+              Recibe novedades de próximos camps y contenido para builders.
+            </span>
+            {status === "done" ? (
+              <span style={{ font: "500 14px/1 'Work Sans',sans-serif", color: "var(--blue)" }}>
+                ¡Listo! Ya estás suscrito.
+              </span>
+            ) : (
+              <form onSubmit={submit} style={{ display: "flex", gap: 8 }}>
+                <input
+                  type="email"
+                  required
+                  placeholder="tu@correo.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={{
+                    padding: "12px 16px",
+                    borderRadius: 0,
+                    border: "1px solid var(--border-subtle)",
+                    background: "transparent",
+                    color: "var(--black)",
+                    font: "400 14px/1 'Work Sans',sans-serif",
+                    width: 200,
+                    outline: "none",
+                  }}
+                />
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  style={{
+                    padding: "12px 20px",
+                    borderRadius: "var(--radius-full)",
+                    border: "none",
+                    background: "var(--blue)",
+                    color: "var(--white)",
+                    font: "500 14px/1 'Work Sans',sans-serif",
+                    cursor: status === "loading" ? "default" : "pointer",
+                    opacity: status === "loading" ? 0.7 : 1,
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {status === "loading" ? "Enviando..." : "Suscribirme"}
+                </button>
+              </form>
+            )}
+            {status === "error" && (
+              <span style={{ font: "400 12px/1.3 'Work Sans',sans-serif", color: "var(--gray-500)" }}>{errorMsg}</span>
+            )}
+          </div>
+        </div>
+      </Reveal>
+      <div style={{ marginTop: 48, overflow: "hidden" }}>
+        <motion.img
+          src="/superhuman/logo-footer.svg"
+          alt="superHuman School"
+          initial={{ y: 30, opacity: 0 }}
+          animate={isFooterInView ? { y: 0, opacity: 1 } : {}}
+          transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{ width: "100%", display: "block" }}
+        />
+      </div>
+    </footer>
+  );
+}
+
 function FigmaBody() {
   return (
     <>
@@ -857,7 +959,7 @@ function FigmaBody() {
           </p>
         </Reveal>
         <Reveal delay={0.24}>
-          <div style={{ display: "flex", gap: 24, marginTop: 8 }}>
+          <div style={{ display: "flex", gap: 24, marginTop: 8, alignItems: "center" }}>
             <PrincipalButton variant="primary">Quiero inscribirme</PrincipalButton>
             <TextButton href="#">Ver beneficios</TextButton>
           </div>
@@ -985,6 +1087,7 @@ function FigmaBody() {
           <FaqAccordion items={FIGMA_FAQ} />
         </Reveal>
       </section>
+      <SiteFooter />
     </>
   );
 }
@@ -1013,7 +1116,7 @@ function WebflowBody() {
           </p>
         </Reveal>
         <Reveal delay={0.24}>
-          <div style={{ display: "flex", gap: 24, marginTop: 8 }}>
+          <div style={{ display: "flex", gap: 24, marginTop: 8, alignItems: "center" }}>
             <PrincipalButton variant="primary">Quiero inscribirme</PrincipalButton>
             <TextButton href="#">Ver beneficios</TextButton>
           </div>
@@ -1166,6 +1269,7 @@ function WebflowBody() {
           <FaqAccordion items={WEBFLOW_FAQ} />
         </Reveal>
       </section>
+      <SiteFooter />
     </>
   );
 }
@@ -1217,6 +1321,7 @@ function FinderBody() {
           </motion.div>
         </RevealGroup>
       </section>
+      <SiteFooter />
     </>
   );
 }
@@ -1475,6 +1580,10 @@ function DockTooltip({ label }: { label: string }) {
   );
 }
 
+const DOCK_MAGNIFY_RADIUS = 130;
+const DOCK_MAGNIFY_MAX_SCALE = 1.6;
+const DOCK_MAGNIFY_LIFT = 14;
+
 function DockIcon({
   label,
   hoverId,
@@ -1482,6 +1591,7 @@ function DockIcon({
   onHover,
   onClick,
   open = false,
+  mouseX,
   children,
 }: {
   label: string;
@@ -1490,14 +1600,38 @@ function DockIcon({
   onHover: (v: HoverId) => void;
   onClick?: () => void;
   open?: boolean;
+  mouseX: number | null;
   children: ReactNode;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    if (mouseX === null || !ref.current) {
+      setScale(1);
+      return;
+    }
+    const rect = ref.current.getBoundingClientRect();
+    const center = rect.left + rect.width / 2;
+    const distance = Math.abs(mouseX - center);
+    const falloff = Math.max(0, 1 - distance / DOCK_MAGNIFY_RADIUS);
+    setScale(1 + falloff * (DOCK_MAGNIFY_MAX_SCALE - 1));
+  }, [mouseX]);
+
   return (
     <div style={{ position: "relative" }} onMouseEnter={() => onHover(hoverId)} onMouseLeave={() => onHover(null)}>
       {hovered === hoverId && <DockTooltip label={label} />}
-      <div className="shs-dock-icon" onClick={onClick} style={dockIconBase}>
+      <motion.div
+        ref={ref}
+        className="shs-dock-icon"
+        onClick={onClick}
+        animate={{ scale, y: -(scale - 1) * DOCK_MAGNIFY_LIFT }}
+        whileTap={{ scale: scale * 0.9 }}
+        transition={{ type: "spring", stiffness: 320, damping: 20, mass: 0.6 }}
+        style={dockIconBase}
+      >
         {children}
-      </div>
+      </motion.div>
       {open && (
         <div
           style={{
@@ -1535,6 +1669,7 @@ export function MacDesktopExperience() {
   const [loadingApp, setLoadingApp] = useState<AppId>(null);
   const [closingApp, setClosingApp] = useState<AppId>(null);
   const [hoveredApp, setHoveredApp] = useState<HoverId>(null);
+  const [dockMouseX, setDockMouseX] = useState<number | null>(null);
   const [now, setNow] = useState<Date | null>(null);
   const [deviceScale, setDeviceScale] = useState(1);
   const [folderPos, setFolderPos] = useState({ x: 0, y: 52 });
@@ -1807,6 +1942,8 @@ export function MacDesktopExperience() {
 
           {/* Dock */}
           <div
+            onMouseMove={(e) => setDockMouseX(e.clientX)}
+            onMouseLeave={() => setDockMouseX(null)}
             style={{
               position: "absolute",
               bottom: 14,
@@ -1823,22 +1960,22 @@ export function MacDesktopExperience() {
               zIndex: 30,
             }}
           >
-            <DockIcon label="Finder" hoverId="finder" hovered={hoveredApp} onHover={setHoveredApp} onClick={() => openWindow("finder")} open={openApp === "finder"}>
+            <DockIcon label="Finder" hoverId="finder" hovered={hoveredApp} onHover={setHoveredApp} onClick={() => openWindow("finder")} open={openApp === "finder"} mouseX={dockMouseX}>
               <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-finder-app.svg) center / cover no-repeat" }} />
             </DockIcon>
-            <DockIcon label="Figma Camp" hoverId="figma" hovered={hoveredApp} onHover={setHoveredApp} onClick={() => openWindow("figma")} open={openApp === "figma"}>
+            <DockIcon label="Figma Camp" hoverId="figma" hovered={hoveredApp} onHover={setHoveredApp} onClick={() => openWindow("figma")} open={openApp === "figma"} mouseX={dockMouseX}>
               <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-figma.svg) center / cover no-repeat" }} />
             </DockIcon>
-            <DockIcon label="Webflow Camp" hoverId="webflow" hovered={hoveredApp} onHover={setHoveredApp} onClick={() => openWindow("webflow")} open={openApp === "webflow"}>
+            <DockIcon label="Webflow Camp" hoverId="webflow" hovered={hoveredApp} onHover={setHoveredApp} onClick={() => openWindow("webflow")} open={openApp === "webflow"} mouseX={dockMouseX}>
               <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-webflow.svg) center / cover no-repeat" }} />
             </DockIcon>
-            <DockIcon label="Fotos" hoverId="photos" hovered={hoveredApp} onHover={setHoveredApp} onClick={() => openWindow("photos")} open={openApp === "photos" || loadingApp === "photos"}>
+            <DockIcon label="Fotos" hoverId="photos" hovered={hoveredApp} onHover={setHoveredApp} onClick={() => openWindow("photos")} open={openApp === "photos" || loadingApp === "photos"} mouseX={dockMouseX}>
               <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-fotos.svg) center / cover no-repeat" }} />
             </DockIcon>
-            <DockIcon label="Notas" hoverId="notas" hovered={hoveredApp} onHover={setHoveredApp} onClick={() => openWindow("notas")} open={openApp === "notas"}>
+            <DockIcon label="Notas" hoverId="notas" hovered={hoveredApp} onHover={setHoveredApp} onClick={() => openWindow("notas")} open={openApp === "notas"} mouseX={dockMouseX}>
               <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-notas.svg) center / cover no-repeat" }} />
             </DockIcon>
-            <DockIcon label="Spotify" hoverId="spotify" hovered={hoveredApp} onHover={setHoveredApp} onClick={() => openWindow("spotify")} open={openApp === "spotify"}>
+            <DockIcon label="Spotify" hoverId="spotify" hovered={hoveredApp} onHover={setHoveredApp} onClick={() => openWindow("spotify")} open={openApp === "spotify"} mouseX={dockMouseX}>
               <div style={{ width: 56, height: 56, borderRadius: 14, background: "url(/superhuman/icon-spotify.svg) center / cover no-repeat" }} />
             </DockIcon>
           </div>

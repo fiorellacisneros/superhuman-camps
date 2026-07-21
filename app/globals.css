@@ -77,15 +77,8 @@ body {
 }
 
 .shs-dock-icon {
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   transform-origin: bottom center;
   will-change: transform;
-}
-.shs-dock-icon:hover {
-  transform: scale(1.15);
-}
-.shs-dock-icon:active {
-  transform: scale(0.94);
 }
 
 .shs-scroll::-webkit-scrollbar {

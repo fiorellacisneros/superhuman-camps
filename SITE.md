@@ -140,6 +140,14 @@ En pantallas de celular, todo el mismo contenido se muestra dentro de un marco d
 
 - 2026-07-20: Mismo tipo de arreglo en "El programa" de **Figma Camp**: las 3 tarjetas de módulos (Fundamentos, Sistemas de diseño, Prototipado) se veían con la tercera saltando a una fila aparte por su ancho fijo. Ahora las 3 se mantienen siempre en una sola fila en desktop, y solo se apilan en mobile.
 
+- 2026-07-20: Se corrigió que "Ver beneficios" se veía más arriba que el botón "Quiero inscribirme" al lado — pasó al agregarle la línea azul debajo al hover (que le sumó algo de alto extra). Ahora ambos quedan centrados verticalmente entre sí.
+
+- 2026-07-20: El **dock** (la barra de íconos abajo del escritorio) ahora tiene el efecto real de "magnificación" del Dock de macOS: al mover el mouse por encima, el ícono más cercano al cursor crece más, y los vecinos crecen un poco menos según la distancia — con un pequeño salto hacia arriba, como en una Mac real. Antes solo el ícono exacto bajo el cursor se agrandaba (con un simple hover de CSS), sin afectar a los de al lado.
+
+- 2026-07-20: Se agregó un **footer** al final de Figma Camp, Webflow Camp y Finder (Nosotras): un mensaje corto invitando a suscribirse, un campo de correo con botón "Suscribirme", y debajo el logo grande de superHuman a todo el ancho (edge-to-edge), tomado de tu archivo real (`public/superhuman/logo-footer.svg`). Cuando alguien se suscribe, se guarda como contacto en una Audience de **Resend** — para que funcione de verdad falta agregar 2 variables de entorno: `RESEND_API_KEY` (tu clave de Resend) y `RESEND_AUDIENCE_ID` (el ID de la lista de contactos donde se guardan los suscriptores). El endpoint que procesa la suscripción está en `app/api/subscribe/route.ts`. Mientras esas variables no estén configuradas, el formulario mostrará un mensaje de error al enviarse.
+
+- 2026-07-20: Se ajustó el footer para que coincida con tu sitio real: ahora tiene **fondo blanco** (antes negro), el formulario de suscripción quedó alineado a la **derecha** (antes centrado), con texto más pequeño, un campo de correo con el estilo exacto de tus formularios de Webflow (borde fino, esquinas rectas, fondo transparente) y un botón azul (antes amarillo, para que combine con el fondo blanco). El logo grande de abajo ahora tiene una animación de entrada al hacer scroll (aparece deslizándose hacia arriba con un fundido), un efecto similar al parallax que tenía tu sitio original en esa sección.
+
 ## How to Customize
 
 - **Cambiar precios o beneficios de los cursos:** en `components/MacDesktopExperience.tsx`, busca `FigmaBody` o `WebflowBody` y edita los valores de `price`, `oldPrice` o las listas de beneficios.
