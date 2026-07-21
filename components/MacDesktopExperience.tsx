@@ -131,22 +131,22 @@ const FIGMA_PERKS = [
 const FIGMA_FAQ = [
   {
     q: "¿Necesito saber diseño?",
-    a: <>No. Figma Camp es un curso de nivel básico, pensado para personas que están empezando. <ManifiestoHighlight>No necesitas experiencia previa en diseño</ManifiestoHighlight> para llevar el curso con éxito.</>,
+    a: "No. Figma Camp es un curso de nivel básico, pensado para personas que están empezando. No necesitas experiencia previa en diseño para llevar el curso con éxito.",
   },
   {
     q: "¿Necesito saber código?",
-    a: <>Tampoco. Figma es una herramienta 100% visual — <ManifiestoHighlight>no vas a escribir una sola línea de código</ManifiestoHighlight>. Trabajarás con auto layout, componentes y variables para armar interfaces reales.</>,
+    a: "Tampoco. Figma es una herramienta 100% visual — no vas a escribir una sola línea de código. Trabajarás con auto layout, componentes y variables para armar interfaces reales.",
   },
   { q: "¿Las clases quedan grabadas?", a: "Sí. Todas las clases se graban y se suben al día siguiente para que puedas verlas con calma o ponerte al día si no pudiste asistir en vivo." },
   {
     q: "¿Cómo funciona la modalidad On-Demand?",
-    a: <>Las clases principales se dictan en vivo martes y jueves de 7 a 9pm Perú y se graban. Como estudiante On-Demand <ManifiestoHighlight>recibirás las grabaciones al día siguiente</ManifiestoHighlight>. Además tendrás acceso a 2 sesiones grupales en vivo al mes para resolver dudas junto a otros estudiantes On-Demand.</>,
+    a: "Las clases principales se dictan en vivo martes y jueves de 7 a 9pm Perú y se graban. Como estudiante On-Demand recibirás las grabaciones al día siguiente. Además tendrás acceso a 2 sesiones grupales en vivo al mes para resolver dudas junto a otros estudiantes On-Demand.",
   },
   { q: "¿Cómo funcionan los retos semanales?", a: "Cada semana tendrás un reto práctico donde aplicarás lo aprendido en clase. Estos retos te ayudan a consolidar el conocimiento y avanzar paso a paso en tu proyecto final." },
   { q: "¿Qué necesito técnicamente?", a: "• Laptop\n• Conexión a internet estable\n• Ganas de construir 🚀" },
   {
     q: "¿Se puede pagar en 2 cuotas?",
-    a: <>Sí. Ofrecemos pago en 2 partes: <ManifiestoHighlight>50% al momento de inscribirte y 50% antes de que inicien las clases</ManifiestoHighlight>.</>,
+    a: "Sí. Ofrecemos pago en 2 partes: 50% al momento de inscribirte y 50% antes de que inicien las clases.",
   },
 ];
 
@@ -159,22 +159,22 @@ const WEBFLOW_PERKS = [
 const WEBFLOW_FAQ = [
   {
     q: "¿Necesito saber código?",
-    a: <>No. Webflow Camp es un curso de nivel básico, pensado para personas que están empezando. <ManifiestoHighlight>No necesitas conocimientos previos de programación</ManifiestoHighlight> para llevar el curso con éxito.</>,
+    a: "No. Webflow Camp es un curso de nivel básico, pensado para personas que están empezando. No necesitas conocimientos previos de programación para llevar el curso con éxito.",
   },
   {
     q: "¿Necesito saber diseño?",
-    a: <>Tampoco. Durante el curso trabajaremos con un diseño en Figma que usaremos en clase para desarrollarlo paso a paso en Webflow. Además, para el proyecto final podrás usar <ManifiestoHighlight>una herramienta con IA que te ayudará a generar un diseño base</ManifiestoHighlight>, llevarlo a Figma y luego desarrollarlo en Webflow.</>,
+    a: "Tampoco. Durante el curso trabajaremos con un diseño en Figma que usaremos en clase para desarrollarlo paso a paso en Webflow. Además, para el proyecto final podrás usar una herramienta con IA que te ayudará a generar un diseño base, llevarlo a Figma y luego desarrollarlo en Webflow.",
   },
   { q: "¿Las clases quedan grabadas?", a: "Sí. Todas las clases se graban y se suben al día siguiente para que puedas verlas con calma o ponerte al día si no pudiste asistir en vivo." },
   {
     q: "¿Cómo funciona la modalidad On-Demand?",
-    a: <>Las clases principales se dictan en vivo martes y jueves de 7 a 9pm Perú y se graban. Como estudiante On-Demand <ManifiestoHighlight>recibirás las grabaciones al día siguiente</ManifiestoHighlight>. Además tendrás acceso a 2 sesiones grupales en vivo al mes para resolver dudas junto a otros estudiantes On-Demand.</>,
+    a: "Las clases principales se dictan en vivo martes y jueves de 7 a 9pm Perú y se graban. Como estudiante On-Demand recibirás las grabaciones al día siguiente. Además tendrás acceso a 2 sesiones grupales en vivo al mes para resolver dudas junto a otros estudiantes On-Demand.",
   },
   { q: "¿Cómo funcionan los retos semanales?", a: "Cada semana tendrás un reto práctico donde aplicarás lo aprendido en clase. Estos retos te ayudan a consolidar el conocimiento y avanzar paso a paso en tu proyecto final." },
   { q: "¿Qué necesito técnicamente?", a: "• Laptop\n• Conexión a internet estable\n• Ganas de construir 🚀" },
   {
     q: "¿Se puede pagar en 2 cuotas?",
-    a: <>Sí. Ofrecemos pago en 2 partes: <ManifiestoHighlight>50% al momento de inscribirte y 50% antes de que inicien las clases</ManifiestoHighlight>.</>,
+    a: "Sí. Ofrecemos pago en 2 partes: 50% al momento de inscribirte y 50% antes de que inicien las clases.",
   },
 ];
 
@@ -1622,15 +1622,16 @@ function SelectHighlight({
   children,
   className,
   dotColor,
-  dotSize = "0.55em",
+  dotRatio = 0.55,
 }: {
   children: ReactNode;
   className: string;
   dotColor: string;
-  dotSize?: string;
+  /** Dot diameter as a fraction of the highlighted text's own font-size (not the page's). */
+  dotRatio?: number;
 }) {
   const textRef = useRef<HTMLSpanElement>(null);
-  const [dots, setDots] = useState<{ x: number; y: number }[] | null>(null);
+  const [dots, setDots] = useState<{ x: number; y: number; size: number }[] | null>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -1638,26 +1639,48 @@ function SelectHighlight({
   }, []);
 
   useEffect(() => {
+    let rafId = 0;
+    let lastKey = "";
+
     const measure = () => {
       const text = textRef.current;
-      if (!text) return;
-      const rects = text.getClientRects();
-      if (!rects.length) return;
-      const first = rects[0];
-      const last = rects[rects.length - 1];
-      setDots([
-        { x: first.left, y: first.top + first.height / 2 },
-        { x: last.right, y: last.top + last.height / 2 },
-      ]);
+      if (!text) {
+        rafId = requestAnimationFrame(measure);
+        return;
+      }
+      // Ignore degenerate/zero-size fragments some browsers emit at wrap points.
+      const rects = Array.from(text.getClientRects()).filter((r) => r.width > 0.5 && r.height > 0.5);
+      if (rects.length) {
+        const first = rects[0];
+        const last = rects[rects.length - 1];
+        const fontSize = parseFloat(getComputedStyle(text).fontSize) || 16;
+        const size = fontSize * dotRatio;
+        const key = `${first.left},${first.top},${last.right},${last.bottom},${size}`;
+        if (key !== lastKey) {
+          lastKey = key;
+          setDots([
+            // iOS-style handles: start knob sits above the top of its line,
+            // end knob sits below the bottom of its line.
+            { x: first.left, y: first.top, size },
+            { x: last.right, y: last.bottom, size },
+          ]);
+        }
+      } else if (lastKey !== "") {
+        // Text collapsed to zero size (e.g. a closed accordion/FAQ) — clear the
+        // dots immediately instead of leaving them frozen at their last spot.
+        lastKey = "";
+        setDots(null);
+      }
+      // Keep tracking continuously: the highlighted text sits inside animated
+      // (Framer Motion) wrappers that move via transform, which resize/scroll
+      // listeners never fire for — a rAF loop is the only reliable way to stay
+      // pinned to the text through reveal animations and line-wrap changes.
+      rafId = requestAnimationFrame(measure);
     };
-    measure();
-    window.addEventListener("resize", measure);
-    window.addEventListener("scroll", measure, true);
-    return () => {
-      window.removeEventListener("resize", measure);
-      window.removeEventListener("scroll", measure, true);
-    };
-  }, [children]);
+
+    rafId = requestAnimationFrame(measure);
+    return () => cancelAnimationFrame(rafId);
+  }, [children, dotRatio]);
 
   return (
     <>
@@ -1675,8 +1698,8 @@ function SelectHighlight({
                   position: "fixed",
                   left: d.x,
                   top: d.y,
-                  width: dotSize,
-                  height: dotSize,
+                  width: d.size,
+                  height: d.size,
                   transform: "translate(-50%, -50%)",
                   borderRadius: "50%",
                   background: dotColor,
@@ -1694,7 +1717,7 @@ function SelectHighlight({
 
 function ManifiestoHighlight({ children }: { children: ReactNode }) {
   return (
-    <SelectHighlight className="shs-ios-select" dotColor="var(--yellow)" dotSize="0.65em">
+    <SelectHighlight className="shs-ios-select" dotColor="var(--yellow)" dotRatio={0.65}>
       {children}
     </SelectHighlight>
   );
@@ -1734,7 +1757,7 @@ function HeroBig({ children }: { children: ReactNode }) {
 
 function HeroHighlight({ children }: { children: ReactNode }) {
   return (
-    <SelectHighlight className="shs-ios-select-blue" dotColor="var(--blue)" dotSize="0.42em">
+    <SelectHighlight className="shs-ios-select-blue" dotColor="var(--blue)" dotRatio={0.42}>
       {children}
     </SelectHighlight>
   );
