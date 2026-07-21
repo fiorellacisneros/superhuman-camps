@@ -11,6 +11,7 @@ export function TextButton({
   const [hover, setHover] = useState(false);
   return (
     <a
+      className="shs-text-btn"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{

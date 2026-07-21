@@ -42,6 +42,7 @@ export function PrincipalButton({
   return (
     <button
       ref={ref}
+      className="shs-principal-btn"
       style={base}
       onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.97)")}
       onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}

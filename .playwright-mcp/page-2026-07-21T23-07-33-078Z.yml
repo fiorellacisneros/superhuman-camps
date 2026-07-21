@@ -1,0 +1,116 @@
+- generic [active] [ref=f13e1]:
+  - generic [ref=f13e3]:
+    - generic [ref=f13e4]:
+      - generic [ref=f13e5]:
+        - generic [ref=f13e7]: superHuman
+        - generic [ref=f13e8]: Archivo
+        - generic [ref=f13e9]: Edición
+        - generic [ref=f13e10]: Ver
+        - generic [ref=f13e11]: Ventana
+        - generic [ref=f13e12]: Ayuda
+      - generic [ref=f13e13]: Mar 21 jul 18:07
+    - generic [ref=f13e25]:
+      - generic [ref=f13e26]:
+        - generic [ref=f13e27]:
+          - generic [ref=f13e28]: Mar
+          - generic [ref=f13e29]: "21"
+        - generic [ref=f13e30]:
+          - generic [ref=f13e31]: Agosto
+          - generic [ref=f13e32]:
+            - generic [ref=f13e33]: Webflow Camp
+            - generic [ref=f13e34]: Mar y Jue · 7–9pm Perú
+          - generic [ref=f13e37]:
+            - generic [ref=f13e38]: Figma Camp
+            - generic [ref=f13e39]: Mar y Jue · 7–9pm Perú
+      - generic [ref=f13e40]:
+        - generic [ref=f13e41]:
+          - generic [ref=f13e42]:
+            - generic [ref=f13e43]: Hoy
+            - generic [ref=f13e44]: "4"
+          - generic [ref=f13e45]: Webflow Camp — Mar y Jue
+          - generic [ref=f13e48]: Figma Camp — Mar y Jue
+          - generic [ref=f13e51]: Cupos Early Bird
+          - generic [ref=f13e54]: Certificado final
+        - generic [ref=f13e57]:
+          - generic [ref=f13e58]: Lima
+          - generic [ref=f13e59]: 19°
+          - generic [ref=f13e62]: Nublado
+          - generic [ref=f13e63]: "Máx.: 25° Mín.: 19°"
+    - generic [ref=f13e64]: forHuman
+  - button "Open Next.js Dev Tools" [ref=f13e91] [cursor=pointer]
+  - alert [ref=f13e95]
+  - button [ref=f13e97] [cursor=pointer]:
+    - generic:
+      - generic:
+        - button
+      - generic:
+        - button
+      - generic:
+        - button [disabled]
+      - generic:
+        - button [disabled]
+      - generic:
+        - button [disabled]
+      - generic:
+        - button [disabled]
+      - generic:
+        - button
+      - generic:
+        - button
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - link:
+              - /url: https://agentation.com
+            - paragraph: v3.0.1
+            - button "Switch to light mode"
+          - generic:
+            - generic:
+              - generic: Output Detail
+              - button "Standard"
+            - generic:
+              - generic: React Components
+              - generic:
+                - checkbox [checked]
+            - generic:
+              - generic: Hide Until Restart
+              - generic:
+                - checkbox
+          - generic:
+            - generic: Marker Color
+            - generic:
+              - button "Indigo"
+              - button "Blue"
+              - button "Cyan"
+              - button "Green"
+              - button "Yellow"
+              - button "Orange"
+              - button "Red"
+          - generic:
+            - generic:
+              - generic:
+                - checkbox "Clear on copy/send"
+              - generic: Clear on copy/send
+            - generic:
+              - generic:
+                - checkbox "Block page interactions" [checked]
+              - generic: Block page interactions
+          - button "Manage MCP & Webhooks"
+        - generic:
+          - button "Manage MCP & Webhooks"
+          - generic:
+            - generic: MCP Connection
+            - paragraph:
+              - text: MCP connection allows agents to receive and act on annotations.
+              - link "Learn more":
+                - /url: https://agentation.dev/mcp
+          - generic:
+            - generic:
+              - generic: Webhooks
+              - generic:
+                - generic: Auto-Send
+                - generic:
+                  - checkbox "Auto-Send" [checked] [disabled]
+            - paragraph: The webhook URL will receive live annotation changes and annotation data.
+            - textbox "Webhook URL"

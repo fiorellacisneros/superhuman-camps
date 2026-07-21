@@ -42,27 +42,27 @@ export function CardPricing({
         minWidth: 0,
         borderRadius: 16,
         background: bg,
-        padding: 48,
+        padding: "clamp(24px, 6vw, 48px)",
         display: "flex",
         flexDirection: "column",
-        gap: 40,
+        gap: "clamp(24px, 5vw, 40px)",
         boxSizing: "border-box",
         ...style,
       }}
     >
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          <span style={{ font: "400 48px/1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 0 }}>
+          <span style={{ font: "400 clamp(24px, 6vw, 48px)/1.1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)" }}>
             {title}
           </span>
-          <span style={{ font: "300 16px/1 'Work Sans',sans-serif", color: "var(--white)" }}>{subtitle}</span>
+          <span style={{ font: "300 clamp(13px, 3vw, 16px)/1 'Work Sans',sans-serif", color: "var(--white)" }}>{subtitle}</span>
         </div>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
-          <span style={{ font: "400 14px/1 'Work Sans',sans-serif", color: "var(--yellow)", whiteSpace: "nowrap" }}>{eyebrow}</span>
-          <span style={{ font: "600 48px/1 'Work Sans',sans-serif", color: "var(--yellow)" }}>{price}</span>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4, flexShrink: 0 }}>
+          <span style={{ font: "400 clamp(11px, 2.8vw, 14px)/1 'Work Sans',sans-serif", color: "var(--yellow)", whiteSpace: "nowrap" }}>{eyebrow}</span>
+          <span style={{ font: "600 clamp(24px, 6vw, 48px)/1.1 'Work Sans',sans-serif", color: "var(--yellow)" }}>{price}</span>
           <span
             style={{
-              font: "400 24px/1 'Work Sans',sans-serif",
+              font: "400 clamp(13px, 3vw, 24px)/1 'Work Sans',sans-serif",
               color: "var(--yellow)",
               textDecoration: "line-through",
             }}
@@ -87,7 +87,7 @@ export function CardPricing({
           <div
             key={i}
             style={{
-              padding: "16px 0",
+              padding: "clamp(9px, 2.5vw, 16px) 0",
               borderBottom: "1px solid rgba(255,255,255,0.2)",
               display: "flex",
               alignItems: "center",

@@ -740,8 +740,8 @@ function StackedPerks({ items }: { items: PerkItem[] }) {
   const next = () => setOrder((o) => [...o.slice(1), o[0]]);
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 48 }}>
-      <div style={{ position: "relative", width: 410 }}>
-        <div style={{ position: "relative", width: 410, height: 500 }}>
+      <div style={{ position: "relative", width: "clamp(280px, 82vw, 410px)" }}>
+        <div style={{ position: "relative", width: "clamp(280px, 82vw, 410px)", height: "clamp(340px, 100vw, 500px)" }}>
           {items.map((item, i) => {
             const pos = order.indexOf(i);
             const tilt = pos % 2 === 0 ? -4 - pos * 3 : 4 + pos * 3;
@@ -754,16 +754,16 @@ function StackedPerks({ items }: { items: PerkItem[] }) {
                 style={{ position: "absolute", inset: 0, pointerEvents: pos === 0 ? "auto" : "none" }}
               >
                 <div style={{ position: "relative" }}>
-                  <PromoCard variant={item.variant} heading={item.heading} note={item.note} body={item.body} linkText="" style={{ width: 410, height: 500 }} />
+                  <PromoCard variant={item.variant} heading={item.heading} note={item.note} body={item.body} linkText="" style={{ width: "clamp(280px, 82vw, 410px)", height: "clamp(340px, 100vw, 500px)" }} />
                   {item.iconKind === "mask" ? (
                     <div
                       style={{
                         position: "absolute",
-                        top: "50%",
+                        top: "46%",
                         left: "50%",
                         transform: "translate(-50%, -50%)",
-                        width: 150,
-                        height: 94,
+                        width: "clamp(80px, 24vw, 150px)",
+                        height: "clamp(50px, 15vw, 94px)",
                         backgroundColor: item.variant === "yellow" || item.variant === "light" ? "var(--black)" : "var(--white)",
                         WebkitMaskImage: `url(${item.icon})`,
                         maskImage: `url(${item.icon})`,
@@ -782,11 +782,11 @@ function StackedPerks({ items }: { items: PerkItem[] }) {
                       alt=""
                       style={{
                         position: "absolute",
-                        top: "50%",
+                        top: "46%",
                         left: "50%",
                         transform: "translate(-50%, -50%)",
-                        width: 120,
-                        height: 120,
+                        width: "clamp(64px, 20vw, 120px)",
+                        height: "clamp(64px, 20vw, 120px)",
                         objectFit: "contain",
                       }}
                     />
@@ -798,6 +798,7 @@ function StackedPerks({ items }: { items: PerkItem[] }) {
         </div>
         <button
           onClick={next}
+          className="shs-perk-btn"
           style={{
             position: "absolute",
             left: "50%",
@@ -888,32 +889,32 @@ function TestimonialsSection({ items }: { items: { quote: string; date: string }
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          gap: 56,
-          paddingTop: 64,
-          paddingBottom: 64,
+          gap: "clamp(32px, 7vw, 56px)",
+          paddingTop: "clamp(40px, 8vw, 64px)",
+          paddingBottom: "clamp(40px, 8vw, 64px)",
           boxSizing: "border-box",
           minHeight,
         }}
       >
-        <div style={{ padding: "0 64px" }}>
+        <div className="shs-inner-pad" style={{ padding: "0 64px" }}>
           <Reveal>
-            <h2 style={{ font: "400 52px/1.25 'Manrope',sans-serif", letterSpacing: "-0.02em", margin: 0, maxWidth: 960 }}>
+            <h2 style={{ font: "400 clamp(28px, 6.5vw, 52px)/1.25 'Manrope',sans-serif", letterSpacing: "-0.02em", margin: 0, maxWidth: 960 }}>
               <span style={{ color: "var(--white)" }}>¿Qué opinan de Webflow Camp? Ya son más de 150 alumnos formados. </span>
               <span style={{ color: "rgba(255,255,255,0.45)" }}>No te quedes solo con nuestra palabra — escúchalo directo de nuestra comunidad.</span>
             </h2>
           </Reveal>
         </div>
-        <div ref={trackRef} style={{ display: "flex", gap: 24, padding: "0 64px", width: "max-content" }}>
+        <div ref={trackRef} className="shs-inner-pad" style={{ display: "flex", gap: 20, padding: "0 64px", width: "max-content" }}>
           {items.map((t, i) => (
             <div
               key={i}
               style={{
-                width: 420,
-                height: 420,
+                width: "clamp(240px, 78vw, 420px)",
+                height: "clamp(240px, 78vw, 420px)",
                 flexShrink: 0,
                 borderRadius: 16,
                 border: "1px solid rgba(255,255,255,0.14)",
-                padding: 40,
+                padding: "clamp(24px, 5vw, 40px)",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
@@ -928,7 +929,7 @@ function TestimonialsSection({ items }: { items: { quote: string; date: string }
                 </span>
                 <span style={{ font: "400 14px/1 'Work Sans',sans-serif", color: "rgba(255,255,255,0.4)" }}>{t.date}</span>
               </div>
-              <p style={{ font: "300 22px/1.5 'Work Sans',sans-serif", color: "rgba(255,255,255,0.9)", margin: 0 }}>
+              <p style={{ font: "300 clamp(16px, 4vw, 22px)/1.5 'Work Sans',sans-serif", color: "rgba(255,255,255,0.9)", margin: 0 }}>
                 &ldquo;{t.quote}&rdquo;
               </p>
             </div>
@@ -946,7 +947,7 @@ function SumateCTA({ courseName, weeks, targetId }: { courseName: string; weeks:
         style={{
           background: "var(--blue)",
           borderRadius: "var(--radius-md)",
-          padding: "56px 48px",
+          padding: "clamp(32px, 8vw, 56px) clamp(24px, 6vw, 48px)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -954,10 +955,10 @@ function SumateCTA({ courseName, weeks, targetId }: { courseName: string; weeks:
           textAlign: "center",
         }}
       >
-        <h2 style={{ font: "400 48px/1.1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)", margin: 0, maxWidth: 640 }}>
+        <h2 style={{ font: "400 clamp(28px, 7.5vw, 48px)/1.15 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)", margin: 0, maxWidth: 640 }}>
           Súmate al {courseName}
         </h2>
-        <p style={{ font: "300 20px/1.4 'Work Sans',sans-serif", color: "rgba(255,255,255,0.9)", margin: 0, maxWidth: 640 }}>
+        <p style={{ font: "300 clamp(16px, 4vw, 20px)/1.4 'Work Sans',sans-serif", color: "rgba(255,255,255,0.9)", margin: 0, maxWidth: 640 }}>
           <strong style={{ fontWeight: 600 }}>{weeks}</strong> intensivas donde construirás <strong style={{ fontWeight: 600 }}>2 proyectos publicados</strong>, obtén aprendizaje real y beneficios exclusivos de nuestro camp!
         </p>
         <button
@@ -1078,7 +1079,7 @@ function SiteFooter() {
         style={{ opacity: darkOpacity, position: "absolute", inset: 0, background: "var(--black)", zIndex: 2, pointerEvents: "none" }}
       />
       <motion.div style={{ y: innerY, display: "flex", flexDirection: "column", minHeight: spacerHeight ? spacerHeight + 260 : undefined }}>
-        <div style={{ padding: "0 64px", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 40 }}>
+        <div className="shs-inner-pad" style={{ padding: "0 64px", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 40 }}>
           <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
             <FooterLinkCol eyebrow="Páginas">
               <FooterLink href="https://www.forhuman.studio/">forHuman</FooterLink>
@@ -1163,7 +1164,7 @@ function SiteFooter() {
 function FigmaBody() {
   return (
     <>
-      <section id="figma-inicio" style={{ padding: "64px 64px 56px 64px", display: "flex", flexDirection: "column", gap: 24 }}>
+      <section id="figma-inicio" style={{ padding: "clamp(32px, 8vw, 64px) 64px clamp(24px, 6vw, 56px) 64px", display: "flex", flexDirection: "column", gap: 24 }}>
         <Reveal>
           <HeroPunchBlock
             kicker="La IA ya genera un mockup en Figma en segundos: acomoda cajas, alinea textos, hasta sugiere una paleta de colores. Si sientes que eso te vuelve prescindible, no es la herramienta lo que tienes que aprender — es el criterio que la IA todavía no tiene."
@@ -1174,23 +1175,23 @@ function FigmaBody() {
           <Tag>Nuevo · Inicia 10 Marzo · 15 plazas · 4 semanas</Tag>
         </Reveal>
         <Reveal delay={0.08}>
-          <h1 style={{ font: "400 56px/1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)", margin: 0, maxWidth: 820 }}>
+          <h1 style={{ font: "400 clamp(34px, 9vw, 56px)/1.05 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)", margin: 0, maxWidth: 820 }}>
             Figma Camp
           </h1>
         </Reveal>
         <Reveal delay={0.16}>
-          <p style={{ font: "300 22px/1.3 'Work Sans',sans-serif", color: "var(--black)", maxWidth: 680, margin: 0 }}>
+          <p style={{ font: "300 clamp(16px, 4vw, 22px)/1.4 'Work Sans',sans-serif", color: "var(--black)", maxWidth: 680, margin: 0 }}>
             Programa intensivo para dominar Figma: sistemas de diseño, prototipado y handoff con desarrollo. De cero a listo para producción.
           </p>
         </Reveal>
         <Reveal delay={0.24}>
-          <div style={{ display: "flex", gap: 24, marginTop: 8, alignItems: "center" }}>
+          <div style={{ display: "flex", gap: 20, marginTop: 8, alignItems: "flex-start", flexWrap: "wrap" }}>
             <PrincipalButton variant="primary">Quiero inscribirme</PrincipalButton>
             <TextButton href="#">Ver beneficios</TextButton>
           </div>
         </Reveal>
       </section>
-      <section id="figma-programa" style={{ padding: "0 64px 80px 64px", display: "flex", flexDirection: "column", gap: 32 }}>
+      <section id="figma-programa" style={{ padding: "0 64px clamp(40px, 9vw, 80px) 64px", display: "flex", flexDirection: "column", gap: 32 }}>
         <Reveal>
           <Header
             kicker="Currículum"
@@ -1209,7 +1210,7 @@ function FigmaBody() {
           <CardAprendizaje number="03" title="Prototipado y handoff" body="Interacciones realistas y especificaciones claras para developers." style={{ width: "100%", height: "100%" }} />
         </RevealGroup>
       </section>
-      <section id="figma-motivos" style={{ background: "var(--gray-100)", padding: "64px", display: "flex", flexDirection: "column", gap: 32 }}>
+      <section id="figma-motivos" style={{ background: "var(--gray-100)", padding: "clamp(32px, 8vw, 64px) 64px", display: "flex", flexDirection: "column", gap: 32 }}>
         <Reveal>
           <Header kicker="Por qué este camp" title="De principiante a builder profesional" subtitle="Motivos para llevar el curso" align="left" />
         </Reveal>
@@ -1239,7 +1240,7 @@ function FigmaBody() {
           ))}
         </RevealGroup>
       </section>
-      <section id="figma-bono" style={{ background: "var(--black)", padding: 64, display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
+      <section id="figma-bono" style={{ background: "var(--black)", padding: "clamp(32px, 8vw, 64px) 64px", display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
         <Reveal>
           <Header
             kicker="Beneficios"
@@ -1253,7 +1254,7 @@ function FigmaBody() {
           <StackedPerks items={FIGMA_PERKS} />
         </Reveal>
       </section>
-      <section id="figma-precios" style={{ padding: "80px 64px", display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
+      <section id="figma-precios" style={{ padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
         <Reveal>
           <Header kicker="Precios" title="Inscríbete y potencia tus habilidades" subtitle="Transforma tus habilidades en oportunidades internacionales, tu propia agencia o proyectos independientes." />
         </Reveal>
@@ -1263,7 +1264,7 @@ function FigmaBody() {
           <CardPricing variant="dark" title="On-Demand" subtitle="Aprende a tu ritmo" price="$100" oldPrice="$150" benefits={FIGMA_BENEFITS_RECORDED} />
         </RevealGroup>
       </section>
-      <section id="figma-mentores" className="shs-mentores-row" style={{ background: "var(--black)", padding: "80px 64px", display: "flex", gap: 48, flexWrap: "nowrap", alignItems: "center" }}>
+      <section id="figma-mentores" className="shs-mentores-row" style={{ background: "var(--black)", padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", gap: 48, flexWrap: "nowrap", alignItems: "center" }}>
         <Reveal style={{ flex: "1 1 320px", minWidth: 0 }}>
           <Header
             kicker="Quiénes te enseñan"
@@ -1293,15 +1294,15 @@ function FigmaBody() {
           </MomentumCard>
         </RevealGroup>
       </section>
-      <section id="figma-cta" style={{ background: "var(--black)", padding: 64, display: "flex", justifyContent: "center" }}>
+      <section id="figma-cta" style={{ background: "var(--black)", padding: "clamp(32px, 8vw, 64px) 64px", display: "flex", justifyContent: "center" }}>
         <SumateCTA courseName="Figma Camp" weeks="4 semanas" targetId="figma-programa" />
       </section>
-      <section id="figma-faq" style={{ background: "var(--black)", padding: "80px 64px", display: "flex", gap: 64, flexWrap: "wrap" }}>
+      <section id="figma-faq" style={{ background: "var(--black)", padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", gap: 64, flexWrap: "wrap" }}>
         <Reveal style={{ maxWidth: 400, display: "flex", flexDirection: "column", gap: 16 }}>
           <span style={{ font: "600 13px/1 'Inconsolata',monospace", letterSpacing: "0.1em", color: "var(--yellow)", textTransform: "uppercase" }}>
             Antes de empezar
           </span>
-          <h2 style={{ font: "400 40px/1.15 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)", margin: 0 }}>
+          <h2 style={{ font: "400 clamp(26px, 6.5vw, 40px)/1.15 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)", margin: 0 }}>
             ¿Tienes dudas? Aquí las resolvemos
           </h2>
           <p style={{ font: "300 16px/1.4 'Work Sans',sans-serif", color: "rgba(255,255,255,0.75)", margin: 0 }}>
@@ -1320,7 +1321,7 @@ function FigmaBody() {
 function WebflowBody() {
   return (
     <>
-      <section id="webflow-inicio" style={{ padding: "64px 64px 56px 64px", display: "flex", flexDirection: "column", gap: 24 }}>
+      <section id="webflow-inicio" style={{ padding: "clamp(32px, 8vw, 64px) 64px clamp(24px, 6vw, 56px) 64px", display: "flex", flexDirection: "column", gap: 24 }}>
         <Reveal>
           <HeroPunchBlock
             kicker="La IA ya arma una web básica en minutos: crea secciones, aplica estilos, hasta escribe el copy. Si te preocupa que eso te vuelva prescindible, no es Webflow lo que tienes que dominar — es el criterio que la IA todavía no tiene."
@@ -1331,23 +1332,23 @@ function WebflowBody() {
           <Tag>Early Bird · Inicia 25 Febrero · 15 plazas · 5 semanas</Tag>
         </Reveal>
         <Reveal delay={0.08}>
-          <h1 style={{ font: "400 56px/1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)", margin: 0, maxWidth: 820 }}>
+          <h1 style={{ font: "400 clamp(34px, 9vw, 56px)/1.05 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)", margin: 0, maxWidth: 820 }}>
             Webflow Camp
           </h1>
         </Reveal>
         <Reveal delay={0.16}>
-          <p style={{ font: "300 22px/1.3 'Work Sans',sans-serif", color: "var(--black)", maxWidth: 680, margin: 0 }}>
+          <p style={{ font: "300 clamp(16px, 4vw, 22px)/1.4 'Work Sans',sans-serif", color: "var(--black)", maxWidth: 680, margin: 0 }}>
             Programa intensivo donde aprendes a construir sitios web profesionales desde la maquetación hasta la publicación, aplicando buenas prácticas. Sin código. Sin excusas.
           </p>
         </Reveal>
         <Reveal delay={0.24}>
-          <div style={{ display: "flex", gap: 24, marginTop: 8, alignItems: "center" }}>
+          <div style={{ display: "flex", gap: 20, marginTop: 8, alignItems: "flex-start", flexWrap: "wrap" }}>
             <PrincipalButton variant="primary">Quiero inscribirme</PrincipalButton>
             <TextButton href="#">Ver beneficios</TextButton>
           </div>
         </Reveal>
       </section>
-      <section id="webflow-programa" style={{ padding: "0 64px 80px 64px", display: "flex", flexDirection: "column", gap: 32 }}>
+      <section id="webflow-programa" style={{ padding: "0 64px clamp(40px, 9vw, 80px) 64px", display: "flex", flexDirection: "column", gap: 32 }}>
         <Reveal>
           <Header
             kicker="Currículum"
@@ -1362,7 +1363,7 @@ function WebflowBody() {
           ))}
         </RevealGroup>
       </section>
-      <section id="webflow-motivos" style={{ background: "var(--gray-100)", padding: "64px", display: "flex", flexDirection: "column", gap: 32 }}>
+      <section id="webflow-motivos" style={{ background: "var(--gray-100)", padding: "clamp(32px, 8vw, 64px) 64px", display: "flex", flexDirection: "column", gap: 32 }}>
         <Reveal>
           <Header kicker="Por qué este camp" title="De principiante a builder profesional" subtitle="Motivos para llevar el curso" align="left" />
         </Reveal>
@@ -1392,7 +1393,7 @@ function WebflowBody() {
           ))}
         </RevealGroup>
       </section>
-      <section id="webflow-bono" style={{ background: "var(--black)", padding: 64, display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
+      <section id="webflow-bono" style={{ background: "var(--black)", padding: "clamp(32px, 8vw, 64px) 64px", display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
         <Reveal>
           <Header
             kicker="Beneficios"
@@ -1407,7 +1408,7 @@ function WebflowBody() {
         </Reveal>
       </section>
       <TestimonialsSection items={WEBFLOW_TESTIMONIALS} />
-      <section id="webflow-precios" style={{ padding: "80px 64px", display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
+      <section id="webflow-precios" style={{ padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
         <Reveal>
           <Header kicker="Precios" title="Inscríbete y potencia tus habilidades" subtitle="Transforma tus habilidades en oportunidades internacionales, tu propia agencia o proyectos independientes." />
         </Reveal>
@@ -1446,7 +1447,7 @@ function WebflowBody() {
           />
         </RevealGroup>
       </section>
-      <section id="webflow-mentores" className="shs-mentores-row" style={{ background: "var(--black)", padding: "80px 64px", display: "flex", gap: 48, flexWrap: "nowrap", alignItems: "center" }}>
+      <section id="webflow-mentores" className="shs-mentores-row" style={{ background: "var(--black)", padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", gap: 48, flexWrap: "nowrap", alignItems: "center" }}>
         <Reveal style={{ flex: "1 1 320px", minWidth: 0 }}>
           <Header
             kicker="Quiénes te enseñan"
@@ -1476,15 +1477,15 @@ function WebflowBody() {
           </MomentumCard>
         </RevealGroup>
       </section>
-      <section id="webflow-cta" style={{ background: "var(--black)", padding: 64, display: "flex", justifyContent: "center" }}>
+      <section id="webflow-cta" style={{ background: "var(--black)", padding: "clamp(32px, 8vw, 64px) 64px", display: "flex", justifyContent: "center" }}>
         <SumateCTA courseName="Webflow Camp" weeks="6 semanas" targetId="webflow-programa" />
       </section>
-      <section id="webflow-faq" style={{ background: "var(--black)", padding: "80px 64px", display: "flex", gap: 64, flexWrap: "wrap" }}>
+      <section id="webflow-faq" style={{ background: "var(--black)", padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", gap: 64, flexWrap: "wrap" }}>
         <Reveal style={{ maxWidth: 400, display: "flex", flexDirection: "column", gap: 16 }}>
           <span style={{ font: "600 13px/1 'Inconsolata',monospace", letterSpacing: "0.1em", color: "var(--yellow)", textTransform: "uppercase" }}>
             Antes de empezar
           </span>
-          <h2 style={{ font: "400 40px/1.15 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)", margin: 0 }}>
+          <h2 style={{ font: "400 clamp(26px, 6.5vw, 40px)/1.15 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)", margin: 0 }}>
             ¿Tienes dudas? Aquí las resolvemos
           </h2>
           <p style={{ font: "300 16px/1.4 'Work Sans',sans-serif", color: "rgba(255,255,255,0.75)", margin: 0 }}>
@@ -1503,26 +1504,26 @@ function WebflowBody() {
 function FinderBody() {
   return (
     <>
-      <section id="nosotras" style={{ padding: "80px 64px", display: "flex", flexDirection: "column", gap: 24 }}>
+      <section id="nosotras" style={{ padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", flexDirection: "column", gap: 24 }}>
         <span style={{ font: "600 13px/1 'Inconsolata',monospace", letterSpacing: "0.1em", color: "var(--gray-500)", textTransform: "uppercase" }}>
           00 — NOSOTRAS
         </span>
-        <h1 style={{ font: "400 52px/1.1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)", margin: 0, maxWidth: 820 }}>
+        <h1 style={{ font: "400 clamp(32px, 8.5vw, 52px)/1.15 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)", margin: 0, maxWidth: 820 }}>
           De agencia a escuela: <span style={{ fontStyle: "italic", color: "var(--blue)" }}>así nació superHuman.</span>
         </h1>
-        <p style={{ font: "300 22px/1.4 'Work Sans',sans-serif", color: "var(--black)", maxWidth: 720, margin: 0 }}>
+        <p style={{ font: "300 clamp(16px, 4vw, 22px)/1.4 'Work Sans',sans-serif", color: "var(--black)", maxWidth: 720, margin: 0 }}>
           forHuman Studio es la primera agencia en Perú certificada como Webflow Expert y Webflow Educator. Después de construir sitios para decenas de marcas, decidimos enseñar lo que sabemos — así nació superHuman School.
         </p>
-        <p style={{ font: "300 20px/1.4 'Work Sans',sans-serif", color: "var(--gray-500)", maxWidth: 720, margin: 0 }}>
+        <p style={{ font: "300 clamp(15px, 4vw, 20px)/1.4 'Work Sans',sans-serif", color: "var(--gray-500)", maxWidth: 720, margin: 0 }}>
           Hoy formamos builders que lanzan su propia marca, sin depender de agencias ni de código. Webflow Camp y Figma Camp son el punto de partida.
         </p>
       </section>
-      <section id="cifras" style={{ background: "var(--blue-light)", padding: 64, display: "flex", gap: 64, flexWrap: "wrap", justifyContent: "center" }}>
+      <section id="cifras" style={{ background: "var(--blue-light)", padding: "clamp(32px, 8vw, 64px) 64px", display: "flex", gap: 64, flexWrap: "wrap", justifyContent: "center" }}>
         <DataStat value="100%" label="Estudiantes practicando en vivo" />
         <DataStat value="+200" label="Builders graduados en LATAM" />
         <DataStat value="2" label="Programas: Webflow Camp y Figma Camp" />
       </section>
-      <section id="mentores" className="shs-mentores-row" style={{ background: "var(--black)", padding: "80px 64px", display: "flex", gap: 48, flexWrap: "nowrap", alignItems: "center" }}>
+      <section id="mentores" className="shs-mentores-row" style={{ background: "var(--black)", padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", gap: 48, flexWrap: "nowrap", alignItems: "center" }}>
         <Reveal style={{ flex: "1 1 320px", minWidth: 0 }}>
           <Header
             kicker="Quiénes te enseñan"
@@ -1704,7 +1705,7 @@ function HeroKicker({ children }: { children: ReactNode }) {
   return (
     <p
       style={{
-        font: "500 17px/1.5 'Work Sans',sans-serif",
+        font: "300 clamp(15px, 4vw, 17px)/1.5 'Work Sans',sans-serif",
         color: "var(--gray-500)",
         margin: 0,
         maxWidth: 640,
@@ -1719,7 +1720,7 @@ function HeroBig({ children }: { children: ReactNode }) {
   return (
     <p
       style={{
-        font: "700 60px/1.05 'Manrope',sans-serif",
+        font: "700 clamp(30px, 9vw, 60px)/1.05 'Manrope',sans-serif",
         letterSpacing: "-0.01em",
         textTransform: "uppercase",
         color: "var(--black)",
@@ -1756,8 +1757,8 @@ function StripeTag() {
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2m0 14H4v-6h16zm0-10H4V6h16z" />
       </svg>
-      <span style={{ font: "400 14px/1 'Work Sans',sans-serif" }}>
-        Pago seguro vía Stripe (Tarjetas de crédito o débito)
+      <span style={{ font: "300 14px/1 'Work Sans',sans-serif" }}>
+        Pago seguro vía Stripe<span className="shs-desktop-only"> (Tarjetas de crédito o débito)</span>
       </span>
     </div>
   );
@@ -1771,7 +1772,7 @@ function HeroPunchBlock({ kicker, headline }: { kicker: ReactNode; headline: Rea
       <img
         src="/superhuman/hero-ai-detection.png"
         alt="Detección de personas con IA, superpuesta sobre una foto de un cruce peatonal"
-        style={{ width: "100%", height: 480, objectFit: "cover", objectPosition: "top", borderRadius: "var(--radius-md)" }}
+        style={{ width: "100%", height: "clamp(200px, 55vw, 480px)", objectFit: "cover", objectPosition: "top", borderRadius: "var(--radius-md)" }}
       />
       <HeroBig>{headline}</HeroBig>
     </div>

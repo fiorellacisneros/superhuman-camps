@@ -149,25 +149,23 @@ body {
 }
 
 @media (max-width: 859px) {
-  .shs-scroll > section {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
+  .shs-scroll > section,
+  .shs-scroll > footer,
+  .shs-scroll > div {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
   }
-  .shs-scroll h1 {
-    font-size: 32px !important;
-    line-height: 1.15 !important;
-    max-width: 100% !important;
-  }
-  .shs-scroll p {
-    font-size: 16px !important;
-    line-height: 1.4 !important;
-    max-width: 100% !important;
+  .shs-inner-pad {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
   }
   .shs-scroll h1,
+  .shs-scroll h2,
   .shs-scroll p,
   .shs-scroll span {
+    max-width: 100% !important;
     overflow-wrap: break-word !important;
     word-break: break-word !important;
   }
@@ -179,8 +177,31 @@ body {
   }
   .shs-mentores-row > div {
     width: 100% !important;
+    flex-wrap: wrap !important;
+  }
+  .shs-mentores-row > div:first-child {
+    flex: none !important;
+  }
+  .shs-mentores-row > div:nth-child(2) > div {
+    width: 100% !important;
+  }
+  .shs-mentores-row > div:nth-child(2) > div > div {
+    width: 100% !important;
+  }
+  #cifras {
+    gap: 32px !important;
+  }
+  .shs-desktop-only {
+    display: none !important;
+  }
+  .shs-principal-btn,
+  .shs-text-btn,
+  .shs-perk-btn {
+    font-size: 16px !important;
   }
 }
+
+
 
 @media (prefers-reduced-motion: reduce) {
   .shs-app-window {

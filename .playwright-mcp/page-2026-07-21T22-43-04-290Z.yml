@@ -1,0 +1,112 @@
+- generic [active] [ref=f10e1]:
+  - generic [ref=f10e4]:
+    - generic [ref=f10e5]:
+      - generic [ref=f10e6]: superHuman
+      - generic [ref=f10e9]: Mar 21 jul 17:43
+    - generic [ref=f10e18]:
+      - generic [ref=f10e19]:
+        - generic [ref=f10e20]:
+          - generic [ref=f10e21]: "21"
+          - generic [ref=f10e22]:
+            - generic [ref=f10e23]: jul
+            - generic [ref=f10e24]: "2026"
+        - generic [ref=f10e25]:
+          - generic [ref=f10e26]: Webflow Camp
+          - generic [ref=f10e27]: Mar y Jue · 7–9pm Perú
+        - generic [ref=f10e28]:
+          - generic [ref=f10e29]: Figma Camp
+          - generic [ref=f10e30]: Mar y Jue · 7–9pm Perú
+      - generic [ref=f10e31]:
+        - generic [ref=f10e32]:
+          - generic [ref=f10e33]: Próximos lanzamientos
+          - generic [ref=f10e34]: "4"
+        - generic [ref=f10e35]: Webflow Camp — Mar y Jue
+        - generic [ref=f10e38]: Figma Camp — Mar y Jue
+        - generic [ref=f10e41]: Cupos Early Bird limitados
+        - generic [ref=f10e44]: Certificado al completar
+      - generic [ref=f10e47]:
+        - generic [ref=f10e48]: Fotos
+        - generic [ref=f10e51]: Spotify
+        - generic [ref=f10e54] [cursor=pointer]:
+          - img "Fio Cisneros" [ref=f10e56]
+          - generic [ref=f10e58]: Fio Cisneros
+        - generic [ref=f10e59] [cursor=pointer]:
+          - img "Dani Rosas" [ref=f10e61]
+          - generic [ref=f10e63]: Dani Rosas
+  - button "Open Next.js Dev Tools" [ref=f10e79] [cursor=pointer]
+  - alert [ref=f10e83]
+  - button [ref=f10e85] [cursor=pointer]:
+    - generic:
+      - generic:
+        - button
+      - generic:
+        - button
+      - generic:
+        - button [disabled]
+      - generic:
+        - button [disabled]
+      - generic:
+        - button [disabled]
+      - generic:
+        - button [disabled]
+      - generic:
+        - button
+      - generic:
+        - button
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - link:
+              - /url: https://agentation.com
+            - paragraph: v3.0.1
+            - button "Switch to light mode"
+          - generic:
+            - generic:
+              - generic: Output Detail
+              - button "Standard"
+            - generic:
+              - generic: React Components
+              - generic:
+                - checkbox [checked]
+            - generic:
+              - generic: Hide Until Restart
+              - generic:
+                - checkbox
+          - generic:
+            - generic: Marker Color
+            - generic:
+              - button "Indigo"
+              - button "Blue"
+              - button "Cyan"
+              - button "Green"
+              - button "Yellow"
+              - button "Orange"
+              - button "Red"
+          - generic:
+            - generic:
+              - generic:
+                - checkbox "Clear on copy/send"
+              - generic: Clear on copy/send
+            - generic:
+              - generic:
+                - checkbox "Block page interactions" [checked]
+              - generic: Block page interactions
+          - button "Manage MCP & Webhooks"
+        - generic:
+          - button "Manage MCP & Webhooks"
+          - generic:
+            - generic: MCP Connection
+            - paragraph:
+              - text: MCP connection allows agents to receive and act on annotations.
+              - link "Learn more":
+                - /url: https://agentation.dev/mcp
+          - generic:
+            - generic:
+              - generic: Webhooks
+              - generic:
+                - generic: Auto-Send
+                - generic:
+                  - checkbox "Auto-Send" [checked] [disabled]
+            - paragraph: The webhook URL will receive live annotation changes and annotation data.
+            - textbox "Webhook URL"
