@@ -172,6 +172,41 @@ En pantallas de celular, todo el mismo contenido se muestra dentro de un marco d
 
 - 2026-07-20: Se quitaron del escritorio los íconos de acceso directo a WhatsApp de Fio Cisneros y Dani Rosas (no tenían mucho sentido sueltos ahí) — queda solo la carpeta "forHuman".
 
+- 2026-07-20: Se agregó una nueva sección de **Testimonios** en Webflow Camp (entre Regalos y Precios), inspirada en una referencia que compartiste: título grande combinando blanco y gris, y tarjetas oscuras con el texto del testimonio, un punto de color y la fecha real de cada respuesta. Se revisó de nuevo la encuesta completa (7 respuestas, no solo 2) y con tu confirmación de que ya tienes el permiso de todos, ahora se muestran los 7 testimonios reales — antes solo se mostraban 2 (los únicos que además de escribir un testimonio habían marcado "Sí" en la pregunta específica de autorización para redes, que —como aclaraste— era sobre el testimonio grabado en video, no sobre usar su feedback). No se agregaron estrellas de calificación porque no tenemos ese dato por reseña individual.
+
+- 2026-07-20: En cada tarjeta de testimonio, se quitó la palabra "Estudiante" — ahora solo muestra "Webflow Camp" junto al punto de color, y la fecha al costado.
+
+- 2026-07-20: La sección de Testimonios ahora es "sticky": al llegar a ella, la sección se queda fija en pantalla mientras haces scroll, y en vez de avanzar la página, se van deslizando las 7 tarjetas de testimonio hacia la izquierda (como un carrusel horizontal). Cuando termina de mostrarlas todas, recién ahí la página sigue bajando normal hacia Precios.
+
+- 2026-07-20: Se corrigió que, mientras se hacía scroll a través de la sección "sticky" de Testimonios, se veía un espacio en blanco debajo del bloque negro (el fondo negro solo estaba en la parte fija, no en toda la zona de scroll reservada). Ahora todo el fondo es negro de punta a punta, sin cortes blancos.
+
+- 2026-07-20: Se agrandó bastante la sección de Testimonios para que se sienta como que ocupa toda la pantalla (no un bloque chico flotando en un espacio negro vacío, como se veía antes): el bloque fijo ahora llena todo el alto de la ventana mientras estás en esa sección, y las tarjetas pasaron de 340px a 420x420px, con texto más grande.
+
+- 2026-07-20: Se corrigió que la sección se soltaba (dejaba de estar fija) justo en el instante en que aparecía la última tarjeta, sin darte tiempo a leerla — pasaba directo a Precios. Ahora las tarjetas terminan de deslizarse un poco antes de que se termine el scroll de esa sección, dejando un margen para leer la última tranquilamente antes de que la página siga avanzando.
+
+- 2026-07-20: Se reconstruyó el efecto "sticky" de Testimonios usando **GSAP ScrollTrigger** (la misma herramienta que usa tu sitio real) en vez de la aproximación manual anterior, que no calculaba bien cuánto scroll hacía falta y soltaba la sección antes de llegar a la última tarjeta. Ahora la distancia de scroll se calcula exactamente según el ancho real de las 7 tarjetas, así que recién se suelta y avanza a Precios cuando terminas de verlas todas — se instaló la librería `gsap` para esto.
+
+- 2026-07-20: Se quitó el testimonio "Fue un curso muy dinámico." (quedaban 6 en total) por ser muy corto y no aportar mucho. También se corrigió que la sección se veía flotando con espacio blanco arriba y abajo — GSAP estaba fijándola respecto a toda la ventana del navegador en vez del recuadro interno de la app; ahora queda correctamente anclada dentro de la ventana.
+
+- 2026-07-20: Se corrigió el espacio blanco que seguía apareciendo debajo del bloque negro al ponerse "sticky" — GSAP crea automáticamente un contenedor invisible (`.pin-spacer`) para reservar el espacio del scroll, y ese contenedor no tenía fondo negro (solo la sección de adentro lo tenía). Se agregó fondo negro a ese contenedor a nivel global. También se corrigió el logo de Webflow en la tarjeta "Merch oficial", que se veía apretado/cortado porque se forzaba a un cuadrado perfecto (120x120) cuando el logo real es más ancho que alto — ahora usa sus proporciones reales.
+
+- 2026-07-20: Se corrigió que la carpeta "forHuman" del escritorio a veces aparecía "al medio" en vez de pegada a la derecha — su posición se calculaba una sola vez al cargar la página según el ancho de la ventana en ese momento, y si la ventana cambiaba de tamaño después, la carpeta se quedaba en la posición vieja (ya no correspondía al borde derecho real). Ahora se recalcula cada vez que cambia el tamaño de la ventana. Sigue siendo arrastrable con el mouse como antes.
+
+- 2026-07-20: Se reemplazó el archivo del logo de Webflow (`icon-webflow-mark.svg`) por uno correcto que enviaste — el anterior tenía coordenadas fuera del área visible (recortadas por el propio archivo), lo que causaba el corte real que se veía en la tarjeta "Merch oficial". Ya no es un tema de tamaño o CSS, era el archivo mismo.
+
+- 2026-07-20: Se corrigió que el espacio debajo de las tarjetas de Testimonios se veía distinto mientras la sección estaba "pegada" (sticky) vs. justo cuando terminaba de soltarse — la caja de esa sección era más chica que el alto real de la ventana, así que mientras estaba pegada se veía un espacio negro "extra" (reservado por GSAP, no un padding real de diseño), y al soltarse ese sobrante desaparecía de golpe dando la sensación de que el padding cambiaba. Ahora la caja mide exactamente el alto de la ventana desde el principio, así que el espacio se ve igual todo el tiempo.
+
+- 2026-07-20: Varios ajustes en la ventana de **Finder (Nosotras)**:
+  - La ventana era mucho más angosta que Figma Camp / Webflow Camp (tenía un margen de 14% en vez del 7% normal) — ahora usa el mismo ancho, para que el footer (que ya tiene ahí) se vea bien.
+  - La sección "Aprende de Webflow Educators certificadas" ahora usa exactamente la misma estructura que en los Camps (fondo negro, texto a la izquierda con la etiqueta "Quiénes te enseñan", fotos grandes a la derecha) en vez de la versión más simple que tenía antes (fondo blanco, fotos circulares chicas).
+  - Se le dio más "aire" al resaltado de texto en el Manifiesto y en las Preguntas frecuentes (antes el recuadro amarillo/azul quedaba muy pegado a las palabras de al lado). También se quitaron los puntitos de las esquinas del resaltado — cuando la frase resaltada se partía en dos líneas, aparecía un punto extra "flotando" en un lugar que no correspondía (un límite de CSS al repetir el resaltado línea por línea); ahora el resaltado se ve limpio sin ese punto suelto.
+
+- 2026-07-20: Se suavizó el scroll al hacer clic en las secciones del menú lateral (y en el botón "Ver cronograma") — antes usaba el salto brusco por defecto del navegador; ahora es una animación propia, más lenta (0.9 segundos) y con una curva de aceleración/desaceleración suave, para que se sienta más fluido en vez de un salto directo.
+
+- 2026-07-20: El punto flotante del Manifiesto seguía viéndose porque el servidor de desarrollo tenía compilado en caché el CSS viejo (con los puntos), aunque el archivo fuente ya estaba corregido desde antes — no era que el cambio no se hubiera aplicado. Se forzó una recompilación agregando una regla explícita que oculta esos puntos, y se verificó que el archivo compilado ya no los incluye.
+
+- 2026-07-20: Se bajó la duración del scroll suave al hacer clic en las secciones (de 0.9 segundos a 0.5 segundos) — se sentía demasiado lento, casi como si estuviera trabado.
+
 ## How to Customize
 
 - **Cambiar precios o beneficios de los cursos:** en `components/MacDesktopExperience.tsx`, busca `FigmaBody` o `WebflowBody` y edita los valores de `price`, `oldPrice` o las listas de beneficios.

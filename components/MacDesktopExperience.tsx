@@ -47,6 +47,29 @@ function beginDrag(
   window.addEventListener("mouseup", onUp);
 }
 
+function easeInOutQuad(t: number) {
+  return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+}
+
+function smoothScrollToId(id: string, duration = 500) {
+  const target = document.getElementById(id);
+  if (!target) return;
+  const container = (target.closest(".shs-scroll") as HTMLElement | null) ?? document.scrollingElement;
+  if (!container) return;
+
+  const startY = container.scrollTop;
+  const targetY = startY + target.getBoundingClientRect().top - container.getBoundingClientRect().top;
+  const distance = targetY - startY;
+  const startTime = performance.now();
+
+  function step(now: number) {
+    const t = Math.min((now - startTime) / duration, 1);
+    container!.scrollTop = startY + distance * easeInOutQuad(t);
+    if (t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
 const FIGMA_BENEFITS_LIVE = [
   "10 clases en vivo (24 horas)",
   "Acceso ilimitado al material y las clases",
@@ -385,6 +408,7 @@ const WEBFLOW_SECTIONS = [
   { id: "webflow-programa", label: "Programa" },
   { id: "webflow-motivos", label: "Motivos" },
   { id: "webflow-bono", label: "Regalos" },
+  { id: "webflow-testimonios", label: "Testimonios" },
   { id: "webflow-precios", label: "Precios" },
   { id: "webflow-mentores", label: "Mentoras" },
   { id: "webflow-faq", label: "Preguntas" },
@@ -393,12 +417,29 @@ const WEBFLOW_SECTIONS = [
 const WEBFLOW_TESTIMONIALS = [
   {
     quote:
+      "Disfruté mucho las energías de quienes nos dictaron las clases, y los invitados que estuvieron ahí para apoyarnos. También aprecio mucho que nos dieran espacios 1:1 para resolver dudas de nuestros proyectos.",
+    date: "28 may 2026",
+  },
+  {
+    quote:
       "Un programa muy bueno para cualquier nivel de experiencia en Webflow. Dani y Fio son muy agradables, accesibles, sobretodo orientadas a las buenas prácticas dentro de Webflow. Fue un excelente curso para partir de una buena base.",
-    author: "Alumna, Webflow Camp",
+    date: "29 may 2026",
   },
   {
     quote: "Excelente curso, siembra muy buenas bases para trabajar con Webflow.",
-    author: "Alumno, Webflow Camp",
+    date: "29 may 2026",
+  },
+  {
+    quote: "Aparte de las clases, la retroalimentación con los invitados fue lo que más disfruté. Es muy bueno para iniciar en Webflow.",
+    date: "29 may 2026",
+  },
+  {
+    quote: "Lo que más disfruté fue poder construir un proyecto propio por mí misma.",
+    date: "29 may 2026",
+  },
+  {
+    quote: "Sin duda la interacción con las tutoras — muy buena onda y con mucha paciencia.",
+    date: "3 jun 2026",
   },
 ];
 
@@ -720,8 +761,8 @@ function StackedPerks({ items }: { items: PerkItem[] }) {
                         top: "50%",
                         left: "50%",
                         transform: "translate(-50%, -50%)",
-                        width: 120,
-                        height: 120,
+                        width: 150,
+                        height: 94,
                         backgroundColor: item.variant === "yellow" || item.variant === "light" ? "var(--black)" : "var(--white)",
                         WebkitMaskImage: `url(${item.icon})`,
                         maskImage: `url(${item.icon})`,
@@ -788,6 +829,115 @@ function StackedPerks({ items }: { items: PerkItem[] }) {
   );
 }
 
+const TESTIMONIAL_DOT_COLORS = ["var(--yellow)", "#4ADE80", "#38BDF8", "var(--blue)"];
+
+function TestimonialsSection({ items }: { items: { quote: string; date: string }[] }) {
+  const pinRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [minHeight, setMinHeight] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    const container = pinRef.current?.closest(".shs-scroll") as HTMLElement | null;
+    if (container) setMinHeight(container.clientHeight);
+  }, []);
+
+  useEffect(() => {
+    if (minHeight === undefined) return;
+    let ctx: { revert: () => void } | undefined;
+    let cancelled = false;
+
+    import("gsap").then(({ gsap }) => {
+      import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
+        if (cancelled || !pinRef.current || !trackRef.current) return;
+        gsap.registerPlugin(ScrollTrigger);
+        const scroller = pinRef.current.closest(".shs-scroll") as HTMLElement | null;
+
+        ctx = gsap.context(() => {
+          const track = trackRef.current!;
+          const getDistance = () => Math.max(0, track.scrollWidth - pinRef.current!.clientWidth);
+          gsap.to(track, {
+            x: () => -getDistance(),
+            ease: "none",
+            scrollTrigger: {
+              trigger: pinRef.current!,
+              scroller: scroller ?? undefined,
+              start: "top top",
+              end: () => "+=" + getDistance(),
+              scrub: true,
+              pin: true,
+              pinType: "transform",
+              invalidateOnRefresh: true,
+            },
+          });
+        });
+        ScrollTrigger.refresh();
+      });
+    });
+
+    return () => {
+      cancelled = true;
+      ctx?.revert();
+    };
+  }, [minHeight]);
+
+  return (
+    <div id="webflow-testimonios" ref={pinRef} style={{ background: "var(--black)", overflow: "hidden", minHeight }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          gap: 56,
+          paddingTop: 64,
+          paddingBottom: 64,
+          boxSizing: "border-box",
+          minHeight,
+        }}
+      >
+        <div style={{ padding: "0 64px" }}>
+          <Reveal>
+            <h2 style={{ font: "400 52px/1.25 'Manrope',sans-serif", letterSpacing: "-0.02em", margin: 0, maxWidth: 960 }}>
+              <span style={{ color: "var(--white)" }}>¿Qué opinan de Webflow Camp? Ya son más de 150 alumnos formados. </span>
+              <span style={{ color: "rgba(255,255,255,0.45)" }}>No te quedes solo con nuestra palabra — escúchalo directo de nuestra comunidad.</span>
+            </h2>
+          </Reveal>
+        </div>
+        <div ref={trackRef} style={{ display: "flex", gap: 24, padding: "0 64px", width: "max-content" }}>
+          {items.map((t, i) => (
+            <div
+              key={i}
+              style={{
+                width: 420,
+                height: 420,
+                flexShrink: 0,
+                borderRadius: 16,
+                border: "1px solid rgba(255,255,255,0.14)",
+                padding: 40,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                gap: 24,
+                boxSizing: "border-box",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 8, font: "400 15px/1 'Work Sans',sans-serif", color: "rgba(255,255,255,0.7)" }}>
+                  <span style={{ width: 9, height: 9, borderRadius: "50%", background: TESTIMONIAL_DOT_COLORS[i % TESTIMONIAL_DOT_COLORS.length] }} />
+                  Webflow Camp
+                </span>
+                <span style={{ font: "400 14px/1 'Work Sans',sans-serif", color: "rgba(255,255,255,0.4)" }}>{t.date}</span>
+              </div>
+              <p style={{ font: "300 22px/1.5 'Work Sans',sans-serif", color: "rgba(255,255,255,0.9)", margin: 0 }}>
+                &ldquo;{t.quote}&rdquo;
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SumateCTA({ courseName, weeks, targetId }: { courseName: string; weeks: string; targetId: string }) {
   return (
     <Reveal style={{ width: "100%", maxWidth: 900 }}>
@@ -810,7 +960,7 @@ function SumateCTA({ courseName, weeks, targetId }: { courseName: string; weeks:
           <strong style={{ fontWeight: 600 }}>{weeks}</strong> intensivas donde construirás <strong style={{ fontWeight: 600 }}>2 proyectos publicados</strong>, obtén aprendizaje real y beneficios exclusivos de nuestro camp!
         </p>
         <button
-          onClick={() => document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" })}
+          onClick={() => smoothScrollToId(targetId)}
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -1255,6 +1405,7 @@ function WebflowBody() {
           <StackedPerks items={WEBFLOW_PERKS} />
         </Reveal>
       </section>
+      <TestimonialsSection items={WEBFLOW_TESTIMONIALS} />
       <section id="webflow-precios" style={{ padding: "80px 64px", display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
         <Reveal>
           <Header kicker="Precios" title="Inscríbete y potencia tus habilidades" subtitle="Transforma tus habilidades en oportunidades internacionales, tu propia agencia o proyectos independientes." />
@@ -1370,29 +1521,34 @@ function FinderBody() {
         <DataStat value="+200" label="Builders graduados en LATAM" />
         <DataStat value="2" label="Programas: Webflow Camp y Figma Camp" />
       </section>
-      <section id="mentores" style={{ padding: "80px 64px", display: "flex", flexDirection: "column", gap: 40 }}>
-        <Header title="Aprende de Webflow Educators certificadas" subtitle="Mentoras activas en la industria, enseñando lo que aplican todos los días." align="left" />
-        <RevealGroup style={{ display: "flex", gap: 40, flexWrap: "wrap" }}>
-          <motion.div
-            whileHover={{ y: -6 }}
-            transition={{ duration: 0.2, ease: [0.33, 1, 0.68, 1] }}
-            style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "flex-start", width: 220, cursor: "default" }}
-          >
+      <section id="mentores" className="shs-mentores-row" style={{ background: "var(--black)", padding: "80px 64px", display: "flex", gap: 48, flexWrap: "nowrap", alignItems: "center" }}>
+        <Reveal style={{ flex: "1 1 320px", minWidth: 0 }}>
+          <Header
+            kicker="Quiénes te enseñan"
+            kickerColor="rgba(255,255,255,0.6)"
+            title="Aprende de Webflow Educators certificadas"
+            subtitle="Mentoras activas en la industria, enseñando lo que aplican todos los días."
+            align="left"
+            color="var(--white)"
+          />
+        </Reveal>
+        <RevealGroup style={{ display: "flex", gap: 24, flexWrap: "nowrap", flexShrink: 0, minWidth: 0 }}>
+          <MomentumCard style={{ width: 260, borderRadius: "var(--radius-md)", overflow: "hidden", position: "relative" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/superhuman/fio-cisneros.jpg" style={{ width: 96, height: 96, borderRadius: "50%", objectFit: "cover" }} alt="Fiorella Cisneros" />
-            <span style={{ font: "500 18px/1 'Work Sans',sans-serif", color: "var(--black)" }}>Fiorella Cisneros</span>
-            <span style={{ font: "300 15px/1.3 'Work Sans',sans-serif", color: "var(--gray-500)" }}>Webflow Educator, forHuman Studio</span>
-          </motion.div>
-          <motion.div
-            whileHover={{ y: -6 }}
-            transition={{ duration: 0.2, ease: [0.33, 1, 0.68, 1] }}
-            style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "flex-start", width: 220, cursor: "default" }}
-          >
+            <img src="/superhuman/fio-cisneros.jpg" alt="Fiorella Cisneros" style={{ width: "100%", aspectRatio: "4 / 5", objectFit: "cover", display: "block" }} />
+            <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "24px 20px", background: "linear-gradient(0deg, rgba(0,0,0,0.75), transparent)" }}>
+              <div style={{ font: "500 20px/1 'Manrope',sans-serif", color: "var(--white)" }}>Fiorella Cisneros</div>
+              <div style={{ font: "300 13px/1 'Work Sans',sans-serif", color: "rgba(255,255,255,0.8)" }}>Webflow Educator</div>
+            </div>
+          </MomentumCard>
+          <MomentumCard style={{ width: 260, borderRadius: "var(--radius-md)", overflow: "hidden", position: "relative" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/superhuman/mentor-1.jpg" style={{ width: 96, height: 96, borderRadius: "50%", objectFit: "cover" }} alt="Danitza Rosas" />
-            <span style={{ font: "500 18px/1 'Work Sans',sans-serif", color: "var(--black)" }}>Danitza Rosas</span>
-            <span style={{ font: "300 15px/1.3 'Work Sans',sans-serif", color: "var(--gray-500)" }}>Webflow Designer, forHuman Studio</span>
-          </motion.div>
+            <img src="/superhuman/mentor-1.jpg" alt="Danitza Rosas" style={{ width: "100%", aspectRatio: "4 / 5", objectFit: "cover", display: "block" }} />
+            <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "24px 20px", background: "linear-gradient(0deg, rgba(0,0,0,0.75), transparent)" }}>
+              <div style={{ font: "500 20px/1 'Manrope',sans-serif", color: "var(--white)" }}>Danitza Rosas</div>
+              <div style={{ font: "300 13px/1 'Work Sans',sans-serif", color: "rgba(255,255,255,0.8)" }}>Webflow Designer</div>
+            </div>
+          </MomentumCard>
         </RevealGroup>
       </section>
       <SiteFooter />
@@ -1762,7 +1918,7 @@ export function MacDesktopExperience() {
 
   const goToSection = (setActive: (id: string) => void, id: string) => {
     setActive(id);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    smoothScrollToId(id);
   };
 
   useEffect(() => {
@@ -1782,12 +1938,17 @@ export function MacDesktopExperience() {
   }, []);
 
   useEffect(() => {
-    const w = window.innerWidth;
-    setFolderPos({ x: w - 168, y: 56 });
-    setContactPositions([
-      { x: w - 360, y: 220 },
-      { x: w - 150, y: 320 },
-    ]);
+    const position = () => {
+      const w = window.innerWidth;
+      setFolderPos({ x: w - 168, y: 56 });
+      setContactPositions([
+        { x: w - 360, y: 220 },
+        { x: w - 150, y: 320 },
+      ]);
+    };
+    position();
+    window.addEventListener("resize", position);
+    return () => window.removeEventListener("resize", position);
   }, []);
 
   useEffect(() => {
@@ -2081,7 +2242,6 @@ export function MacDesktopExperience() {
               sidebarOpen={finderSidebarOpen}
               onToggleSidebar={() => setFinderSidebarOpen((v) => !v)}
               sidebar={<AppSidebar sections={FINDER_SECTIONS} active={finderSection} onSelect={(id) => goToSection(setFinderSection, id)} open={finderSidebarOpen} />}
-              inset={{ top: "10%", left: "14%", right: "14%", bottom: "10%" }}
             >
               <FinderBody />
             </WindowChrome>
