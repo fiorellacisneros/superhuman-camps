@@ -1,6 +1,7 @@
 "use client";
 
 import { CSSProperties, FormEvent, ReactNode, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useInView, useScroll, useTransform } from "framer-motion";
 import { Tag } from "@/components/design-system/Tag";
 import { PrincipalButton } from "@/components/design-system/PrincipalButton";
@@ -1617,8 +1618,86 @@ function formatNotesDateTime(date: Date) {
   return `${date.getDate()} de ${FULL_MONTHS[date.getMonth()]} de ${date.getFullYear()}, ${hours}:${minutes}`;
 }
 
+function SelectHighlight({
+  children,
+  className,
+  dotColor,
+  dotSize = "0.55em",
+}: {
+  children: ReactNode;
+  className: string;
+  dotColor: string;
+  dotSize?: string;
+}) {
+  const textRef = useRef<HTMLSpanElement>(null);
+  const [dots, setDots] = useState<{ x: number; y: number }[] | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const measure = () => {
+      const text = textRef.current;
+      if (!text) return;
+      const rects = text.getClientRects();
+      if (!rects.length) return;
+      const first = rects[0];
+      const last = rects[rects.length - 1];
+      setDots([
+        { x: first.left, y: first.top + first.height / 2 },
+        { x: last.right, y: last.top + last.height / 2 },
+      ]);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    window.addEventListener("scroll", measure, true);
+    return () => {
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("scroll", measure, true);
+    };
+  }, [children]);
+
+  return (
+    <>
+      <span ref={textRef} className={className}>
+        {children}
+      </span>
+      {mounted &&
+        dots &&
+        createPortal(
+          <>
+            {dots.map((d, i) => (
+              <span
+                key={i}
+                style={{
+                  position: "fixed",
+                  left: d.x,
+                  top: d.y,
+                  width: dotSize,
+                  height: dotSize,
+                  transform: "translate(-50%, -50%)",
+                  borderRadius: "50%",
+                  background: dotColor,
+                  pointerEvents: "none",
+                  zIndex: 9999,
+                }}
+              />
+            ))}
+          </>,
+          document.body
+        )}
+    </>
+  );
+}
+
 function ManifiestoHighlight({ children }: { children: ReactNode }) {
-  return <span className="shs-ios-select">{children}</span>;
+  return (
+    <SelectHighlight className="shs-ios-select" dotColor="var(--yellow)" dotSize="0.65em">
+      {children}
+    </SelectHighlight>
+  );
 }
 
 function HeroKicker({ children }: { children: ReactNode }) {
@@ -1654,7 +1733,11 @@ function HeroBig({ children }: { children: ReactNode }) {
 }
 
 function HeroHighlight({ children }: { children: ReactNode }) {
-  return <span className="shs-ios-select-blue">{children}</span>;
+  return (
+    <SelectHighlight className="shs-ios-select-blue" dotColor="var(--blue)" dotSize="0.42em">
+      {children}
+    </SelectHighlight>
+  );
 }
 
 function StripeTag() {
