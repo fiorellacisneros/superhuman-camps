@@ -697,7 +697,7 @@ function StackedPerks({ items }: { items: PerkItem[] }) {
   const [order, setOrder] = useState(items.map((_, i) => i));
   const next = () => setOrder((o) => [...o.slice(1), o[0]]);
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 48 }}>
       <div style={{ position: "relative", width: 410 }}>
         <div style={{ position: "relative", width: 410, height: 500 }}>
           {items.map((item, i) => {
@@ -1654,9 +1654,9 @@ function DockTooltip({ label }: { label: string }) {
   );
 }
 
-const DOCK_MAGNIFY_RADIUS = 130;
-const DOCK_MAGNIFY_MAX_SCALE = 1.6;
-const DOCK_MAGNIFY_LIFT = 14;
+const DOCK_MAGNIFY_RADIUS = 85;
+const DOCK_MAGNIFY_MAX_SCALE = 1.22;
+const DOCK_MAGNIFY_LIFT = 10;
 
 function DockIcon({
   label,
@@ -1688,7 +1688,8 @@ function DockIcon({
     const rect = ref.current.getBoundingClientRect();
     const center = rect.left + rect.width / 2;
     const distance = Math.abs(mouseX - center);
-    const falloff = Math.max(0, 1 - distance / DOCK_MAGNIFY_RADIUS);
+    const linear = Math.max(0, 1 - distance / DOCK_MAGNIFY_RADIUS);
+    const falloff = linear * linear;
     setScale(1 + falloff * (DOCK_MAGNIFY_MAX_SCALE - 1));
   }, [mouseX]);
 
@@ -2002,17 +2003,6 @@ export function MacDesktopExperience() {
             <div style={{ width: 64, height: 59, background: "url(/superhuman/icon-folder.svg) center / contain no-repeat" }} />
             <span style={{ font: "400 12px/1.2 'Work Sans',sans-serif", color: "#F7F7F7", textShadow: "0 1px 3px rgba(0,0,0,0.6)" }}>forHuman</span>
           </div>
-
-          {/* WhatsApp contact icons */}
-          {WHATSAPP_CONTACTS.map((contact, i) => (
-            <div
-              key={contact.name}
-              style={{ position: "absolute", left: contactPositions[i].x, top: contactPositions[i].y, display: "flex", flexDirection: "column", alignItems: "center", gap: 6, cursor: "pointer", width: 84, zIndex: 20, userSelect: "none" }}
-              onClick={() => openWhatsApp(contact)}
-            >
-              <ContactIcon contact={contact} />
-            </div>
-          ))}
 
           {/* Dock */}
           <div

@@ -166,6 +166,12 @@ En pantallas de celular, todo el mismo contenido se muestra dentro de un marco d
 
 - 2026-07-20: Se corrigió "El programa" de Webflow Camp: los 6 módulos tenían un ancho fijo (380px) que solo dejaba lugar para 2 columnas y dejaba un espacio en blanco al costado. Ahora el ancho es flexible, así que se acomodan 3 columnas por fila cuando hay espacio suficiente.
 
+- 2026-07-20: Se agregó más espacio abajo del mazo de "Regalos" — con la inclinación nueva de las tarjetas y el botón flotante, el espacio de abajo se veía más pegado que el de arriba (las tarjetas giradas y el botón sobresalen más de lo que el diseño original preveía). Se agregó espacio extra calculado para que ahora se sienta parejo arriba y abajo.
+
+- 2026-07-20: Se corrigió el efecto de magnificación del dock — crecía demasiado y los íconos vecinos se amontonaban/superponían entre sí. Se redujo el tamaño máximo de crecimiento (después bajado un poco más, a pedido) y qué tan lejos alcanza el efecto a los vecinos, además de suavizar la curva para que la transición sea más gradual.
+
+- 2026-07-20: Se quitaron del escritorio los íconos de acceso directo a WhatsApp de Fio Cisneros y Dani Rosas (no tenían mucho sentido sueltos ahí) — queda solo la carpeta "forHuman".
+
 ## How to Customize
 
 - **Cambiar precios o beneficios de los cursos:** en `components/MacDesktopExperience.tsx`, busca `FigmaBody` o `WebflowBody` y edita los valores de `price`, `oldPrice` o las listas de beneficios.
