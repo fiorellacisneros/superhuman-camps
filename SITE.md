@@ -207,6 +207,8 @@ En pantallas de celular, todo el mismo contenido se muestra dentro de un marco d
 
 - 2026-07-20: Se bajó la duración del scroll suave al hacer clic en las secciones (de 0.9 segundos a 0.5 segundos) — se sentía demasiado lento, casi como si estuviera trabado.
 
+- 2026-07-20: Se recuperaron los puntitos del resaltado de texto (amarillo y azul) que se habían quitado por completo para solucionar el "punto flotante" — ahora se solucionó de una forma que sí conserva los puntos: se agregaron como dos marcadores separados (inicio y final) en vez de repetirlos en cada línea, así que ahora solo aparece un punto al principio de la frase y otro al final, sin duplicarse cuando el texto se parte en dos líneas.
+
 ## How to Customize
 
 - **Cambiar precios o beneficios de los cursos:** en `components/MacDesktopExperience.tsx`, busca `FigmaBody` o `WebflowBody` y edita los valores de `price`, `oldPrice` o las listas de beneficios.
