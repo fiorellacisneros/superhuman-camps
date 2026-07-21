@@ -753,45 +753,44 @@ function StackedPerks({ items }: { items: PerkItem[] }) {
                 transition={{ type: "spring", stiffness: 260, damping: 26 }}
                 style={{ position: "absolute", inset: 0, pointerEvents: pos === 0 ? "auto" : "none" }}
               >
-                <div style={{ position: "relative" }}>
-                  <PromoCard variant={item.variant} heading={item.heading} note={item.note} body={item.body} linkText="" style={{ width: "clamp(280px, 82vw, 410px)", height: "clamp(340px, 100vw, 500px)" }} />
-                  {item.iconKind === "mask" ? (
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "46%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        width: "clamp(80px, 24vw, 150px)",
-                        height: "clamp(50px, 15vw, 94px)",
-                        backgroundColor: item.variant === "yellow" || item.variant === "light" ? "var(--black)" : "var(--white)",
-                        WebkitMaskImage: `url(${item.icon})`,
-                        maskImage: `url(${item.icon})`,
-                        WebkitMaskSize: "contain",
-                        maskSize: "contain",
-                        WebkitMaskRepeat: "no-repeat",
-                        maskRepeat: "no-repeat",
-                        WebkitMaskPosition: "center",
-                        maskPosition: "center",
-                      }}
-                    />
-                  ) : (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={item.icon}
-                      alt=""
-                      style={{
-                        position: "absolute",
-                        top: "46%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        width: "clamp(64px, 20vw, 120px)",
-                        height: "clamp(64px, 20vw, 120px)",
-                        objectFit: "contain",
-                      }}
-                    />
-                  )}
-                </div>
+                <PromoCard
+                  variant={item.variant}
+                  heading={item.heading}
+                  note={item.note}
+                  body={item.body}
+                  linkText=""
+                  style={{ width: "clamp(280px, 82vw, 410px)", height: "clamp(340px, 100vw, 500px)" }}
+                  icon={
+                    item.iconKind === "mask" ? (
+                      <div
+                        style={{
+                          width: "clamp(80px, 24vw, 150px)",
+                          height: "clamp(50px, 15vw, 94px)",
+                          backgroundColor: item.variant === "yellow" || item.variant === "light" ? "var(--black)" : "var(--white)",
+                          WebkitMaskImage: `url(${item.icon})`,
+                          maskImage: `url(${item.icon})`,
+                          WebkitMaskSize: "contain",
+                          maskSize: "contain",
+                          WebkitMaskRepeat: "no-repeat",
+                          maskRepeat: "no-repeat",
+                          WebkitMaskPosition: "center",
+                          maskPosition: "center",
+                        }}
+                      />
+                    ) : (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={item.icon}
+                        alt=""
+                        style={{
+                          width: "clamp(64px, 20vw, 120px)",
+                          height: "clamp(64px, 20vw, 120px)",
+                          objectFit: "contain",
+                        }}
+                      />
+                    )
+                  }
+                />
               </motion.div>
             );
           })}
@@ -1025,7 +1024,7 @@ function FooterLink({ href, children }: { href: string; children: ReactNode }) {
 
 function FooterLinkCol({ eyebrow, children }: { eyebrow: string; children: ReactNode }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24, width: 180 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "clamp(14px, 4vw, 24px)", width: 180 }}>
       <span style={{ font: "400 15px/1 'Manrope',sans-serif", color: "var(--gray-500)" }}>{eyebrow}</span>
       <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "flex-start" }}>{children}</div>
     </div>
@@ -1074,13 +1073,13 @@ function SiteFooter() {
   };
 
   return (
-    <footer ref={footerRef} style={{ position: "relative", background: "var(--pure-white)", paddingTop: 64, overflow: "hidden" }}>
+    <footer ref={footerRef} style={{ position: "relative", background: "var(--pure-white)", paddingTop: "clamp(32px, 8vw, 64px)", overflow: "hidden" }}>
       <motion.div
         style={{ opacity: darkOpacity, position: "absolute", inset: 0, background: "var(--black)", zIndex: 2, pointerEvents: "none" }}
       />
       <motion.div style={{ y: innerY, display: "flex", flexDirection: "column", minHeight: spacerHeight ? spacerHeight + 260 : undefined }}>
-        <div className="shs-inner-pad" style={{ padding: "0 64px", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 40 }}>
-          <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
+        <div className="shs-inner-pad" style={{ padding: "0 64px", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "clamp(24px, 6vw, 40px)" }}>
+          <div style={{ display: "flex", gap: "clamp(24px, 6vw, 48px)", flexWrap: "wrap" }}>
             <FooterLinkCol eyebrow="Páginas">
               <FooterLink href="https://www.forhuman.studio/">forHuman</FooterLink>
               <FooterLink href="#">Webflow Camp</FooterLink>
@@ -1152,7 +1151,7 @@ function SiteFooter() {
             )}
           </div>
         </div>
-        <div style={{ marginTop: "auto", paddingTop: 120 }}>
+        <div style={{ marginTop: "auto", paddingTop: "clamp(32px, 9vw, 120px)" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/superhuman/logo-footer.svg" alt="superHuman School" style={{ width: "100%", display: "block" }} />
         </div>
@@ -1185,7 +1184,7 @@ function FigmaBody() {
           </p>
         </Reveal>
         <Reveal delay={0.24}>
-          <div style={{ display: "flex", gap: 20, marginTop: 8, alignItems: "flex-start", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: 20, marginTop: 8, alignItems: "center", flexWrap: "wrap" }}>
             <PrincipalButton variant="primary">Quiero inscribirme</PrincipalButton>
             <TextButton href="#">Ver beneficios</TextButton>
           </div>
@@ -1254,7 +1253,7 @@ function FigmaBody() {
           <StackedPerks items={FIGMA_PERKS} />
         </Reveal>
       </section>
-      <section id="figma-precios" style={{ padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
+      <section id="figma-precios" style={{ padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", flexDirection: "column", gap: 20, alignItems: "center" }}>
         <Reveal>
           <Header kicker="Precios" title="Inscríbete y potencia tus habilidades" subtitle="Transforma tus habilidades en oportunidades internacionales, tu propia agencia o proyectos independientes." />
         </Reveal>
@@ -1297,7 +1296,7 @@ function FigmaBody() {
       <section id="figma-cta" style={{ background: "var(--black)", padding: "clamp(32px, 8vw, 64px) 64px", display: "flex", justifyContent: "center" }}>
         <SumateCTA courseName="Figma Camp" weeks="4 semanas" targetId="figma-programa" />
       </section>
-      <section id="figma-faq" style={{ background: "var(--black)", padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", gap: 64, flexWrap: "wrap" }}>
+      <section id="figma-faq" style={{ background: "var(--black)", padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", gap: "clamp(28px, 7vw, 64px)", flexWrap: "wrap" }}>
         <Reveal style={{ maxWidth: 400, display: "flex", flexDirection: "column", gap: 16 }}>
           <span style={{ font: "600 13px/1 'Inconsolata',monospace", letterSpacing: "0.1em", color: "var(--yellow)", textTransform: "uppercase" }}>
             Antes de empezar
@@ -1342,7 +1341,7 @@ function WebflowBody() {
           </p>
         </Reveal>
         <Reveal delay={0.24}>
-          <div style={{ display: "flex", gap: 20, marginTop: 8, alignItems: "flex-start", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: 20, marginTop: 8, alignItems: "center", flexWrap: "wrap" }}>
             <PrincipalButton variant="primary">Quiero inscribirme</PrincipalButton>
             <TextButton href="#">Ver beneficios</TextButton>
           </div>
@@ -1408,7 +1407,7 @@ function WebflowBody() {
         </Reveal>
       </section>
       <TestimonialsSection items={WEBFLOW_TESTIMONIALS} />
-      <section id="webflow-precios" style={{ padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
+      <section id="webflow-precios" style={{ padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", flexDirection: "column", gap: 20, alignItems: "center" }}>
         <Reveal>
           <Header kicker="Precios" title="Inscríbete y potencia tus habilidades" subtitle="Transforma tus habilidades en oportunidades internacionales, tu propia agencia o proyectos independientes." />
         </Reveal>
@@ -1480,7 +1479,7 @@ function WebflowBody() {
       <section id="webflow-cta" style={{ background: "var(--black)", padding: "clamp(32px, 8vw, 64px) 64px", display: "flex", justifyContent: "center" }}>
         <SumateCTA courseName="Webflow Camp" weeks="6 semanas" targetId="webflow-programa" />
       </section>
-      <section id="webflow-faq" style={{ background: "var(--black)", padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", gap: 64, flexWrap: "wrap" }}>
+      <section id="webflow-faq" style={{ background: "var(--black)", padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", gap: "clamp(28px, 7vw, 64px)", flexWrap: "wrap" }}>
         <Reveal style={{ maxWidth: 400, display: "flex", flexDirection: "column", gap: 16 }}>
           <span style={{ font: "600 13px/1 'Inconsolata',monospace", letterSpacing: "0.1em", color: "var(--yellow)", textTransform: "uppercase" }}>
             Antes de empezar
@@ -1632,7 +1631,7 @@ function SelectHighlight({
   dotRatio?: number;
 }) {
   const textRef = useRef<HTMLSpanElement>(null);
-  const [dots, setDots] = useState<{ x: number; y: number; size: number }[] | null>(null);
+  const dotRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -1641,11 +1640,16 @@ function SelectHighlight({
 
   useEffect(() => {
     let rafId = 0;
-    let lastKey = "";
 
+    // Mutate the dot nodes' inline styles directly instead of going through
+    // React state: setState + re-render is a frame or more slower than the
+    // browser's own scroll compositing, which is what made the dots visibly
+    // lag/detach from the text while scrolling. Writing style.left/top here
+    // keeps them locked to the text on every single rAF tick.
     const measure = () => {
       const text = textRef.current;
-      if (!text) {
+      const [startDot, endDot] = dotRefs.current;
+      if (!text || !startDot || !endDot) {
         rafId = requestAnimationFrame(measure);
         return;
       }
@@ -1656,21 +1660,23 @@ function SelectHighlight({
         const last = rects[rects.length - 1];
         const fontSize = parseFloat(getComputedStyle(text).fontSize) || 16;
         const size = fontSize * dotRatio;
-        const key = `${first.left},${first.top},${last.right},${last.bottom},${size}`;
-        if (key !== lastKey) {
-          lastKey = key;
-          setDots([
-            // iOS-style handles: start knob sits above the top of its line,
-            // end knob sits below the bottom of its line.
-            { x: first.left, y: first.top, size },
-            { x: last.right, y: last.bottom, size },
-          ]);
-        }
-      } else if (lastKey !== "") {
-        // Text collapsed to zero size (e.g. a closed accordion/FAQ) — clear the
+        // iOS-style handles: start knob sits above the top of its line,
+        // end knob sits below the bottom of its line.
+        startDot.style.display = "block";
+        startDot.style.left = `${first.left}px`;
+        startDot.style.top = `${first.top}px`;
+        startDot.style.width = `${size}px`;
+        startDot.style.height = `${size}px`;
+        endDot.style.display = "block";
+        endDot.style.left = `${last.right}px`;
+        endDot.style.top = `${last.bottom}px`;
+        endDot.style.width = `${size}px`;
+        endDot.style.height = `${size}px`;
+      } else {
+        // Text collapsed to zero size (e.g. a closed accordion/FAQ) — hide the
         // dots immediately instead of leaving them frozen at their last spot.
-        lastKey = "";
-        setDots(null);
+        startDot.style.display = "none";
+        endDot.style.display = "none";
       }
       // Keep tracking continuously: the highlighted text sits inside animated
       // (Framer Motion) wrappers that move via transform, which resize/scroll
@@ -1683,32 +1689,26 @@ function SelectHighlight({
     return () => cancelAnimationFrame(rafId);
   }, [children, dotRatio]);
 
+  const dotStyle: CSSProperties = {
+    position: "fixed",
+    display: "none",
+    transform: "translate(-50%, -50%)",
+    borderRadius: "50%",
+    background: dotColor,
+    pointerEvents: "none",
+    zIndex: 9999,
+  };
+
   return (
     <>
       <span ref={textRef} className={className}>
         {children}
       </span>
       {mounted &&
-        dots &&
         createPortal(
           <>
-            {dots.map((d, i) => (
-              <span
-                key={i}
-                style={{
-                  position: "fixed",
-                  left: d.x,
-                  top: d.y,
-                  width: d.size,
-                  height: d.size,
-                  transform: "translate(-50%, -50%)",
-                  borderRadius: "50%",
-                  background: dotColor,
-                  pointerEvents: "none",
-                  zIndex: 9999,
-                }}
-              />
-            ))}
+            <span ref={(el) => { dotRefs.current[0] = el; }} style={dotStyle} />
+            <span ref={(el) => { dotRefs.current[1] = el; }} style={dotStyle} />
           </>,
           document.body
         )}
@@ -1729,7 +1729,7 @@ function HeroKicker({ children }: { children: ReactNode }) {
     <p
       style={{
         font: "300 clamp(15px, 4vw, 17px)/1.5 'Work Sans',sans-serif",
-        color: "var(--gray-500)",
+        color: "var(--gray-600)",
         margin: 0,
         maxWidth: 640,
       }}

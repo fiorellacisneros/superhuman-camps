@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { CSSProperties, ReactNode } from "react";
 
 const BG: Record<string, string> = {
   yellow: "var(--yellow)",
@@ -28,6 +28,7 @@ export function PromoCard({
   note = "(SPOILER ALERT: Habrá bocaditos!)",
   body = "Ellos confiaron en nosotros y se quedaron, ahora tú puedes ser 1 de ellos.",
   linkText = "Otra frasesita por aquí",
+  icon,
   style,
 }: {
   variant?: "yellow" | "dark" | "blue" | "light" | "outline";
@@ -35,6 +36,7 @@ export function PromoCard({
   note?: string;
   body?: string;
   linkText?: string;
+  icon?: ReactNode;
   style?: CSSProperties;
 }) {
   const outline = variant === "outline";
@@ -48,7 +50,7 @@ export function PromoCard({
         padding: "32px 32px 56px",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
+        justifyContent: "flex-start",
         gap: 32,
         minHeight: 260,
         boxSizing: "border-box",
@@ -70,6 +72,7 @@ export function PromoCard({
           {note}
         </div>
       </div>
+      {icon && <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flex: "1 1 auto" }}>{icon}</div>}
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         <div style={{ font: "300 16px/1.4 'Work Sans',sans-serif", color: TEXT[variant] }}>{body}</div>
         <div style={{ font: "400 22px 'Reenie Beanie',cursive", color: LINK[variant] }}>{linkText}</div>

@@ -9,6 +9,7 @@
   --blue-light: #dee3fb;
   --blue-hover: #5b69d1;
   --gray-800: #262626;
+  --gray-600: #595959;
   --gray-500: #919191;
   --gray-300: #cccccc;
   --gray-100: #f4f4f4;
@@ -152,14 +153,14 @@ body {
   .shs-scroll > section,
   .shs-scroll > footer,
   .shs-scroll > div {
-    padding-left: 20px !important;
-    padding-right: 20px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
   }
   .shs-inner-pad {
-    padding-left: 20px !important;
-    padding-right: 20px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
   }
   .shs-scroll h1,
   .shs-scroll h2,
