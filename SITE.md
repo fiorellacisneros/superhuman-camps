@@ -148,6 +148,22 @@ En pantallas de celular, todo el mismo contenido se muestra dentro de un marco d
 
 - 2026-07-20: Se ajustó el footer para que coincida con tu sitio real: ahora tiene **fondo blanco** (antes negro), el formulario de suscripción quedó alineado a la **derecha** (antes centrado), con texto más pequeño, un campo de correo con el estilo exacto de tus formularios de Webflow (borde fino, esquinas rectas, fondo transparente) y un botón azul (antes amarillo, para que combine con el fondo blanco). El logo grande de abajo ahora tiene una animación de entrada al hacer scroll (aparece deslizándose hacia arriba con un fundido), un efecto similar al parallax que tenía tu sitio original en esa sección.
 
+- 2026-07-20: Analicé el video que enviaste (le extraje fotogramas ya que no puedo reproducir videos directamente) y confirmé el efecto real: el footer tiene una capa oscura que cubre todo al aparecer y se va desvaneciendo a medida que haces scroll, revelando el fondo blanco con el logo — como una "cortina" que se disuelve. Ya lo implementé así en Figma Camp, Webflow Camp y Finder.
+
+- 2026-07-20: Se actualizó el formulario de suscripción del footer con los estilos reales de tus clases `.form-input` y `.form-label` (encontradas en `app/forhuman-app.html` de tu export): fondo gris clarito `#efeeec`, bordes redondeados sutiles, etiqueta "Correo electrónico" arriba del campo (antes no tenía etiqueta), una línea divisoria fina antes del botón, y el botón "Enviar" ahora es negro con texto claro y ocupa todo el ancho — igual que en la referencia que enviaste (antes era azul y en fila).
+
+- 2026-07-20: Se corrigió el parallax del footer para que sea el real: nos pasaste el código exacto (GSAP + ScrollTrigger), y antes lo habíamos aproximado con una animación de "aparece una vez y ya". Ahora el efecto está ligado al scroll de verdad: mientras subes/bajas con el mouse, el contenido del footer se desliza (empieza corrido hacia arriba 25% y se acomoda a su lugar) y la capa oscura se desvanece de 50% a 0%, en tiempo real según cuánto hayas scrolleado — igual que en tu sitio original, no una animación de "una sola vez". Se agregó también espacio extra después del footer para que esa animación tenga lugar de terminar antes de llegar al final de la página (si no, se quedaba a medio camino y el fondo blanco se veía grisáceo).
+
+- 2026-07-20: Se agregaron las 3 columnas de enlaces reales del footer (Páginas, Social, Contacto), tomadas de tu HTML/CSS real, sin el enlace "Inicio" (no aplica en este sitio): forHuman (link real a forhuman.studio), Webflow Camp y Aviso legal (placeholders, sin página de destino todavía), LinkedIn e Instagram (links reales), y el correo/WhatsApp reales de contacto. Cada enlace tiene el efecto real de "raya" que se dibuja de izquierda a derecha al pasar el mouse.
+
+- 2026-07-20: Se redujo el espacio en blanco que sobraba después del logo del footer (antes ocupaba casi toda la pantalla) y el formulario de suscripción ahora es compacto: input y botón "Enviar" en una sola fila, ubicado al costado de la columna "Contacto" en vez de abajo por separado.
+
+- 2026-07-20: Dos ajustes finales al footer: el logo "SuperHuman" ahora queda pegado al borde inferior del footer (antes flotaba con espacio suelto debajo). También se adelantó el punto en el que termina la animación de scroll, para que el fondo ya esté completamente blanco (sin la capa gris a medio desvanecer) antes de llegar a esa parte del footer.
+
+- 2026-07-20: Se aumentó el espacio entre los enlaces (Páginas/Social/Contacto) y el logo grande de abajo, de 48px a 120px, como pediste.
+
+- 2026-07-20: Se le dio más inclinación al mazo de tarjetas de "Regalos" (Webflow Camp y Figma Camp) para que se vea abanicado como en tu referencia — antes la tarjeta de encima quedaba perfectamente recta y las de atrás casi sin girar. Ahora todas tienen una leve inclinación (incluida la de encima) y las de atrás se desplazan también en diagonal, no solo hacia abajo.
+
 ## How to Customize
 
 - **Cambiar precios o beneficios de los cursos:** en `components/MacDesktopExperience.tsx`, busca `FigmaBody` o `WebflowBody` y edita los valores de `price`, `oldPrice` o las listas de beneficios.

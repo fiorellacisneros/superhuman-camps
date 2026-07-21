@@ -1,7 +1,7 @@
 "use client";
 
 import { CSSProperties, FormEvent, ReactNode, useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence, useInView } from "framer-motion";
+import { motion, AnimatePresence, useInView, useScroll, useTransform } from "framer-motion";
 import { Tag } from "@/components/design-system/Tag";
 import { PrincipalButton } from "@/components/design-system/PrincipalButton";
 import { TextButton } from "@/components/design-system/TextButton";
@@ -702,11 +702,12 @@ function StackedPerks({ items }: { items: PerkItem[] }) {
         <div style={{ position: "relative", width: 410, height: 500 }}>
           {items.map((item, i) => {
             const pos = order.indexOf(i);
-            const tilt = pos === 0 ? 0 : pos % 2 === 0 ? pos * 2 : pos * -2;
+            const tilt = pos % 2 === 0 ? -4 - pos * 3 : 4 + pos * 3;
+            const xOffset = pos % 2 === 0 ? -pos * 10 : pos * 10;
             return (
               <motion.div
                 key={item.heading}
-                animate={{ y: pos * 16, scale: 1 - pos * 0.05, rotate: tilt, zIndex: items.length - pos }}
+                animate={{ x: xOffset, y: pos * 16, scale: 1 - pos * 0.05, rotate: tilt, zIndex: items.length - pos }}
                 transition={{ type: "spring", stiffness: 260, damping: 26 }}
                 style={{ position: "absolute", inset: 0, pointerEvents: pos === 0 ? "auto" : "none" }}
               >
@@ -833,12 +834,73 @@ function SumateCTA({ courseName, weeks, targetId }: { courseName: string; weeks:
   );
 }
 
+function FooterLink({ href, children }: { href: string; children: ReactNode }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <a
+      href={href}
+      target={href.startsWith("http") ? "_blank" : undefined}
+      rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        position: "relative",
+        display: "inline-flex",
+        alignItems: "center",
+        color: "#131313",
+        font: "400 22px/1.1 'Manrope',sans-serif",
+        textDecoration: "none",
+        cursor: "pointer",
+      }}
+    >
+      {children}
+      <span
+        style={{
+          position: "absolute",
+          left: 0,
+          top: "50%",
+          transform: "translateY(-50%)",
+          height: 2,
+          width: hover ? "100%" : "0%",
+          background: "#131313",
+          transition: "width 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+          pointerEvents: "none",
+        }}
+      />
+    </a>
+  );
+}
+
+function FooterLinkCol({ eyebrow, children }: { eyebrow: string; children: ReactNode }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 24, width: 180 }}>
+      <span style={{ font: "400 15px/1 'Manrope',sans-serif", color: "var(--gray-500)" }}>{eyebrow}</span>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "flex-start" }}>{children}</div>
+    </div>
+  );
+}
+
 function SiteFooter() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const footerRef = useRef<HTMLDivElement>(null);
-  const isFooterInView = useInView(footerRef, { once: true, margin: "-15% 0px" });
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+  const [spacerHeight, setSpacerHeight] = useState(0);
+
+  useEffect(() => {
+    const container = footerRef.current?.closest(".shs-scroll") as HTMLElement | null;
+    setScrollContainer(container);
+    if (container) setSpacerHeight(Math.min(container.clientHeight * 0.35, 160));
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: footerRef,
+    container: scrollContainer ? { current: scrollContainer } : undefined,
+    offset: ["start end", "start center"],
+  });
+  const innerY = useTransform(scrollYProgress, [0, 1], ["-25%", "0%"]);
+  const darkOpacity = useTransform(scrollYProgress, [0, 1], [0.5, 0]);
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
@@ -862,56 +924,74 @@ function SiteFooter() {
   return (
     <footer ref={footerRef} style={{ position: "relative", background: "var(--pure-white)", paddingTop: 64, overflow: "hidden" }}>
       <motion.div
-        initial={{ opacity: 1 }}
-        animate={isFooterInView ? { opacity: 0 } : {}}
-        transition={{ duration: 1.1, ease: [0.65, 0, 0.35, 1] }}
-        style={{ position: "absolute", inset: 0, background: "var(--black)", zIndex: 2, pointerEvents: "none" }}
+        style={{ opacity: darkOpacity, position: "absolute", inset: 0, background: "var(--black)", zIndex: 2, pointerEvents: "none" }}
       />
-      <Reveal>
-        <div style={{ padding: "0 64px", display: "flex", justifyContent: "flex-end" }}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 12, maxWidth: 360, textAlign: "right" }}>
+      <motion.div style={{ y: innerY, display: "flex", flexDirection: "column", minHeight: spacerHeight ? spacerHeight + 260 : undefined }}>
+        <div style={{ padding: "0 64px", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 40 }}>
+          <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
+            <FooterLinkCol eyebrow="Páginas">
+              <FooterLink href="https://www.forhuman.studio/">forHuman</FooterLink>
+              <FooterLink href="#">Webflow Camp</FooterLink>
+              <FooterLink href="#">Aviso legal</FooterLink>
+            </FooterLinkCol>
+            <FooterLinkCol eyebrow="Social">
+              <FooterLink href="https://www.linkedin.com/company/forhuman-studio/">LinkedIn</FooterLink>
+              <FooterLink href="https://www.instagram.com/superhuman.school/">Instagram</FooterLink>
+            </FooterLinkCol>
+            <FooterLinkCol eyebrow="Contacto">
+              <FooterLink href="mailto:hola@forhuman.studio">hola@forhuman.studio</FooterLink>
+              <FooterLink href="https://api.whatsapp.com/send/?phone=%2B51936098806&text=Hola%2C+quisiera+informaci%C3%B3n+sobre...&type=phone_number&app_absent=0">
+                +51 936 098 806
+              </FooterLink>
+            </FooterLinkCol>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12, width: 260 }}>
             <span style={{ font: "400 13px/1.4 'Work Sans',sans-serif", color: "var(--gray-500)" }}>
               Recibe novedades de próximos camps y contenido para builders.
             </span>
             {status === "done" ? (
-              <span style={{ font: "500 14px/1 'Work Sans',sans-serif", color: "var(--blue)" }}>
+              <span style={{ font: "500 14px/1 'Work Sans',sans-serif", color: "#131313" }}>
                 ¡Listo! Ya estás suscrito.
               </span>
             ) : (
-              <form onSubmit={submit} style={{ display: "flex", gap: 8 }}>
+              <form onSubmit={submit} style={{ display: "flex", gap: 8, width: "100%" }}>
                 <input
+                  id="footer-email"
                   type="email"
                   required
-                  placeholder="tu@correo.com"
+                  placeholder="peter@parker.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   style={{
-                    padding: "12px 16px",
-                    borderRadius: 0,
-                    border: "1px solid var(--border-subtle)",
-                    background: "transparent",
-                    color: "var(--black)",
+                    padding: "12px 14px",
+                    borderRadius: 5,
+                    border: "1px solid #efeeec",
+                    background: "#efeeec",
+                    color: "#131313",
                     font: "400 14px/1 'Work Sans',sans-serif",
-                    width: 200,
+                    width: "100%",
+                    minWidth: 0,
                     outline: "none",
+                    boxSizing: "border-box",
                   }}
                 />
                 <button
                   type="submit"
                   disabled={status === "loading"}
                   style={{
-                    padding: "12px 20px",
-                    borderRadius: "var(--radius-full)",
-                    border: "none",
-                    background: "var(--blue)",
-                    color: "var(--white)",
+                    padding: "12px 16px",
+                    borderRadius: 5,
+                    border: "1px solid #131313",
+                    background: "#131313",
+                    color: "#efeeec",
                     font: "500 14px/1 'Work Sans',sans-serif",
                     cursor: status === "loading" ? "default" : "pointer",
                     opacity: status === "loading" ? 0.7 : 1,
                     whiteSpace: "nowrap",
+                    flexShrink: 0,
                   }}
                 >
-                  {status === "loading" ? "Enviando..." : "Suscribirme"}
+                  {status === "loading" ? "..." : "Enviar"}
                 </button>
               </form>
             )}
@@ -920,17 +1000,11 @@ function SiteFooter() {
             )}
           </div>
         </div>
-      </Reveal>
-      <div style={{ marginTop: 48, overflow: "hidden" }}>
-        <motion.img
-          src="/superhuman/logo-footer.svg"
-          alt="superHuman School"
-          initial={{ y: 30, opacity: 0 }}
-          animate={isFooterInView ? { y: 0, opacity: 1 } : {}}
-          transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          style={{ width: "100%", display: "block" }}
-        />
-      </div>
+        <div style={{ marginTop: "auto", paddingTop: 120 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/superhuman/logo-footer.svg" alt="superHuman School" style={{ width: "100%", display: "block" }} />
+        </div>
+      </motion.div>
     </footer>
   );
 }
