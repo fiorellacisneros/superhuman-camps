@@ -207,7 +207,7 @@ En pantallas de celular, todo el mismo contenido se muestra dentro de un marco d
 
 - 2026-07-20: Se bajó la duración del scroll suave al hacer clic en las secciones (de 0.9 segundos a 0.5 segundos) — se sentía demasiado lento, casi como si estuviera trabado.
 
-- 2026-07-20: Se recuperaron los puntitos del resaltado de texto (amarillo y azul) que se habían quitado por completo para solucionar el "punto flotante" — ahora se solucionó de una forma que sí conserva los puntos: se agregaron como dos marcadores separados (inicio y final) en vez de repetirlos en cada línea, así que ahora solo aparece un punto al principio de la frase y otro al final, sin duplicarse cuando el texto se parte en dos líneas.
+- 2026-07-20: Se corrigió el resaltado de texto para que coincida con tu referencia real: en vez de usar marcadores separados (que quedaban mal alineados, pegados al texto en vez de en las esquinas), ahora la frase resaltada se mantiene siempre en una sola línea (si no cabe donde está, se mueve completa a la línea siguiente, no se corta a la mitad) — así los puntos de las esquinas quedan bien puestos, igual que en tu referencia. Nota: para frases resaltadas muy largas dentro de columnas angostas (como algunas respuestas del FAQ), existe la posibilidad de que el texto se salga un poco del ancho si la ventana es muy angosta — avísame si ves eso y acorto esas frases.
 
 ## How to Customize
 
