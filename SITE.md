@@ -164,6 +164,8 @@ En pantallas de celular, todo el mismo contenido se muestra dentro de un marco d
 
 - 2026-07-20: Se le dio más inclinación al mazo de tarjetas de "Regalos" (Webflow Camp y Figma Camp) para que se vea abanicado como en tu referencia — antes la tarjeta de encima quedaba perfectamente recta y las de atrás casi sin girar. Ahora todas tienen una leve inclinación (incluida la de encima) y las de atrás se desplazan también en diagonal, no solo hacia abajo.
 
+- 2026-07-20: Se corrigió "El programa" de Webflow Camp: los 6 módulos tenían un ancho fijo (380px) que solo dejaba lugar para 2 columnas y dejaba un espacio en blanco al costado. Ahora el ancho es flexible, así que se acomodan 3 columnas por fila cuando hay espacio suficiente.
+
 ## How to Customize
 
 - **Cambiar precios o beneficios de los cursos:** en `components/MacDesktopExperience.tsx`, busca `FigmaBody` o `WebflowBody` y edita los valores de `price`, `oldPrice` o las listas de beneficios.

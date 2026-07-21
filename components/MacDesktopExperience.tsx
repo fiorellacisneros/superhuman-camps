@@ -1205,9 +1205,9 @@ function WebflowBody() {
             align="left"
           />
         </Reveal>
-        <RevealGroup style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+        <RevealGroup style={{ display: "flex", gap: 20, flexWrap: "wrap" }} itemStyle={{ flex: "1 1 300px", minWidth: 0 }}>
           {WEBFLOW_MODULES.map((m) => (
-            <CardAprendizaje key={m.number} number={m.number} title={m.title} body={m.body} />
+            <CardAprendizaje key={m.number} number={m.number} title={m.title} body={m.body} style={{ width: "100%" }} />
           ))}
         </RevealGroup>
       </section>
