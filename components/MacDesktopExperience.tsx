@@ -1,6 +1,7 @@
 "use client";
 
 import { CSSProperties, FormEvent, ReactNode, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useInView, useScroll, useTransform } from "framer-motion";
 import { Tag } from "@/components/design-system/Tag";
 import { PrincipalButton } from "@/components/design-system/PrincipalButton";
@@ -130,22 +131,22 @@ const FIGMA_PERKS = [
 const FIGMA_FAQ = [
   {
     q: "¿Necesito saber diseño?",
-    a: <>No. Figma Camp es un curso de nivel básico, pensado para personas que están empezando. <ManifiestoHighlight>No necesitas experiencia previa en diseño</ManifiestoHighlight> para llevar el curso con éxito.</>,
+    a: "No. Figma Camp es un curso de nivel básico, pensado para personas que están empezando. No necesitas experiencia previa en diseño para llevar el curso con éxito.",
   },
   {
     q: "¿Necesito saber código?",
-    a: <>Tampoco. Figma es una herramienta 100% visual — <ManifiestoHighlight>no vas a escribir una sola línea de código</ManifiestoHighlight>. Trabajarás con auto layout, componentes y variables para armar interfaces reales.</>,
+    a: "Tampoco. Figma es una herramienta 100% visual — no vas a escribir una sola línea de código. Trabajarás con auto layout, componentes y variables para armar interfaces reales.",
   },
   { q: "¿Las clases quedan grabadas?", a: "Sí. Todas las clases se graban y se suben al día siguiente para que puedas verlas con calma o ponerte al día si no pudiste asistir en vivo." },
   {
     q: "¿Cómo funciona la modalidad On-Demand?",
-    a: <>Las clases principales se dictan en vivo martes y jueves de 7 a 9pm Perú y se graban. Como estudiante On-Demand <ManifiestoHighlight>recibirás las grabaciones al día siguiente</ManifiestoHighlight>. Además tendrás acceso a 2 sesiones grupales en vivo al mes para resolver dudas junto a otros estudiantes On-Demand.</>,
+    a: "Las clases principales se dictan en vivo martes y jueves de 7 a 9pm Perú y se graban. Como estudiante On-Demand recibirás las grabaciones al día siguiente. Además tendrás acceso a 2 sesiones grupales en vivo al mes para resolver dudas junto a otros estudiantes On-Demand.",
   },
   { q: "¿Cómo funcionan los retos semanales?", a: "Cada semana tendrás un reto práctico donde aplicarás lo aprendido en clase. Estos retos te ayudan a consolidar el conocimiento y avanzar paso a paso en tu proyecto final." },
   { q: "¿Qué necesito técnicamente?", a: "• Laptop\n• Conexión a internet estable\n• Ganas de construir 🚀" },
   {
     q: "¿Se puede pagar en 2 cuotas?",
-    a: <>Sí. Ofrecemos pago en 2 partes: <ManifiestoHighlight>50% al momento de inscribirte y 50% antes de que inicien las clases</ManifiestoHighlight>.</>,
+    a: "Sí. Ofrecemos pago en 2 partes: 50% al momento de inscribirte y 50% antes de que inicien las clases.",
   },
 ];
 
@@ -158,22 +159,22 @@ const WEBFLOW_PERKS = [
 const WEBFLOW_FAQ = [
   {
     q: "¿Necesito saber código?",
-    a: <>No. Webflow Camp es un curso de nivel básico, pensado para personas que están empezando. <ManifiestoHighlight>No necesitas conocimientos previos de programación</ManifiestoHighlight> para llevar el curso con éxito.</>,
+    a: "No. Webflow Camp es un curso de nivel básico, pensado para personas que están empezando. No necesitas conocimientos previos de programación para llevar el curso con éxito.",
   },
   {
     q: "¿Necesito saber diseño?",
-    a: <>Tampoco. Durante el curso trabajaremos con un diseño en Figma que usaremos en clase para desarrollarlo paso a paso en Webflow. Además, para el proyecto final podrás usar <ManifiestoHighlight>una herramienta con IA que te ayudará a generar un diseño base</ManifiestoHighlight>, llevarlo a Figma y luego desarrollarlo en Webflow.</>,
+    a: "Tampoco. Durante el curso trabajaremos con un diseño en Figma que usaremos en clase para desarrollarlo paso a paso en Webflow. Además, para el proyecto final podrás usar una herramienta con IA que te ayudará a generar un diseño base, llevarlo a Figma y luego desarrollarlo en Webflow.",
   },
   { q: "¿Las clases quedan grabadas?", a: "Sí. Todas las clases se graban y se suben al día siguiente para que puedas verlas con calma o ponerte al día si no pudiste asistir en vivo." },
   {
     q: "¿Cómo funciona la modalidad On-Demand?",
-    a: <>Las clases principales se dictan en vivo martes y jueves de 7 a 9pm Perú y se graban. Como estudiante On-Demand <ManifiestoHighlight>recibirás las grabaciones al día siguiente</ManifiestoHighlight>. Además tendrás acceso a 2 sesiones grupales en vivo al mes para resolver dudas junto a otros estudiantes On-Demand.</>,
+    a: "Las clases principales se dictan en vivo martes y jueves de 7 a 9pm Perú y se graban. Como estudiante On-Demand recibirás las grabaciones al día siguiente. Además tendrás acceso a 2 sesiones grupales en vivo al mes para resolver dudas junto a otros estudiantes On-Demand.",
   },
   { q: "¿Cómo funcionan los retos semanales?", a: "Cada semana tendrás un reto práctico donde aplicarás lo aprendido en clase. Estos retos te ayudan a consolidar el conocimiento y avanzar paso a paso en tu proyecto final." },
   { q: "¿Qué necesito técnicamente?", a: "• Laptop\n• Conexión a internet estable\n• Ganas de construir 🚀" },
   {
     q: "¿Se puede pagar en 2 cuotas?",
-    a: <>Sí. Ofrecemos pago en 2 partes: <ManifiestoHighlight>50% al momento de inscribirte y 50% antes de que inicien las clases</ManifiestoHighlight>.</>,
+    a: "Sí. Ofrecemos pago en 2 partes: 50% al momento de inscribirte y 50% antes de que inicien las clases.",
   },
 ];
 
@@ -734,13 +735,68 @@ type PerkItem = {
   iconKind: "color" | "mask";
 };
 
+function PerkIcon({ item, size }: { item: PerkItem; size: string }) {
+  return item.iconKind === "mask" ? (
+    <div
+      style={{
+        width: size,
+        height: `calc(${size} * 0.63)`,
+        backgroundColor: item.variant === "yellow" || item.variant === "light" ? "var(--black)" : "var(--white)",
+        WebkitMaskImage: `url(${item.icon})`,
+        maskImage: `url(${item.icon})`,
+        WebkitMaskSize: "contain",
+        maskSize: "contain",
+        WebkitMaskRepeat: "no-repeat",
+        maskRepeat: "no-repeat",
+        WebkitMaskPosition: "center",
+        maskPosition: "center",
+      }}
+    />
+  ) : (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={item.icon} alt="" style={{ width: size, height: size, objectFit: "contain" }} />
+  );
+}
+
+function DescubreButton({ onClick, style }: { onClick: () => void; style?: CSSProperties }) {
+  return (
+    <button
+      onClick={onClick}
+      className="shs-perk-btn"
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "14px 28px",
+        borderRadius: "var(--radius-full)",
+        border: "none",
+        background: "var(--yellow)",
+        color: "var(--black)",
+        font: "500 18px/1 'Work Sans',sans-serif",
+        cursor: "pointer",
+        whiteSpace: "nowrap",
+        ...style,
+      }}
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M3 12a9 9 0 0 1 15.3-6.4L21 8" />
+        <path d="M21 3v5h-5" />
+        <path d="M21 12a9 9 0 0 1-15.3 6.4L3 16" />
+        <path d="M3 21v-5h5" />
+      </svg>
+      Descubre
+    </button>
+  );
+}
+
 function StackedPerks({ items }: { items: PerkItem[] }) {
   const [order, setOrder] = useState(items.map((_, i) => i));
   const next = () => setOrder((o) => [...o.slice(1), o[0]]);
+
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 48 }}>
-      <div style={{ position: "relative", width: 410 }}>
-        <div style={{ position: "relative", width: 410, height: 500 }}>
+      <div style={{ position: "relative", width: "clamp(280px, 82vw, 410px)" }}>
+        <div style={{ position: "relative", width: "clamp(280px, 82vw, 410px)", height: "clamp(400px, 100vw, 500px)" }}>
           {items.map((item, i) => {
             const pos = order.indexOf(i);
             const tilt = pos % 2 === 0 ? -4 - pos * 3 : 4 + pos * 3;
@@ -752,78 +808,21 @@ function StackedPerks({ items }: { items: PerkItem[] }) {
                 transition={{ type: "spring", stiffness: 260, damping: 26 }}
                 style={{ position: "absolute", inset: 0, pointerEvents: pos === 0 ? "auto" : "none" }}
               >
-                <div style={{ position: "relative" }}>
-                  <PromoCard variant={item.variant} heading={item.heading} note={item.note} body={item.body} linkText="" style={{ width: 410, height: 500 }} />
-                  {item.iconKind === "mask" ? (
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        width: 150,
-                        height: 94,
-                        backgroundColor: item.variant === "yellow" || item.variant === "light" ? "var(--black)" : "var(--white)",
-                        WebkitMaskImage: `url(${item.icon})`,
-                        maskImage: `url(${item.icon})`,
-                        WebkitMaskSize: "contain",
-                        maskSize: "contain",
-                        WebkitMaskRepeat: "no-repeat",
-                        maskRepeat: "no-repeat",
-                        WebkitMaskPosition: "center",
-                        maskPosition: "center",
-                      }}
-                    />
-                  ) : (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={item.icon}
-                      alt=""
-                      style={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        width: 120,
-                        height: 120,
-                        objectFit: "contain",
-                      }}
-                    />
-                  )}
-                </div>
+                <PromoCard
+                  variant={item.variant}
+                  heading={item.heading}
+                  note={item.note}
+                  body={item.body}
+                  linkText=""
+                  iconPosition="top"
+                  style={{ width: "clamp(280px, 82vw, 410px)", height: "clamp(400px, 100vw, 500px)" }}
+                  icon={<PerkIcon item={item} size="clamp(48px, 14vw, 80px)" />}
+                />
               </motion.div>
             );
           })}
         </div>
-        <button
-          onClick={next}
-          style={{
-            position: "absolute",
-            left: "50%",
-            bottom: 0,
-            zIndex: 999,
-            transform: "translate(-50%, 50%)",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 10,
-            padding: "14px 28px",
-            borderRadius: "var(--radius-full)",
-            border: "none",
-            background: "var(--yellow)",
-            color: "var(--black)",
-            font: "500 18px/1 'Work Sans',sans-serif",
-            cursor: "pointer",
-            whiteSpace: "nowrap",
-          }}
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M3 12a9 9 0 0 1 15.3-6.4L21 8" />
-            <path d="M21 3v5h-5" />
-            <path d="M21 12a9 9 0 0 1-15.3 6.4L3 16" />
-            <path d="M3 21v-5h5" />
-          </svg>
-          Descubre
-        </button>
+        <DescubreButton onClick={next} style={{ position: "absolute", left: "50%", bottom: 0, zIndex: 999, transform: "translate(-50%, 50%)" }} />
       </div>
     </div>
   );
@@ -887,32 +886,32 @@ function TestimonialsSection({ items }: { items: { quote: string; date: string }
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          gap: 56,
-          paddingTop: 64,
-          paddingBottom: 64,
+          gap: "clamp(32px, 7vw, 56px)",
+          paddingTop: "clamp(40px, 8vw, 64px)",
+          paddingBottom: "clamp(40px, 8vw, 64px)",
           boxSizing: "border-box",
           minHeight,
         }}
       >
-        <div style={{ padding: "0 64px" }}>
+        <div className="shs-inner-pad" style={{ padding: "0 64px" }}>
           <Reveal>
-            <h2 style={{ font: "400 52px/1.25 'Manrope',sans-serif", letterSpacing: "-0.02em", margin: 0, maxWidth: 960 }}>
+            <h2 style={{ font: "400 clamp(28px, 6.5vw, 52px)/1.25 'Manrope',sans-serif", letterSpacing: "-0.02em", margin: 0, maxWidth: 960 }}>
               <span style={{ color: "var(--white)" }}>¿Qué opinan de Webflow Camp? Ya son más de 150 alumnos formados. </span>
               <span style={{ color: "rgba(255,255,255,0.45)" }}>No te quedes solo con nuestra palabra — escúchalo directo de nuestra comunidad.</span>
             </h2>
           </Reveal>
         </div>
-        <div ref={trackRef} style={{ display: "flex", gap: 24, padding: "0 64px", width: "max-content" }}>
+        <div ref={trackRef} className="shs-inner-pad" style={{ display: "flex", gap: 20, padding: "0 64px", width: "max-content" }}>
           {items.map((t, i) => (
             <div
               key={i}
               style={{
-                width: 420,
-                height: 420,
+                width: "clamp(240px, 78vw, 420px)",
+                height: "clamp(240px, 78vw, 420px)",
                 flexShrink: 0,
                 borderRadius: 16,
                 border: "1px solid rgba(255,255,255,0.14)",
-                padding: 40,
+                padding: "clamp(24px, 5vw, 40px)",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
@@ -927,7 +926,7 @@ function TestimonialsSection({ items }: { items: { quote: string; date: string }
                 </span>
                 <span style={{ font: "400 14px/1 'Work Sans',sans-serif", color: "rgba(255,255,255,0.4)" }}>{t.date}</span>
               </div>
-              <p style={{ font: "300 22px/1.5 'Work Sans',sans-serif", color: "rgba(255,255,255,0.9)", margin: 0 }}>
+              <p style={{ font: "300 clamp(16px, 4vw, 22px)/1.5 'Work Sans',sans-serif", color: "rgba(255,255,255,0.9)", margin: 0 }}>
                 &ldquo;{t.quote}&rdquo;
               </p>
             </div>
@@ -945,7 +944,7 @@ function SumateCTA({ courseName, weeks, targetId }: { courseName: string; weeks:
         style={{
           background: "var(--blue)",
           borderRadius: "var(--radius-md)",
-          padding: "56px 48px",
+          padding: "clamp(32px, 8vw, 56px) clamp(24px, 6vw, 48px)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -953,10 +952,10 @@ function SumateCTA({ courseName, weeks, targetId }: { courseName: string; weeks:
           textAlign: "center",
         }}
       >
-        <h2 style={{ font: "400 48px/1.1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)", margin: 0, maxWidth: 640 }}>
+        <h2 style={{ font: "400 clamp(28px, 7.5vw, 48px)/1.15 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)", margin: 0, maxWidth: 640 }}>
           Súmate al {courseName}
         </h2>
-        <p style={{ font: "300 20px/1.4 'Work Sans',sans-serif", color: "rgba(255,255,255,0.9)", margin: 0, maxWidth: 640 }}>
+        <p style={{ font: "300 clamp(16px, 4vw, 20px)/1.4 'Work Sans',sans-serif", color: "rgba(255,255,255,0.9)", margin: 0, maxWidth: 640 }}>
           <strong style={{ fontWeight: 600 }}>{weeks}</strong> intensivas donde construirás <strong style={{ fontWeight: 600 }}>2 proyectos publicados</strong>, obtén aprendizaje real y beneficios exclusivos de nuestro camp!
         </p>
         <button
@@ -1023,7 +1022,7 @@ function FooterLink({ href, children }: { href: string; children: ReactNode }) {
 
 function FooterLinkCol({ eyebrow, children }: { eyebrow: string; children: ReactNode }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24, width: 180 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "clamp(14px, 4vw, 24px)", width: 180 }}>
       <span style={{ font: "400 15px/1 'Manrope',sans-serif", color: "var(--gray-500)" }}>{eyebrow}</span>
       <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "flex-start" }}>{children}</div>
     </div>
@@ -1072,13 +1071,13 @@ function SiteFooter() {
   };
 
   return (
-    <footer ref={footerRef} style={{ position: "relative", background: "var(--pure-white)", paddingTop: 64, overflow: "hidden" }}>
+    <footer ref={footerRef} style={{ position: "relative", background: "var(--pure-white)", paddingTop: "clamp(32px, 8vw, 64px)", overflow: "hidden" }}>
       <motion.div
         style={{ opacity: darkOpacity, position: "absolute", inset: 0, background: "var(--black)", zIndex: 2, pointerEvents: "none" }}
       />
       <motion.div style={{ y: innerY, display: "flex", flexDirection: "column", minHeight: spacerHeight ? spacerHeight + 260 : undefined }}>
-        <div style={{ padding: "0 64px", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 40 }}>
-          <div style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
+        <div className="shs-inner-pad" style={{ padding: "0 64px", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "clamp(24px, 6vw, 40px)" }}>
+          <div style={{ display: "flex", gap: "clamp(24px, 6vw, 48px)", flexWrap: "wrap" }}>
             <FooterLinkCol eyebrow="Páginas">
               <FooterLink href="https://www.forhuman.studio/">forHuman</FooterLink>
               <FooterLink href="#">Webflow Camp</FooterLink>
@@ -1150,7 +1149,7 @@ function SiteFooter() {
             )}
           </div>
         </div>
-        <div style={{ marginTop: "auto", paddingTop: 120 }}>
+        <div style={{ marginTop: "auto", paddingTop: "clamp(32px, 9vw, 120px)" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/superhuman/logo-footer.svg" alt="superHuman School" style={{ width: "100%", display: "block" }} />
         </div>
@@ -1162,7 +1161,7 @@ function SiteFooter() {
 function FigmaBody() {
   return (
     <>
-      <section id="figma-inicio" style={{ padding: "64px 64px 56px 64px", display: "flex", flexDirection: "column", gap: 24 }}>
+      <section id="figma-inicio" style={{ padding: "clamp(32px, 8vw, 64px) 64px clamp(24px, 6vw, 56px) 64px", display: "flex", flexDirection: "column", gap: 24 }}>
         <Reveal>
           <HeroPunchBlock
             kicker="La IA ya genera un mockup en Figma en segundos: acomoda cajas, alinea textos, hasta sugiere una paleta de colores. Si sientes que eso te vuelve prescindible, no es la herramienta lo que tienes que aprender — es el criterio que la IA todavía no tiene."
@@ -1173,23 +1172,23 @@ function FigmaBody() {
           <Tag>Nuevo · Inicia 10 Marzo · 15 plazas · 4 semanas</Tag>
         </Reveal>
         <Reveal delay={0.08}>
-          <h1 style={{ font: "400 56px/1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)", margin: 0, maxWidth: 820 }}>
+          <h1 style={{ font: "400 clamp(34px, 9vw, 56px)/1.05 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)", margin: 0, maxWidth: 820 }}>
             Figma Camp
           </h1>
         </Reveal>
         <Reveal delay={0.16}>
-          <p style={{ font: "300 22px/1.3 'Work Sans',sans-serif", color: "var(--black)", maxWidth: 680, margin: 0 }}>
+          <p style={{ font: "300 clamp(16px, 4vw, 22px)/1.4 'Work Sans',sans-serif", color: "var(--black)", maxWidth: 680, margin: 0 }}>
             Programa intensivo para dominar Figma: sistemas de diseño, prototipado y handoff con desarrollo. De cero a listo para producción.
           </p>
         </Reveal>
         <Reveal delay={0.24}>
-          <div style={{ display: "flex", gap: 24, marginTop: 8, alignItems: "center" }}>
+          <div style={{ display: "flex", gap: 20, marginTop: 8, alignItems: "center", flexWrap: "wrap" }}>
             <PrincipalButton variant="primary">Quiero inscribirme</PrincipalButton>
             <TextButton href="#">Ver beneficios</TextButton>
           </div>
         </Reveal>
       </section>
-      <section id="figma-programa" style={{ padding: "0 64px 80px 64px", display: "flex", flexDirection: "column", gap: 32 }}>
+      <section id="figma-programa" style={{ padding: "0 64px clamp(40px, 9vw, 80px) 64px", display: "flex", flexDirection: "column", gap: 32 }}>
         <Reveal>
           <Header
             kicker="Currículum"
@@ -1208,7 +1207,7 @@ function FigmaBody() {
           <CardAprendizaje number="03" title="Prototipado y handoff" body="Interacciones realistas y especificaciones claras para developers." style={{ width: "100%", height: "100%" }} />
         </RevealGroup>
       </section>
-      <section id="figma-motivos" style={{ background: "var(--gray-100)", padding: "64px", display: "flex", flexDirection: "column", gap: 32 }}>
+      <section id="figma-motivos" style={{ background: "var(--gray-100)", padding: "clamp(32px, 8vw, 64px) 64px", display: "flex", flexDirection: "column", gap: 32 }}>
         <Reveal>
           <Header kicker="Por qué este camp" title="De principiante a builder profesional" subtitle="Motivos para llevar el curso" align="left" />
         </Reveal>
@@ -1238,7 +1237,7 @@ function FigmaBody() {
           ))}
         </RevealGroup>
       </section>
-      <section id="figma-bono" style={{ background: "var(--black)", padding: 64, display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
+      <section id="figma-bono" style={{ background: "var(--black)", padding: "clamp(32px, 8vw, 64px) 64px", display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
         <Reveal>
           <Header
             kicker="Beneficios"
@@ -1252,7 +1251,7 @@ function FigmaBody() {
           <StackedPerks items={FIGMA_PERKS} />
         </Reveal>
       </section>
-      <section id="figma-precios" style={{ padding: "80px 64px", display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
+      <section id="figma-precios" style={{ padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", flexDirection: "column", gap: 20, alignItems: "center" }}>
         <Reveal>
           <Header kicker="Precios" title="Inscríbete y potencia tus habilidades" subtitle="Transforma tus habilidades en oportunidades internacionales, tu propia agencia o proyectos independientes." />
         </Reveal>
@@ -1262,7 +1261,7 @@ function FigmaBody() {
           <CardPricing variant="dark" title="On-Demand" subtitle="Aprende a tu ritmo" price="$100" oldPrice="$150" benefits={FIGMA_BENEFITS_RECORDED} />
         </RevealGroup>
       </section>
-      <section id="figma-mentores" className="shs-mentores-row" style={{ background: "var(--black)", padding: "80px 64px", display: "flex", gap: 48, flexWrap: "nowrap", alignItems: "center" }}>
+      <section id="figma-mentores" className="shs-mentores-row" style={{ background: "var(--black)", padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", gap: 48, flexWrap: "nowrap", alignItems: "center" }}>
         <Reveal style={{ flex: "1 1 320px", minWidth: 0 }}>
           <Header
             kicker="Quiénes te enseñan"
@@ -1292,15 +1291,15 @@ function FigmaBody() {
           </MomentumCard>
         </RevealGroup>
       </section>
-      <section id="figma-cta" style={{ background: "var(--black)", padding: 64, display: "flex", justifyContent: "center" }}>
+      <section id="figma-cta" style={{ background: "var(--black)", padding: "clamp(32px, 8vw, 64px) 64px", display: "flex", justifyContent: "center" }}>
         <SumateCTA courseName="Figma Camp" weeks="4 semanas" targetId="figma-programa" />
       </section>
-      <section id="figma-faq" style={{ background: "var(--black)", padding: "80px 64px", display: "flex", gap: 64, flexWrap: "wrap" }}>
+      <section id="figma-faq" style={{ background: "var(--black)", padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", gap: "clamp(28px, 7vw, 64px)", flexWrap: "wrap" }}>
         <Reveal style={{ maxWidth: 400, display: "flex", flexDirection: "column", gap: 16 }}>
           <span style={{ font: "600 13px/1 'Inconsolata',monospace", letterSpacing: "0.1em", color: "var(--yellow)", textTransform: "uppercase" }}>
             Antes de empezar
           </span>
-          <h2 style={{ font: "400 40px/1.15 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)", margin: 0 }}>
+          <h2 style={{ font: "400 clamp(26px, 6.5vw, 40px)/1.15 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)", margin: 0 }}>
             ¿Tienes dudas? Aquí las resolvemos
           </h2>
           <p style={{ font: "300 16px/1.4 'Work Sans',sans-serif", color: "rgba(255,255,255,0.75)", margin: 0 }}>
@@ -1319,7 +1318,7 @@ function FigmaBody() {
 function WebflowBody() {
   return (
     <>
-      <section id="webflow-inicio" style={{ padding: "64px 64px 56px 64px", display: "flex", flexDirection: "column", gap: 24 }}>
+      <section id="webflow-inicio" style={{ padding: "clamp(32px, 8vw, 64px) 64px clamp(24px, 6vw, 56px) 64px", display: "flex", flexDirection: "column", gap: 24 }}>
         <Reveal>
           <HeroPunchBlock
             kicker="La IA ya arma una web básica en minutos: crea secciones, aplica estilos, hasta escribe el copy. Si te preocupa que eso te vuelva prescindible, no es Webflow lo que tienes que dominar — es el criterio que la IA todavía no tiene."
@@ -1330,23 +1329,23 @@ function WebflowBody() {
           <Tag>Early Bird · Inicia 25 Febrero · 15 plazas · 5 semanas</Tag>
         </Reveal>
         <Reveal delay={0.08}>
-          <h1 style={{ font: "400 56px/1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)", margin: 0, maxWidth: 820 }}>
+          <h1 style={{ font: "400 clamp(34px, 9vw, 56px)/1.05 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)", margin: 0, maxWidth: 820 }}>
             Webflow Camp
           </h1>
         </Reveal>
         <Reveal delay={0.16}>
-          <p style={{ font: "300 22px/1.3 'Work Sans',sans-serif", color: "var(--black)", maxWidth: 680, margin: 0 }}>
+          <p style={{ font: "300 clamp(16px, 4vw, 22px)/1.4 'Work Sans',sans-serif", color: "var(--black)", maxWidth: 680, margin: 0 }}>
             Programa intensivo donde aprendes a construir sitios web profesionales desde la maquetación hasta la publicación, aplicando buenas prácticas. Sin código. Sin excusas.
           </p>
         </Reveal>
         <Reveal delay={0.24}>
-          <div style={{ display: "flex", gap: 24, marginTop: 8, alignItems: "center" }}>
+          <div style={{ display: "flex", gap: 20, marginTop: 8, alignItems: "center", flexWrap: "wrap" }}>
             <PrincipalButton variant="primary">Quiero inscribirme</PrincipalButton>
             <TextButton href="#">Ver beneficios</TextButton>
           </div>
         </Reveal>
       </section>
-      <section id="webflow-programa" style={{ padding: "0 64px 80px 64px", display: "flex", flexDirection: "column", gap: 32 }}>
+      <section id="webflow-programa" style={{ padding: "0 64px clamp(40px, 9vw, 80px) 64px", display: "flex", flexDirection: "column", gap: 32 }}>
         <Reveal>
           <Header
             kicker="Currículum"
@@ -1361,7 +1360,7 @@ function WebflowBody() {
           ))}
         </RevealGroup>
       </section>
-      <section id="webflow-motivos" style={{ background: "var(--gray-100)", padding: "64px", display: "flex", flexDirection: "column", gap: 32 }}>
+      <section id="webflow-motivos" style={{ background: "var(--gray-100)", padding: "clamp(32px, 8vw, 64px) 64px", display: "flex", flexDirection: "column", gap: 32 }}>
         <Reveal>
           <Header kicker="Por qué este camp" title="De principiante a builder profesional" subtitle="Motivos para llevar el curso" align="left" />
         </Reveal>
@@ -1391,7 +1390,7 @@ function WebflowBody() {
           ))}
         </RevealGroup>
       </section>
-      <section id="webflow-bono" style={{ background: "var(--black)", padding: 64, display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
+      <section id="webflow-bono" style={{ background: "var(--black)", padding: "clamp(32px, 8vw, 64px) 64px", display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
         <Reveal>
           <Header
             kicker="Beneficios"
@@ -1406,7 +1405,7 @@ function WebflowBody() {
         </Reveal>
       </section>
       <TestimonialsSection items={WEBFLOW_TESTIMONIALS} />
-      <section id="webflow-precios" style={{ padding: "80px 64px", display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
+      <section id="webflow-precios" style={{ padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", flexDirection: "column", gap: 20, alignItems: "center" }}>
         <Reveal>
           <Header kicker="Precios" title="Inscríbete y potencia tus habilidades" subtitle="Transforma tus habilidades en oportunidades internacionales, tu propia agencia o proyectos independientes." />
         </Reveal>
@@ -1445,7 +1444,7 @@ function WebflowBody() {
           />
         </RevealGroup>
       </section>
-      <section id="webflow-mentores" className="shs-mentores-row" style={{ background: "var(--black)", padding: "80px 64px", display: "flex", gap: 48, flexWrap: "nowrap", alignItems: "center" }}>
+      <section id="webflow-mentores" className="shs-mentores-row" style={{ background: "var(--black)", padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", gap: 48, flexWrap: "nowrap", alignItems: "center" }}>
         <Reveal style={{ flex: "1 1 320px", minWidth: 0 }}>
           <Header
             kicker="Quiénes te enseñan"
@@ -1475,15 +1474,15 @@ function WebflowBody() {
           </MomentumCard>
         </RevealGroup>
       </section>
-      <section id="webflow-cta" style={{ background: "var(--black)", padding: 64, display: "flex", justifyContent: "center" }}>
+      <section id="webflow-cta" style={{ background: "var(--black)", padding: "clamp(32px, 8vw, 64px) 64px", display: "flex", justifyContent: "center" }}>
         <SumateCTA courseName="Webflow Camp" weeks="6 semanas" targetId="webflow-programa" />
       </section>
-      <section id="webflow-faq" style={{ background: "var(--black)", padding: "80px 64px", display: "flex", gap: 64, flexWrap: "wrap" }}>
+      <section id="webflow-faq" style={{ background: "var(--black)", padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", gap: "clamp(28px, 7vw, 64px)", flexWrap: "wrap" }}>
         <Reveal style={{ maxWidth: 400, display: "flex", flexDirection: "column", gap: 16 }}>
           <span style={{ font: "600 13px/1 'Inconsolata',monospace", letterSpacing: "0.1em", color: "var(--yellow)", textTransform: "uppercase" }}>
             Antes de empezar
           </span>
-          <h2 style={{ font: "400 40px/1.15 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)", margin: 0 }}>
+          <h2 style={{ font: "400 clamp(26px, 6.5vw, 40px)/1.15 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)", margin: 0 }}>
             ¿Tienes dudas? Aquí las resolvemos
           </h2>
           <p style={{ font: "300 16px/1.4 'Work Sans',sans-serif", color: "rgba(255,255,255,0.75)", margin: 0 }}>
@@ -1502,26 +1501,26 @@ function WebflowBody() {
 function FinderBody() {
   return (
     <>
-      <section id="nosotras" style={{ padding: "80px 64px", display: "flex", flexDirection: "column", gap: 24 }}>
+      <section id="nosotras" style={{ padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", flexDirection: "column", gap: 24 }}>
         <span style={{ font: "600 13px/1 'Inconsolata',monospace", letterSpacing: "0.1em", color: "var(--gray-500)", textTransform: "uppercase" }}>
           00 — NOSOTRAS
         </span>
-        <h1 style={{ font: "400 52px/1.1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)", margin: 0, maxWidth: 820 }}>
+        <h1 style={{ font: "400 clamp(32px, 8.5vw, 52px)/1.15 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)", margin: 0, maxWidth: 820 }}>
           De agencia a escuela: <span style={{ fontStyle: "italic", color: "var(--blue)" }}>así nació superHuman.</span>
         </h1>
-        <p style={{ font: "300 22px/1.4 'Work Sans',sans-serif", color: "var(--black)", maxWidth: 720, margin: 0 }}>
+        <p style={{ font: "300 clamp(16px, 4vw, 22px)/1.4 'Work Sans',sans-serif", color: "var(--black)", maxWidth: 720, margin: 0 }}>
           forHuman Studio es la primera agencia en Perú certificada como Webflow Expert y Webflow Educator. Después de construir sitios para decenas de marcas, decidimos enseñar lo que sabemos — así nació superHuman School.
         </p>
-        <p style={{ font: "300 20px/1.4 'Work Sans',sans-serif", color: "var(--gray-500)", maxWidth: 720, margin: 0 }}>
+        <p style={{ font: "300 clamp(15px, 4vw, 20px)/1.4 'Work Sans',sans-serif", color: "var(--gray-500)", maxWidth: 720, margin: 0 }}>
           Hoy formamos builders que lanzan su propia marca, sin depender de agencias ni de código. Webflow Camp y Figma Camp son el punto de partida.
         </p>
       </section>
-      <section id="cifras" style={{ background: "var(--blue-light)", padding: 64, display: "flex", gap: 64, flexWrap: "wrap", justifyContent: "center" }}>
+      <section id="cifras" style={{ background: "var(--blue-light)", padding: "clamp(32px, 8vw, 64px) 64px", display: "flex", gap: 64, flexWrap: "wrap", justifyContent: "center" }}>
         <DataStat value="100%" label="Estudiantes practicando en vivo" />
         <DataStat value="+200" label="Builders graduados en LATAM" />
         <DataStat value="2" label="Programas: Webflow Camp y Figma Camp" />
       </section>
-      <section id="mentores" className="shs-mentores-row" style={{ background: "var(--black)", padding: "80px 64px", display: "flex", gap: 48, flexWrap: "nowrap", alignItems: "center" }}>
+      <section id="mentores" className="shs-mentores-row" style={{ background: "var(--black)", padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", gap: 48, flexWrap: "nowrap", alignItems: "center" }}>
         <Reveal style={{ flex: "1 1 320px", minWidth: 0 }}>
           <Header
             kicker="Quiénes te enseñan"
@@ -1617,16 +1616,118 @@ function formatNotesDateTime(date: Date) {
   return `${date.getDate()} de ${FULL_MONTHS[date.getMonth()]} de ${date.getFullYear()}, ${hours}:${minutes}`;
 }
 
+function SelectHighlight({
+  children,
+  className,
+  dotColor,
+  dotRatio = 0.55,
+}: {
+  children: ReactNode;
+  className: string;
+  dotColor: string;
+  /** Dot diameter as a fraction of the highlighted text's own font-size (not the page's). */
+  dotRatio?: number;
+}) {
+  const textRef = useRef<HTMLSpanElement>(null);
+  const dotRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    let rafId = 0;
+
+    // Mutate the dot nodes' inline styles directly instead of going through
+    // React state: setState + re-render is a frame or more slower than the
+    // browser's own scroll compositing, which is what made the dots visibly
+    // lag/detach from the text while scrolling. Writing style.left/top here
+    // keeps them locked to the text on every single rAF tick.
+    const measure = () => {
+      const text = textRef.current;
+      const [startDot, endDot] = dotRefs.current;
+      if (!text || !startDot || !endDot) {
+        rafId = requestAnimationFrame(measure);
+        return;
+      }
+      // Ignore degenerate/zero-size fragments some browsers emit at wrap points.
+      const rects = Array.from(text.getClientRects()).filter((r) => r.width > 0.5 && r.height > 0.5);
+      if (rects.length) {
+        const first = rects[0];
+        const last = rects[rects.length - 1];
+        const fontSize = parseFloat(getComputedStyle(text).fontSize) || 16;
+        const size = fontSize * dotRatio;
+        // iOS-style handles: start knob sits above the top of its line,
+        // end knob sits below the bottom of its line.
+        startDot.style.display = "block";
+        startDot.style.left = `${first.left}px`;
+        startDot.style.top = `${first.top}px`;
+        startDot.style.width = `${size}px`;
+        startDot.style.height = `${size}px`;
+        endDot.style.display = "block";
+        endDot.style.left = `${last.right}px`;
+        endDot.style.top = `${last.bottom}px`;
+        endDot.style.width = `${size}px`;
+        endDot.style.height = `${size}px`;
+      } else {
+        // Text collapsed to zero size (e.g. a closed accordion/FAQ) — hide the
+        // dots immediately instead of leaving them frozen at their last spot.
+        startDot.style.display = "none";
+        endDot.style.display = "none";
+      }
+      // Keep tracking continuously: the highlighted text sits inside animated
+      // (Framer Motion) wrappers that move via transform, which resize/scroll
+      // listeners never fire for — a rAF loop is the only reliable way to stay
+      // pinned to the text through reveal animations and line-wrap changes.
+      rafId = requestAnimationFrame(measure);
+    };
+
+    rafId = requestAnimationFrame(measure);
+    return () => cancelAnimationFrame(rafId);
+  }, [children, dotRatio]);
+
+  const dotStyle: CSSProperties = {
+    position: "fixed",
+    display: "none",
+    transform: "translate(-50%, -50%)",
+    borderRadius: "50%",
+    background: dotColor,
+    pointerEvents: "none",
+    zIndex: 9999,
+  };
+
+  return (
+    <>
+      <span ref={textRef} className={className}>
+        {children}
+      </span>
+      {mounted &&
+        createPortal(
+          <>
+            <span ref={(el) => { dotRefs.current[0] = el; }} style={dotStyle} />
+            <span ref={(el) => { dotRefs.current[1] = el; }} style={dotStyle} />
+          </>,
+          document.body
+        )}
+    </>
+  );
+}
+
 function ManifiestoHighlight({ children }: { children: ReactNode }) {
-  return <span className="shs-ios-select">{children}</span>;
+  return (
+    <SelectHighlight className="shs-ios-select" dotColor="var(--yellow)" dotRatio={0.65}>
+      {children}
+    </SelectHighlight>
+  );
 }
 
 function HeroKicker({ children }: { children: ReactNode }) {
   return (
     <p
       style={{
-        font: "500 17px/1.5 'Work Sans',sans-serif",
-        color: "var(--gray-500)",
+        font: "300 clamp(15px, 4vw, 17px)/1.5 'Work Sans',sans-serif",
+        color: "var(--gray-600)",
         margin: 0,
         maxWidth: 640,
       }}
@@ -1640,7 +1741,7 @@ function HeroBig({ children }: { children: ReactNode }) {
   return (
     <p
       style={{
-        font: "700 60px/1.05 'Manrope',sans-serif",
+        font: "700 clamp(30px, 9vw, 60px)/1.05 'Manrope',sans-serif",
         letterSpacing: "-0.01em",
         textTransform: "uppercase",
         color: "var(--black)",
@@ -1654,7 +1755,11 @@ function HeroBig({ children }: { children: ReactNode }) {
 }
 
 function HeroHighlight({ children }: { children: ReactNode }) {
-  return <span className="shs-ios-select-blue">{children}</span>;
+  return (
+    <SelectHighlight className="shs-ios-select-blue" dotColor="var(--blue)" dotRatio={0.42}>
+      {children}
+    </SelectHighlight>
+  );
 }
 
 function StripeTag() {
@@ -1673,8 +1778,8 @@ function StripeTag() {
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2m0 14H4v-6h16zm0-10H4V6h16z" />
       </svg>
-      <span style={{ font: "400 14px/1 'Work Sans',sans-serif" }}>
-        Pago seguro vía Stripe (Tarjetas de crédito o débito)
+      <span style={{ font: "300 14px/1 'Work Sans',sans-serif" }}>
+        Pago seguro vía Stripe<span className="shs-desktop-only"> (Tarjetas de crédito o débito)</span>
       </span>
     </div>
   );
@@ -1688,7 +1793,7 @@ function HeroPunchBlock({ kicker, headline }: { kicker: ReactNode; headline: Rea
       <img
         src="/superhuman/hero-ai-detection.png"
         alt="Detección de personas con IA, superpuesta sobre una foto de un cruce peatonal"
-        style={{ width: "100%", height: 480, objectFit: "cover", objectPosition: "top", borderRadius: "var(--radius-md)" }}
+        style={{ width: "100%", height: "clamp(200px, 55vw, 480px)", objectFit: "cover", objectPosition: "top", borderRadius: "var(--radius-md)" }}
       />
       <HeroBig>{headline}</HeroBig>
     </div>

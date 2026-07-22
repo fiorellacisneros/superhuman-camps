@@ -40,10 +40,10 @@ export function Header({
           {kicker}
         </span>
       )}
-      <span style={{ font: "400 64px/1 'Manrope',sans-serif", letterSpacing: "-0.03em", color }}>
+      <span style={{ font: "400 clamp(32px, 7.5vw, 64px)/1.1 'Manrope',sans-serif", letterSpacing: "-0.03em", color }}>
         {title}
       </span>
-      <span style={{ font: "300 24px/1.3 'Work Sans',sans-serif", color }}>{subtitle}</span>
+      <span style={{ font: "300 clamp(16px, 4vw, 24px)/1.3 'Work Sans',sans-serif", color }}>{subtitle}</span>
     </div>
   );
 }
@@ -59,10 +59,10 @@ export function DataStat({
 }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20, ...style }}>
-      <span style={{ font: "400 64px/1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)" }}>
+      <span style={{ font: "400 clamp(32px, 7.5vw, 64px)/1.1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)" }}>
         {value}
       </span>
-      <span style={{ font: "300 28px/1 'Work Sans',sans-serif", color: "var(--black)" }}>{label}</span>
+      <span style={{ font: "300 clamp(17px, 4vw, 28px)/1.3 'Work Sans',sans-serif", color: "var(--black)" }}>{label}</span>
     </div>
   );
 }

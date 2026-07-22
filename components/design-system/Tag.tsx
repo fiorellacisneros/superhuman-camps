@@ -22,8 +22,8 @@ export function Tag({
         borderRadius: "var(--radius-sm)",
         background: bg,
         color,
-        font: "500 12px/1 'Work Sans',sans-serif",
-        whiteSpace: "nowrap",
+        font: "500 12px/1.3 'Work Sans',sans-serif",
+        textAlign: "center",
         ...style,
       }}
     >
