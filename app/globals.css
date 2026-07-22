@@ -203,7 +203,6 @@ body {
 }
 
 
-
 @media (prefers-reduced-motion: reduce) {
   .shs-app-window {
     animation: none;

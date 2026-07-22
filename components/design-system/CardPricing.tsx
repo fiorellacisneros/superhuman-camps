@@ -50,9 +50,9 @@ export function CardPricing({
         ...style,
       }}
     >
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 28 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 0 }}>
-          <span style={{ font: "400 clamp(24px, 6vw, 48px)/1.1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)" }}>
+          <span style={{ font: "400 clamp(24px, 6vw, 40px)/1.1 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--white)", whiteSpace: "nowrap" }}>
             {title}
           </span>
           <span style={{ font: "300 clamp(13px, 3vw, 16px)/1 'Work Sans',sans-serif", color: "var(--white)" }}>{subtitle}</span>

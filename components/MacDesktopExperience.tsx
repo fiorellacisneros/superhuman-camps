@@ -735,13 +735,68 @@ type PerkItem = {
   iconKind: "color" | "mask";
 };
 
+function PerkIcon({ item, size }: { item: PerkItem; size: string }) {
+  return item.iconKind === "mask" ? (
+    <div
+      style={{
+        width: size,
+        height: `calc(${size} * 0.63)`,
+        backgroundColor: item.variant === "yellow" || item.variant === "light" ? "var(--black)" : "var(--white)",
+        WebkitMaskImage: `url(${item.icon})`,
+        maskImage: `url(${item.icon})`,
+        WebkitMaskSize: "contain",
+        maskSize: "contain",
+        WebkitMaskRepeat: "no-repeat",
+        maskRepeat: "no-repeat",
+        WebkitMaskPosition: "center",
+        maskPosition: "center",
+      }}
+    />
+  ) : (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={item.icon} alt="" style={{ width: size, height: size, objectFit: "contain" }} />
+  );
+}
+
+function DescubreButton({ onClick, style }: { onClick: () => void; style?: CSSProperties }) {
+  return (
+    <button
+      onClick={onClick}
+      className="shs-perk-btn"
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 10,
+        padding: "14px 28px",
+        borderRadius: "var(--radius-full)",
+        border: "none",
+        background: "var(--yellow)",
+        color: "var(--black)",
+        font: "500 18px/1 'Work Sans',sans-serif",
+        cursor: "pointer",
+        whiteSpace: "nowrap",
+        ...style,
+      }}
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M3 12a9 9 0 0 1 15.3-6.4L21 8" />
+        <path d="M21 3v5h-5" />
+        <path d="M21 12a9 9 0 0 1-15.3 6.4L3 16" />
+        <path d="M3 21v-5h5" />
+      </svg>
+      Descubre
+    </button>
+  );
+}
+
 function StackedPerks({ items }: { items: PerkItem[] }) {
   const [order, setOrder] = useState(items.map((_, i) => i));
   const next = () => setOrder((o) => [...o.slice(1), o[0]]);
+
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 48 }}>
       <div style={{ position: "relative", width: "clamp(280px, 82vw, 410px)" }}>
-        <div style={{ position: "relative", width: "clamp(280px, 82vw, 410px)", height: "clamp(340px, 100vw, 500px)" }}>
+        <div style={{ position: "relative", width: "clamp(280px, 82vw, 410px)", height: "clamp(400px, 100vw, 500px)" }}>
           {items.map((item, i) => {
             const pos = order.indexOf(i);
             const tilt = pos % 2 === 0 ? -4 - pos * 3 : 4 + pos * 3;
@@ -759,72 +814,15 @@ function StackedPerks({ items }: { items: PerkItem[] }) {
                   note={item.note}
                   body={item.body}
                   linkText=""
-                  style={{ width: "clamp(280px, 82vw, 410px)", height: "clamp(340px, 100vw, 500px)" }}
-                  icon={
-                    item.iconKind === "mask" ? (
-                      <div
-                        style={{
-                          width: "clamp(80px, 24vw, 150px)",
-                          height: "clamp(50px, 15vw, 94px)",
-                          backgroundColor: item.variant === "yellow" || item.variant === "light" ? "var(--black)" : "var(--white)",
-                          WebkitMaskImage: `url(${item.icon})`,
-                          maskImage: `url(${item.icon})`,
-                          WebkitMaskSize: "contain",
-                          maskSize: "contain",
-                          WebkitMaskRepeat: "no-repeat",
-                          maskRepeat: "no-repeat",
-                          WebkitMaskPosition: "center",
-                          maskPosition: "center",
-                        }}
-                      />
-                    ) : (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={item.icon}
-                        alt=""
-                        style={{
-                          width: "clamp(64px, 20vw, 120px)",
-                          height: "clamp(64px, 20vw, 120px)",
-                          objectFit: "contain",
-                        }}
-                      />
-                    )
-                  }
+                  iconPosition="top"
+                  style={{ width: "clamp(280px, 82vw, 410px)", height: "clamp(400px, 100vw, 500px)" }}
+                  icon={<PerkIcon item={item} size="clamp(48px, 14vw, 80px)" />}
                 />
               </motion.div>
             );
           })}
         </div>
-        <button
-          onClick={next}
-          className="shs-perk-btn"
-          style={{
-            position: "absolute",
-            left: "50%",
-            bottom: 0,
-            zIndex: 999,
-            transform: "translate(-50%, 50%)",
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 10,
-            padding: "14px 28px",
-            borderRadius: "var(--radius-full)",
-            border: "none",
-            background: "var(--yellow)",
-            color: "var(--black)",
-            font: "500 18px/1 'Work Sans',sans-serif",
-            cursor: "pointer",
-            whiteSpace: "nowrap",
-          }}
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M3 12a9 9 0 0 1 15.3-6.4L21 8" />
-            <path d="M21 3v5h-5" />
-            <path d="M21 12a9 9 0 0 1-15.3 6.4L3 16" />
-            <path d="M3 21v-5h5" />
-          </svg>
-          Descubre
-        </button>
+        <DescubreButton onClick={next} style={{ position: "absolute", left: "50%", bottom: 0, zIndex: 999, transform: "translate(-50%, 50%)" }} />
       </div>
     </div>
   );
