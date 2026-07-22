@@ -48,6 +48,92 @@ function beginDrag(
   window.addEventListener("mouseup", onUp);
 }
 
+const WEATHER_LABELS: Record<number, string> = {
+  0: "Despejado",
+  1: "Mayormente despejado",
+  2: "Parcialmente nublado",
+  3: "Nublado",
+  45: "Neblina",
+  48: "Neblina con escarcha",
+  51: "Llovizna ligera",
+  53: "Llovizna",
+  55: "Llovizna intensa",
+  56: "Llovizna helada",
+  57: "Llovizna helada intensa",
+  61: "Lluvia ligera",
+  63: "Lluvia",
+  65: "Lluvia intensa",
+  66: "Lluvia helada",
+  67: "Lluvia helada intensa",
+  71: "Nieve ligera",
+  73: "Nieve",
+  75: "Nieve intensa",
+  77: "Nieve granulada",
+  80: "Chubascos ligeros",
+  81: "Chubascos",
+  82: "Chubascos intensos",
+  95: "Tormenta",
+  96: "Tormenta con granizo",
+  99: "Tormenta con granizo intenso",
+};
+
+type WeatherInfo = { city: string; temp: number; max: number; min: number; code: number };
+
+const FALLBACK_WEATHER: WeatherInfo = { city: "Lima", temp: 19, max: 25, min: 19, code: 3 };
+
+function WeatherIcon({ code, size = 26 }: { code: number; size?: number }) {
+  const group = code === 0 ? "sun" : [1, 2, 3, 45, 48].includes(code) ? "cloud" : "rain";
+
+  if (group === "sun") {
+    return (
+      <svg width={size} height={size} viewBox="0 0 26 26" fill="none" style={{ marginTop: 2 }}>
+        <circle cx="13" cy="13" r="5.5" stroke="rgba(247,247,247,0.85)" strokeWidth="1.4" />
+        {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
+          <line
+            key={deg}
+            x1={13 + Math.cos((deg * Math.PI) / 180) * 8.5}
+            y1={13 + Math.sin((deg * Math.PI) / 180) * 8.5}
+            x2={13 + Math.cos((deg * Math.PI) / 180) * 11}
+            y2={13 + Math.sin((deg * Math.PI) / 180) * 11}
+            stroke="rgba(247,247,247,0.85)"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+          />
+        ))}
+      </svg>
+    );
+  }
+
+  if (group === "rain") {
+    return (
+      <svg width={size} height="24" viewBox="0 0 26 24" fill="none" style={{ marginTop: 2 }}>
+        <path
+          d="M6.5 13.5C3.46 13.5 1 11.14 1 8.25C1 5.36 3.46 3 6.5 3C7.03 3 7.54 3.08 8.02 3.22C8.98 1.5 10.87 0.5 13 0.5C15.99 0.5 18.46 2.63 18.94 5.4C21.24 5.75 23 7.68 23 10C23 12.49 20.98 14.5 18.5 14.5H7C6.83 14.5 6.66 14.5 6.5 14.5"
+          stroke="rgba(247,247,247,0.85)"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <line x1="8" y1="17.5" x2="6.5" y2="21.5" stroke="rgba(247,247,247,0.85)" strokeWidth="1.4" strokeLinecap="round" />
+        <line x1="13" y1="17.5" x2="11.5" y2="21.5" stroke="rgba(247,247,247,0.85)" strokeWidth="1.4" strokeLinecap="round" />
+        <line x1="18" y1="17.5" x2="16.5" y2="21.5" stroke="rgba(247,247,247,0.85)" strokeWidth="1.4" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg width={size} height="18" viewBox="0 0 26 18" fill="none" style={{ marginTop: 2 }}>
+      <path
+        d="M6.5 13.5C3.46 13.5 1 11.14 1 8.25C1 5.36 3.46 3 6.5 3C7.03 3 7.54 3.08 8.02 3.22C8.98 1.5 10.87 0.5 13 0.5C15.99 0.5 18.46 2.63 18.94 5.4C21.24 5.75 23 7.68 23 10C23 12.49 20.98 14.5 18.5 14.5H7C6.83 14.5 6.66 14.5 6.5 14.5"
+        stroke="rgba(247,247,247,0.85)"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function easeInOutQuad(t: number) {
   return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
 }
@@ -2007,6 +2093,7 @@ export function MacDesktopExperience() {
   const [hoveredApp, setHoveredApp] = useState<HoverId>(null);
   const [dockMouseX, setDockMouseX] = useState<number | null>(null);
   const [now, setNow] = useState<Date | null>(null);
+  const [weather, setWeather] = useState<WeatherInfo | null>(null);
   const [deviceScale, setDeviceScale] = useState(1);
   const [folderPos, setFolderPos] = useState({ x: 0, y: 52 });
   const [contactPositions, setContactPositions] = useState(
@@ -2060,6 +2147,44 @@ export function MacDesktopExperience() {
     setNow(new Date());
     const tick = setInterval(() => setNow(new Date()), 1000 * 30);
     return () => clearInterval(tick);
+  }, []);
+
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      setWeather(FALLBACK_WEATHER);
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const { latitude, longitude } = pos.coords;
+
+        try {
+          const weatherRes = await fetch(
+            `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=auto`
+          );
+          const weatherData = await weatherRes.json();
+          setWeather((prev) => ({
+            ...(prev ?? FALLBACK_WEATHER),
+            temp: Math.round(weatherData.current.temperature_2m),
+            max: Math.round(weatherData.daily.temperature_2m_max[0]),
+            min: Math.round(weatherData.daily.temperature_2m_min[0]),
+            code: weatherData.current.weather_code,
+          }));
+        } catch {
+          setWeather((prev) => prev ?? FALLBACK_WEATHER);
+        }
+
+        try {
+          const geoRes = await fetch(`/api/reverse-geocode?latitude=${latitude}&longitude=${longitude}`);
+          const geoData = await geoRes.json();
+          if (geoData?.city) setWeather((prev) => ({ ...(prev ?? FALLBACK_WEATHER), city: geoData.city }));
+        } catch {
+          // keep whatever city we already have
+        }
+      },
+      () => setWeather(FALLBACK_WEATHER),
+      { timeout: 8000 }
+    );
   }, []);
 
   const openWhatsApp = (contact: WhatsAppContact) => {
@@ -2244,19 +2369,21 @@ export function MacDesktopExperience() {
                   boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.08)",
                 }}
               >
-                <span style={{ font: "600 13px/1 'Work Sans',sans-serif", color: "#F7F7F7" }}>Lima</span>
-                <span style={{ font: "300 40px/1 'Manrope',sans-serif", color: "#F7F7F7", letterSpacing: "-0.03em" }}>19°</span>
-                <svg width="26" height="18" viewBox="0 0 26 18" fill="none" style={{ marginTop: 2 }}>
-                  <path
-                    d="M6.5 13.5C3.46 13.5 1 11.14 1 8.25C1 5.36 3.46 3 6.5 3C7.03 3 7.54 3.08 8.02 3.22C8.98 1.5 10.87 0.5 13 0.5C15.99 0.5 18.46 2.63 18.94 5.4C21.24 5.75 23 7.68 23 10C23 12.49 20.98 14.5 18.5 14.5H7C6.83 14.5 6.66 14.5 6.5 14.5"
-                    stroke="rgba(247,247,247,0.85)"
-                    strokeWidth="1.4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <span style={{ font: "400 13px/1.3 'Work Sans',sans-serif", color: "rgba(247,247,247,0.85)" }}>Nublado</span>
-                <span style={{ font: "300 12px/1.3 'Work Sans',sans-serif", color: "rgba(247,247,247,0.6)" }}>Máx.: 25° Mín.: 19°</span>
+                <span style={{ font: "600 13px/1 'Work Sans',sans-serif", color: "#F7F7F7" }}>{weather?.city ?? "—"}</span>
+                <span style={{ font: "300 40px/1 'Manrope',sans-serif", color: "#F7F7F7", letterSpacing: "-0.03em" }}>
+                  {weather ? `${weather.temp}°` : "—"}
+                </span>
+                {weather ? (
+                  <WeatherIcon code={weather.code} />
+                ) : (
+                  <span style={{ height: 18 }} />
+                )}
+                <span style={{ font: "400 13px/1.3 'Work Sans',sans-serif", color: "rgba(247,247,247,0.85)" }}>
+                  {weather ? WEATHER_LABELS[weather.code] ?? "Nublado" : "—"}
+                </span>
+                <span style={{ font: "300 12px/1.3 'Work Sans',sans-serif", color: "rgba(247,247,247,0.6)" }}>
+                  {weather ? `Máx.: ${weather.max}° Mín.: ${weather.min}°` : "Máx.: — Mín.: —"}
+                </span>
               </div>
             </div>
           </div>
