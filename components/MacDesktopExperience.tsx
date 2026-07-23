@@ -2306,12 +2306,9 @@ export function MacDesktopExperience() {
                   <div style={{ font: "600 13px/1.3 'Work Sans',sans-serif", color: "#F7F7F7" }}>Webflow Camp</div>
                   <div style={{ font: "400 12px/1.3 'Inconsolata',monospace", color: "rgba(247,247,247,0.6)" }}>Mar y Jue · 7–9pm Perú</div>
                 </div>
-                <div style={{ background: "rgba(255,255,255,0.1)", borderRadius: 12, padding: "8px 11px", display: "flex", alignItems: "center", gap: 8 }}>
-                  <div style={{ width: 20, height: 20, borderRadius: 6, background: "var(--blue)", flexShrink: 0 }} />
-                  <div>
-                    <div style={{ font: "600 13px/1.3 'Work Sans',sans-serif", color: "#F7F7F7" }}>Figma Camp</div>
-                    <div style={{ font: "400 12px/1.3 'Inconsolata',monospace", color: "rgba(247,247,247,0.6)" }}>Mar y Jue · 7–9pm Perú</div>
-                  </div>
+                <div style={{ background: "rgba(255,255,255,0.1)", borderRadius: 12, padding: "8px 11px" }}>
+                  <div style={{ font: "600 13px/1.3 'Work Sans',sans-serif", color: "#F7F7F7" }}>Figma Camp</div>
+                  <div style={{ font: "400 12px/1.3 'Inconsolata',monospace", color: "rgba(247,247,247,0.6)" }}>Mar y Jue · 7–9pm Perú</div>
                 </div>
               </div>
             </div>
