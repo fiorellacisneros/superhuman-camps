@@ -8,7 +8,8 @@
       "mcp__playwright__browser_evaluate",
       "mcp__shipstudio-preview__preview_click",
       "mcp__shipstudio-preview__preview_reload",
-      "mcp__shipstudio-preview__preview_console"
+      "mcp__shipstudio-preview__preview_console",
+      "Bash(npx tsc *)"
     ]
   },
   "enabledMcpjsonServers": [

@@ -223,6 +223,11 @@ En pantallas de celular, todo el mismo contenido se muestra dentro de un marco d
 
 - 2026-07-21: Quitado el resaltado de texto (fondo amarillo + puntos estilo iOS) de las respuestas de Preguntas Frecuentes en Figma Camp y Webflow Camp — seguía viéndose con glitches ahí a pesar de los ajustes anteriores, así que se dejó el texto de esas respuestas simple, sin el efecto. El resaltado se mantiene en el Manifiesto y en los títulos de los hero, donde no da problemas.
 
+- 2026-07-23: Se mejoró la sección **Cifras** de "Nosotras" (Finder): las 3 estadísticas (100% en vivo, +200 builders, 2 programas) ahora se muestran como tarjetas blancas individuales (con numeración, sombra suave y el mismo efecto de tarjeta que sigue el cursor que ya usábamos en "Mentores"), en vez de tres números sueltos flotando sobre el fondo azul claro.
+- 2026-07-23: Se ajustaron los títulos de sección en "Nosotras" para que sigan el mismo formato que el resto del sitio (una etiqueta pequeña + título + bajada), en vez del estilo "00 — NOSOTRAS" con numeración: ahora dice "Nuestra historia" arriba de la introducción, y "En números" arriba de la sección de Cifras (con su propio título y bajada).
+- 2026-07-23: Se le dio más fuerza visual a la sección **Cifras**: las 3 tarjetas dejaron de ser blancas y neutras — ahora cada una usa uno de nuestros colores de marca (amarillo, azul, blanco), con el número mucho más grande y en negrita, ligeramente inclinadas como si estuvieran "tiradas" sobre la mesa, y se enderezan y levantan al pasar el mouse. Se ve más parecido al mazo de tarjetas que ya usamos en "Regalos" de Figma/Webflow Camp, en vez de un bloque de datos plano.
+- 2026-07-23: Se quitó la numeración pequeña (01, 02, 03) de las tarjetas de Cifras y en su lugar se agregó un ícono simple encima de cada número, relacionado con lo que representa: una señal "en vivo" para el 100%, un birrete de graduación para los builders graduados, y un ícono de capas para los 2 programas.
+
 ## How to Customize
 
 - **Cambiar precios o beneficios de los cursos:** en `components/MacDesktopExperience.tsx`, busca `FigmaBody` o `WebflowBody` y edita los valores de `price`, `oldPrice` o las listas de beneficios.

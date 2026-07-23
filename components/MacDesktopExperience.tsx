@@ -6,7 +6,7 @@ import { motion, AnimatePresence, useInView, useScroll, useTransform } from "fra
 import { Tag } from "@/components/design-system/Tag";
 import { PrincipalButton } from "@/components/design-system/PrincipalButton";
 import { TextButton } from "@/components/design-system/TextButton";
-import { Header, DataStat } from "@/components/design-system/Header";
+import { Header } from "@/components/design-system/Header";
 import { CardAprendizaje } from "@/components/design-system/CardAprendizaje";
 import { CardPricing } from "@/components/design-system/CardPricing";
 import { PromoCard } from "@/components/design-system/PromoCard";
@@ -1584,12 +1584,88 @@ function WebflowBody() {
   );
 }
 
+function StatIcon({ kind, color, size = 32 }: { kind: "live" | "graduate" | "layers"; color: string; size?: number }) {
+  if (kind === "live") {
+    return (
+      <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+        <circle cx="16" cy="16" r="3.2" fill={color} />
+        <path d="M10.5 10.5C8.5 12.5 8.5 19.5 10.5 21.5" stroke={color} strokeWidth="1.6" strokeLinecap="round" />
+        <path d="M21.5 10.5C23.5 12.5 23.5 19.5 21.5 21.5" stroke={color} strokeWidth="1.6" strokeLinecap="round" />
+        <path d="M6.5 6.5C2.83 10.83 2.83 21.17 6.5 25.5" stroke={color} strokeWidth="1.6" strokeLinecap="round" opacity="0.6" />
+        <path d="M25.5 6.5C29.17 10.83 29.17 21.17 25.5 25.5" stroke={color} strokeWidth="1.6" strokeLinecap="round" opacity="0.6" />
+      </svg>
+    );
+  }
+  if (kind === "graduate") {
+    return (
+      <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+        <path d="M16 8L29 14L16 20L3 14L16 8Z" stroke={color} strokeWidth="1.6" strokeLinejoin="round" />
+        <path d="M9 17V23C9 23 12 26 16 26C20 26 23 23 23 23V17" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M27 15V22" stroke={color} strokeWidth="1.6" strokeLinecap="round" />
+      </svg>
+    );
+  }
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+      <path d="M16 5L28 11L16 17L4 11L16 5Z" stroke={color} strokeWidth="1.6" strokeLinejoin="round" />
+      <path d="M4 16.5L16 22.5L28 16.5" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M4 22L16 28L28 22" stroke={color} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+const STAT_VARIANTS: Record<"yellow" | "blue" | "light", { bg: string; text: string; sub: string }> = {
+  yellow: { bg: "var(--yellow)", text: "var(--black)", sub: "rgba(13,13,13,0.65)" },
+  blue: { bg: "var(--blue)", text: "var(--white)", sub: "rgba(247,247,247,0.7)" },
+  light: { bg: "var(--white)", text: "var(--black)", sub: "var(--gray-600)" },
+};
+
+function StatCard({
+  value,
+  label,
+  variant,
+  icon,
+  rotate = 0,
+}: {
+  value: string;
+  label: string;
+  variant: "yellow" | "blue" | "light";
+  icon: "live" | "graduate" | "layers";
+  rotate?: number;
+}) {
+  const c = STAT_VARIANTS[variant];
+  return (
+    <motion.div
+      initial={{ rotate }}
+      whileHover={{ rotate: 0, scale: 1.04, y: -8 }}
+      transition={{ type: "spring", stiffness: 220, damping: 18 }}
+      style={{
+        background: c.bg,
+        borderRadius: "var(--radius-md)",
+        padding: "32px 28px 28px",
+        display: "flex",
+        flexDirection: "column",
+        gap: 8,
+        boxSizing: "border-box",
+        minWidth: 200,
+        boxShadow: "0 20px 40px rgba(13,13,13,0.18)",
+      }}
+    >
+      <StatIcon kind={icon} color={c.text} />
+      <span style={{ font: "700 clamp(48px, 10vw, 88px)/1 'Manrope',sans-serif", letterSpacing: "-0.04em", color: c.text, marginTop: 4 }}>
+        {value}
+      </span>
+      <span style={{ font: "500 16px/1.3 'Work Sans',sans-serif", color: c.text, maxWidth: 220 }}>{label}</span>
+    </motion.div>
+  );
+}
+
 function FinderBody() {
   return (
     <>
       <section id="nosotras" style={{ padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", flexDirection: "column", gap: 24 }}>
         <span style={{ font: "600 13px/1 'Inconsolata',monospace", letterSpacing: "0.1em", color: "var(--gray-500)", textTransform: "uppercase" }}>
-          00 — NOSOTRAS
+          Nuestra historia
         </span>
         <h1 style={{ font: "400 clamp(32px, 8.5vw, 52px)/1.15 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)", margin: 0, maxWidth: 820 }}>
           De agencia a escuela: <span style={{ fontStyle: "italic", color: "var(--blue)" }}>así nació superHuman.</span>
@@ -1601,10 +1677,33 @@ function FinderBody() {
           Hoy formamos builders que lanzan su propia marca, sin depender de agencias ni de código. Webflow Camp y Figma Camp son el punto de partida.
         </p>
       </section>
-      <section id="cifras" style={{ background: "var(--blue-light)", padding: "clamp(32px, 8vw, 64px) 64px", display: "flex", gap: 64, flexWrap: "wrap", justifyContent: "center" }}>
-        <DataStat value="100%" label="Estudiantes practicando en vivo" />
-        <DataStat value="+200" label="Builders graduados en LATAM" />
-        <DataStat value="2" label="Programas: Webflow Camp y Figma Camp" />
+      <section
+        id="cifras"
+        style={{
+          background: "var(--blue-light)",
+          padding: "clamp(40px, 9vw, 80px) 64px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "clamp(28px, 6vw, 40px)",
+        }}
+      >
+        <Reveal>
+          <Header
+            kicker="En números"
+            title="Resultados que hablan por nosotras"
+            subtitle="Cifras reales de las primeras generaciones de superHuman School."
+            align="left"
+            kickerColor="var(--blue)"
+            style={{ gap: 16 }}
+          />
+        </Reveal>
+        <RevealGroup
+          style={{ display: "flex", flexWrap: "wrap", gap: "clamp(20px, 4vw, 32px)", justifyContent: "center", alignItems: "flex-end", padding: "12px 0 24px" }}
+        >
+          <StatCard value="100%" label="Estudiantes practicando en vivo" variant="yellow" icon="live" rotate={-4} />
+          <StatCard value="+200" label="Builders graduados en LATAM" variant="blue" icon="graduate" rotate={3} />
+          <StatCard value="2" label="Programas: Webflow Camp y Figma Camp" variant="light" icon="layers" rotate={-2} />
+        </RevealGroup>
       </section>
       <section id="mentores" className="shs-mentores-row" style={{ background: "var(--black)", padding: "clamp(40px, 9vw, 80px) 64px", display: "flex", gap: 48, flexWrap: "nowrap", alignItems: "center" }}>
         <Reveal style={{ flex: "1 1 320px", minWidth: 0 }}>
@@ -2306,12 +2405,9 @@ export function MacDesktopExperience() {
                   <div style={{ font: "600 13px/1.3 'Work Sans',sans-serif", color: "#F7F7F7" }}>Webflow Camp</div>
                   <div style={{ font: "400 12px/1.3 'Inconsolata',monospace", color: "rgba(247,247,247,0.6)" }}>Mar y Jue · 7–9pm Perú</div>
                 </div>
-                <div style={{ background: "rgba(255,255,255,0.1)", borderRadius: 12, padding: "8px 11px", display: "flex", alignItems: "center", gap: 8 }}>
-                  <div style={{ width: 20, height: 20, borderRadius: 6, background: "var(--blue)", flexShrink: 0 }} />
-                  <div>
-                    <div style={{ font: "600 13px/1.3 'Work Sans',sans-serif", color: "#F7F7F7" }}>Figma Camp</div>
-                    <div style={{ font: "400 12px/1.3 'Inconsolata',monospace", color: "rgba(247,247,247,0.6)" }}>Mar y Jue · 7–9pm Perú</div>
-                  </div>
+                <div style={{ background: "rgba(255,255,255,0.1)", borderRadius: 12, padding: "8px 11px" }}>
+                  <div style={{ font: "600 13px/1.3 'Work Sans',sans-serif", color: "#F7F7F7" }}>Figma Camp</div>
+                  <div style={{ font: "400 12px/1.3 'Inconsolata',monospace", color: "rgba(247,247,247,0.6)" }}>Mar y Jue · 7–9pm Perú</div>
                 </div>
               </div>
             </div>
