@@ -196,16 +196,55 @@ const WEBFLOW_MODULES = [
   { number: "06", title: "Publicar y optimizar para resultados", body: "Optimizar y publicar tu sitio web en Webflow, asegurando un rendimiento óptimo, mejor posicionamiento SEO y resultados medibles." },
 ];
 
-const FIGMA_MOTIVOS = [
-  { title: "Diseña sistemas, no solo pantallas", body: "Aprende a crear componentes y variables reutilizables: la base de cualquier proyecto real." },
-  { title: "Sé alguien menos reemplazable", body: "La IA genera una pantalla en segundos, pero no estructura un sistema ni defiende una decisión de UX." },
-  { title: "El puente entre diseño, código e IA", body: "Figma es el lenguaje común entre diseño, desarrollo e IA. Entrega archivos listos para producción." },
+type MotivoIconKind = "layers" | "shield" | "link" | "globe" | "zap";
+
+function MotivoIcon({ kind }: { kind: MotivoIconKind }) {
+  const common = { width: 20, height: 20, viewBox: "0 0 20 20", fill: "none", stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  const paths: Record<MotivoIconKind, ReactNode> = {
+    layers: (
+      <>
+        <path d="M10 2 2 6l8 4 8-4-8-4Z" />
+        <path d="M2 10l8 4 8-4" />
+        <path d="M2 14l8 4 8-4" />
+      </>
+    ),
+    shield: (
+      <>
+        <path d="M10 2 3 5v5c0 4.5 3 7.5 7 8 4-.5 7-3.5 7-8V5l-7-3Z" />
+        <path d="M7 10l2 2 4-4" />
+      </>
+    ),
+    link: (
+      <>
+        <path d="M8 12a4 4 0 0 0 5.66 0l2-2a4 4 0 1 0-5.66-5.66l-1 1" />
+        <path d="M12 8a4 4 0 0 0-5.66 0l-2 2a4 4 0 1 0 5.66 5.66l1-1" />
+      </>
+    ),
+    globe: (
+      <>
+        <circle cx="10" cy="10" r="8" />
+        <path d="M2 10h16M10 2c2.5 2.2 2.5 13.8 0 16M10 2c-2.5 2.2-2.5 13.8 0 16" />
+      </>
+    ),
+    zap: <path d="M11 2 4 12h5l-1 6 7-10h-5l1-6Z" strokeLinejoin="round" />,
+  };
+  return (
+    <div style={{ width: 40, height: 40, borderRadius: 10, background: "var(--blue-light)", color: "var(--blue)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+      <svg {...common}>{paths[kind]}</svg>
+    </div>
+  );
+}
+
+const FIGMA_MOTIVOS: { title: string; body: string; icon: MotivoIconKind }[] = [
+  { title: "Diseña sistemas, no solo pantallas", body: "Aprende a crear componentes y variables reutilizables: la base de cualquier proyecto real.", icon: "layers" },
+  { title: "Sé alguien menos reemplazable", body: "La IA genera una pantalla en segundos, pero no estructura un sistema ni defiende una decisión de UX.", icon: "shield" },
+  { title: "El puente entre diseño, código e IA", body: "Figma es el lenguaje común entre diseño, desarrollo e IA. Entrega archivos listos para producción.", icon: "link" },
 ];
 
-const WEBFLOW_MOTIVOS = [
-  { title: "Construye proyectos reales", body: "Crearás un sitio web profesional completo, de cero a publicado, que puedes usar en tu portfolio." },
-  { title: "Sé alguien menos reemplazable", body: "La IA acelera el build, pero no reemplaza el criterio: entender al cliente y defender una decisión de diseño." },
-  { title: "Acelera con IA, sin depender de ella", body: "Aprende a usar Figma, Relume e IA para construir más rápido — el mismo flujo que usamos con clientes reales." },
+const WEBFLOW_MOTIVOS: { title: string; body: string; icon: MotivoIconKind }[] = [
+  { title: "Construye proyectos reales", body: "Crearás un sitio web profesional completo, de cero a publicado, que puedes usar en tu portfolio.", icon: "globe" },
+  { title: "Sé alguien menos reemplazable", body: "La IA acelera el build, pero no reemplaza el criterio: entender al cliente y defender una decisión de diseño.", icon: "shield" },
+  { title: "Acelera con IA, sin depender de ella", body: "Aprende a usar Figma, Relume e IA para construir más rápido — el mismo flujo que usamos con clientes reales.", icon: "zap" },
 ];
 
 const FIGMA_PERKS = [
@@ -1316,7 +1355,7 @@ function FigmaBody() {
                 boxSizing: "border-box",
               }}
             >
-              <div style={{ width: 32, height: 4, borderRadius: 2, background: "var(--blue)" }} />
+              <MotivoIcon kind={m.icon} />
               <div style={{ font: "400 24px/1.15 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)" }}>{m.title}</div>
               <div style={{ font: "300 15px/1.4 'Work Sans',sans-serif", color: "var(--gray-500)" }}>{m.body}</div>
             </div>
@@ -1469,7 +1508,7 @@ function WebflowBody() {
                 boxSizing: "border-box",
               }}
             >
-              <div style={{ width: 32, height: 4, borderRadius: 2, background: "var(--blue)" }} />
+              <MotivoIcon kind={m.icon} />
               <div style={{ font: "400 24px/1.15 'Manrope',sans-serif", letterSpacing: "-0.03em", color: "var(--black)" }}>{m.title}</div>
               <div style={{ font: "300 15px/1.4 'Work Sans',sans-serif", color: "var(--gray-500)" }}>{m.body}</div>
             </div>
